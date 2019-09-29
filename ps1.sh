@@ -1,6 +1,22 @@
 GIT_BRANCH() {
   git branch 2>/dev/null | grep '^*' | colrm 1 2
 }
+GIT_STATUS() {
+	git status 2>/dev/null
+}
+GET_BRANCH() {
+	if [[ ! -z $(GIT_STATUS) ]]; then
+		if [[ $(GIT_STATUS) =~ "nothing to commit, working tree clean" ]]; then
+			echo -en "${MAGENTA}[${LGREEN}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
+		elif [[ $(GIT_STATUS) =~ "behind" ]]; then
+			echo -en "${MAGENTA}[${LRED}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
+		elif [[ $(GIT_STATUS) =~ "Changes not staged" ]]; then
+			echo -en "${MAGENTA}[${LYELLOW}$(GIT_BRANCH)*${MAGENTA}]${RESTORE}"
+		else
+			echo -en "${MAGENTA}[${LYELLOW}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
+		fi
+	fi
+}
 
 
 use_color=true
@@ -55,9 +71,9 @@ if ${use_color} ; then
 	if [[ $(hostname) =~ "mazunki" ]]; then
 		# echo "I am home!";
 		if [[ ${EUID} == 0 ]]; then
-			PS1='\$(GIT_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]\#${RESTORE} '
+			PS1='$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]\#${RESTORE} '
 		else
-			PS1='\${GIT_BRANCH}${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
+			PS1='$(GET_BRANCH)${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
 		fi
 
 	else
