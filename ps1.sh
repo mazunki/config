@@ -7,7 +7,11 @@ GIT_STATUS() {
 GET_BRANCH() {
 	if [[ ! -z $(GIT_STATUS) ]]; then
 		if [[ $(GIT_STATUS) =~ "nothing to commit, working tree clean" ]]; then
-			echo -en "${MAGENTA}[${LGREEN}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
+			if [[ $(GIT_STATUS) =~ "ahead" ]]; then
+				echo -en "${MAGENTA}[${LGREEN}$(GIT_BRANCH)*${MAGENTA}]${RESTORE}"
+			else
+				echo -en "${MAGENTA}[${LGREEN}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
+			fi
 		elif [[ $(GIT_STATUS) =~ "behind" ]]; then
 			echo -en "${MAGENTA}[${LRED}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
 		elif [[ $(GIT_STATUS) =~ "Changes not staged" ]]; then
