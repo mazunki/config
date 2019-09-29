@@ -12,12 +12,17 @@ GET_BRANCH() {
 			else
 				echo -en "${MAGENTA}[${LGREEN}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
 			fi
+
+
 		elif [[ $(GIT_STATUS) =~ "behind" ]]; then
 			echo -en "${MAGENTA}[${LRED}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
+
 		elif [[ $(GIT_STATUS) =~ "Changes not staged" ]]; then
 			echo -en "${MAGENTA}[${LYELLOW}$(GIT_BRANCH)*${MAGENTA}]${RESTORE}"
+
 		else
 			echo -en "${MAGENTA}[${LYELLOW}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
+			
 		fi
 	fi
 }
