@@ -46,6 +46,8 @@ match_lhs=""
 	&& match_lhs=$(dircolors --print-database)
 [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
 
+motd='echo -e "\n
+ Welcome, ${LGREEN}$(whoami)! \n${WHITE} \u2014 You are connected to ${LYELLOW}\t$(hostname)${WHITE}.\n \u2014 Your IP is \t\t\t${LYELLOW}$(curl -s ipinfo.io/ip).${RESTORE}\n"'
 
 if ${use_color} ; then
 	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
@@ -62,16 +64,25 @@ if ${use_color} ; then
 	if [[ $(hostname) =~ "mazunki" ]]; then
 		# echo "I am home!";
 		if [[ ${EUID} == 0 ]]; then
-			PS1='$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]\#${RESTORE} '
+			echo ${motd} | sh
+			PS1='${LINE}$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]\#${RESTORE} '
 		else
-			PS1='$(GET_BRANCH)${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
+			echo ${motd} | sh
+			PS1='${LINE}$(GET_BRANCH)${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
 		fi
 
 	else
 		if [[ ${EUID} == 0 ]] ; then
-			PS1='${LGREEN}[$(whoami)${LRED}]\$${RESTORE} '
+			echo $motd | sh
+			PS1='${LRED}[\u@\h${WHITE} \W${LRED}]\$${RESTORE} '
 		else
-			PS1='${LGREEN}[\u@\h${WHITE} \W${LGREEN}]\$${RESTORE} '
+			if [[ $(whoami) =~ "mazunki" ]]; then
+				echo $motd | sh
+				PS1='${LINE}$(GET_BRANCH)${LGREEN}[~${LGREEN}@\h \W\${LGREEN}]\#${RESTORE} '
+			else
+				echo ${motd} | sh
+				PS1='${LINE}$(GET_BRANCH)${LGREEN}[\u${LGREEN}@\h \W\${LGREEN}]\#${RESTORE} '
+			fi
 		fi
 	fi
 
