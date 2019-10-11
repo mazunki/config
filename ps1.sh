@@ -47,7 +47,7 @@ match_lhs=""
 [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
 
 motd='echo -e "\n
- Welcome, ${LGREEN}$(whoami)! \n${WHITE} \u2014 You are connected to ${LYELLOW}\t$(hostname)${WHITE}.\n \u2014 Your IP is \t\t\t${LYELLOW}$(curl -s ipinfo.io/ip).${RESTORE}\n"'
+ Welcome, ${LGREEN}$(whoami)! \n${WHITE} \U2014 You are connected to ${LYELLOW}\t$(hostname)${WHITE}.\n \U2014 Your IP is \t\t\t${LYELLOW}$(curl -s ipinfo.io/ip).${RESTORE}\n"'
 
 if ${use_color} ; then
 	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
