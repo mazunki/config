@@ -16,10 +16,11 @@ else
 	mkdir mybash
 	if [ ! -z "$(git config user.name)" ]; then
 		if [ -f /home/$(whoami)/.ssh/id_rsa ]; then
-			git clone git@github.com:$(git config user.name)/mybash mybash;
+			git clone git@github.com:$(git config user.name)/mybash mybash &> /dev/null;
 		else
-			git clone https://github.com/$(git config user.name)/mybash.git mybash;
+			git clone https://github.com/$(git config user.name)/mybash.git mybash &> /dev/null;
 		fi;
+		echo "Cloning git..."
 	elif [ "$(curl -s https://api.github.com/users/$(whoami)/repos | jq | wc -l)" -gt 10 ] ; then
 			git config --global user.name $(whoami);
 	else

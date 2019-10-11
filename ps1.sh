@@ -78,10 +78,10 @@ if ${use_color} ; then
 		else
 			if [[ $(whoami) =~ "mazunki" ]]; then
 				echo $motd | sh
-				PS1='${LINE}$(GET_BRANCH)${LGREEN}[~${LGREEN}@\h \W${LGREEN}]> ${RESTORE}'
+				PS1='${LINE}$(GET_BRANCH)${LGREEN}[~${LGREEN}@\h${WHITE}:\W${LGREEN}]> ${RESTORE}'
 			else
 				echo ${motd} | sh
-				PS1='${LINE}$(GET_BRANCH)${LGREEN}[\u${LGREEN}@\h \W${LGREEN}]# ${RESTORE}'
+				PS1='${LINE}$(GET_BRANCH)${LGREEN}[\u${LGREEN}@\h${WHITE}:\W${LGREEN}]# ${RESTORE}'
 			fi
 		fi
 	fi
