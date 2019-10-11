@@ -46,7 +46,7 @@ match_lhs=""
 	&& match_lhs=$(dircolors --print-database)
 [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
 
-motd='echo -e "\n
+motd='printf "\n
  Welcome, ${LGREEN}$(whoami)! \n${WHITE} \U2014 You are connected to ${LYELLOW}\t$(hostname)${WHITE}.\n \U2014 Your IP is \t\t\t${LYELLOW}$(curl -s ipinfo.io/ip).${RESTORE}\n"'
 
 if ${use_color} ; then
@@ -80,7 +80,7 @@ if ${use_color} ; then
 				echo $motd | sh
 				PS1='${LINE}$(GET_BRANCH)${LGREEN}[~${LYELLOW}@\h${WHITE}:\W${LGREEN}]> ${RESTORE}'
 			else
-				echo ${motd} | sh
+				echo $motd | source
 				PS1='${LINE}$(GET_BRANCH)${LGREEN}[\u${LYELLOW}@\h${WHITE}:\W${LGREEN}]# ${RESTORE}'
 			fi
 		fi
