@@ -65,7 +65,7 @@ if ${use_color} ; then
 		# echo "I am home!";
 		if [[ ${EUID} == 0 ]]; then
 			echo ${motd} | sh
-			PS1='${LINE}$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]\#${RESTORE} '
+			PS1='${LINE}$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]# ${RESTORE}'
 		else
 			echo ${motd} | sh
 			PS1='${LINE}$(GET_BRANCH)${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
@@ -78,10 +78,10 @@ if ${use_color} ; then
 		else
 			if [[ $(whoami) =~ "mazunki" ]]; then
 				echo $motd | sh
-				PS1='${LINE}$(GET_BRANCH)${LGREEN}[~${LGREEN}@\h \W${LGREEN}]\#${RESTORE} '
+				PS1='${LINE}$(GET_BRANCH)${LGREEN}[~${LGREEN}@\h \W${LGREEN}]# ${RESTORE}'
 			else
 				echo ${motd} | sh
-				PS1='${LINE}$(GET_BRANCH)${LGREEN}[\u${LGREEN}@\h \W${LGREEN}]\#${RESTORE} '
+				PS1='${LINE}$(GET_BRANCH)${LGREEN}[\u${LGREEN}@\h \W${LGREEN}]# ${RESTORE}'
 			fi
 		fi
 	fi
