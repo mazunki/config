@@ -46,7 +46,7 @@ match_lhs=""
 	&& match_lhs=$(dircolors --print-database)
 [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
 
-motd='printf "\nWelcome, ${LGREEN}$(whoami)! \n${WHITE} — You are connected to ${LYELLOW}\t$(hostname)${WHITE}.\n — Your IP is \t\t\t${LYELLOW}$(curl -s ipinfo.io/ip).${RESTORE}\n"'
+export motd='printf "\nWelcome, ${LGREEN}$(whoami)! \n${WHITE} — You are connected to ${LYELLOW}\t$(hostname)${WHITE}.\n — Your IP is \t\t\t${LYELLOW}$(curl -s ipinfo.io/ip).${RESTORE}\n"'
 
 if ${use_color} ; then
 	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
@@ -79,7 +79,7 @@ if ${use_color} ; then
 				echo $motd | sh
 				PS1='${LINE}$(GET_BRANCH)${LGREEN}[~${LYELLOW}@\h${WHITE}:\W${LGREEN}]> ${RESTORE}'
 			else
-				echo $motd | source
+				echo $motd | sh
 				PS1='${LINE}$(GET_BRANCH)${LGREEN}[\u${LYELLOW}@\h${WHITE}:\W${LGREEN}]# ${RESTORE}'
 			fi
 		fi
