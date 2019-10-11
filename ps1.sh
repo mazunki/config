@@ -46,8 +46,7 @@ match_lhs=""
 	&& match_lhs=$(dircolors --print-database)
 [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
 
-motd='printf "\n
- Welcome, ${LGREEN}$(whoami)! \n${WHITE} \U2014 You are connected to ${LYELLOW}\t$(hostname)${WHITE}.\n \U2014 Your IP is \t\t\t${LYELLOW}$(curl -s ipinfo.io/ip).${RESTORE}\n"'
+motd='printf "\nWelcome, ${LGREEN}$(whoami)! \n${WHITE} — You are connected to ${LYELLOW}\t$(hostname)${WHITE}.\n — Your IP is \t\t\t${LYELLOW}$(curl -s ipinfo.io/ip).${RESTORE}\n"'
 
 if ${use_color} ; then
 	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
