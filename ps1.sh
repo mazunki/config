@@ -1,34 +1,4 @@
-GIT_BRANCH() {
-  git branch 2>/dev/null | grep '^*' | colrm 1 2
-}
-GIT_STATUS() {
-	git status 2>/dev/null
-}
-GET_BRANCH() {
-	if [[ ! -z $(GIT_STATUS) ]]; then
-		if [[ $(GIT_STATUS) =~ "nothing to commit, working tree clean" ]]; then
-			if [[ $(GIT_STATUS) =~ "ahead" ]]; then
-				echo -en "${MAGENTA}[${LGREEN}$(GIT_BRANCH)*${MAGENTA}]${RESTORE}"
-			else
-				echo -en "${MAGENTA}[${LGREEN}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
-			fi
-
-
-		elif [[ $(GIT_STATUS) =~ "behind" ]]; then
-			echo -en "${MAGENTA}[${LRED}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
-
-		elif [[ $(GIT_STATUS) =~ "Changes not staged" ]]; then
-			echo -en "${MAGENTA}[${LYELLOW}$(GIT_BRANCH)*${MAGENTA}]${RESTORE}"
-
-		else
-			echo -en "${MAGENTA}[${LYELLOW}$(GIT_BRANCH)${MAGENTA}]${RESTORE}"
-
-		fi
-	fi
-}
-
-
-use_color=true
+tuse_color=true
 
 # Set colorful PS1 only on colorful terminals.
 # dircolors --print-database uses its own built-in database
@@ -64,10 +34,10 @@ if ${use_color} ; then
 		# echo "I am home!";
 		if [[ ${EUID} == 0 ]]; then
 			echo ${motd} | sh
-			PS1='${LINE}$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]# ${RESTORE}'
+			PS1='${LINE}[$?]$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]# ${RESTORE}'
 		else
 			echo ${motd} | sh
-			PS1='${LINE}$(GET_BRANCH)${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
+			PS1='${LINE}[$?]$(GET_BRANCH)${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
 		fi
 
 	else
@@ -77,10 +47,10 @@ if ${use_color} ; then
 		else
 			if [[ $(whoami) =~ "mazunki" ]]; then
 				echo $motd | sh
-				PS1='${LINE}$(GET_BRANCH)${LGREEN}[~${LYELLOW}@\h${WHITE}:\W${LGREEN}]> ${RESTORE}'
+				PS1='${LINE}[$?]$(GET_BRANCH)${LGREEN}[~${LYELLOW}@\h${WHITE}:\W${LGREEN}]> ${RESTORE}'
 			else
 				echo $motd | sh
-				PS1='${LINE}$(GET_BRANCH)${LGREEN}[\u${LYELLOW}@\h${WHITE}:\W${LGREEN}]# ${RESTORE}'
+				PS1='${LINE}[$?]$(GET_BRANCH)${LGREEN}[\u${LYELLOW}@\h${WHITE}:\W${LGREEN}]# ${RESTORE}'
 			fi
 		fi
 	fi
