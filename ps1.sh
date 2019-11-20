@@ -34,10 +34,10 @@ if ${use_color} ; then
 		# echo "I am home!";
 		if [[ ${EUID} == 0 ]]; then
 			echo ${motd} | sh
-			PS1='${LINE}[$?]$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]# ${RESTORE}'
+			PS1='$(stipledline)[$?]$(GET_BRANCH)${LRED}[$(whoami)${LRED} \W\${LRED}]# ${RESTORE}'
 		else
 			echo ${motd} | sh
-			PS1='${LINE}[$?]$(GET_BRANCH)${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
+			PS1='$(stipledline)[$?]$(GET_BRANCH)${LGREEN}[~:${WHITE}\W${LGREEN}] >${RESTORE} '
 		fi
 
 	else
@@ -69,3 +69,4 @@ fi
 unset use_color safe_term match_lhs sh
 
 xhost +local:root > /dev/null 2>&1
+

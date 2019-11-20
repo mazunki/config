@@ -17,4 +17,19 @@ export LPURPLE=$(echo -en '\001\033[01;35m\002')
 export LCYAN=$(echo -en '\001\033[01;36m\002')
 export WHITE=$(echo -en '\001\033[01;37m\002')
 
-export LINE=$(echo "${MYYELLOW}$(printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -)${LRESTORE}")
+function stipledline() {
+	let fillsize=${COLUMNS}-9
+	fill="${MYYELLOW}"
+	while [ "$fillsize" -gt "0" ]; do
+		fill="-${fill}"
+		let fillsize=${fillsize}-1
+	done
+	fill="${fill}${LRESTORE}$(date +" %H:%M:%S")"
+	LINE="${fill}"
+
+	echo -en ${LINE}
+}
+
+### export LINE=$(echo "${MYYELLOW}$(printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -)${LRESTORE}")
+
+
