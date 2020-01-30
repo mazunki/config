@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+###
+#   script designed for budgie-screenshot-applet
+#   
+#   add this .sh file to a shortcut in order to take screenshots easily,
+#   as there is no native way to add screenshots to the app
+#   
+#   automatically restores mouse position immediately
+###
+
 
 # we want to store our original mouse position
 rawoldmouse=$(xdotool getmouselocation)
