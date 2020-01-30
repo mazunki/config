@@ -6,6 +6,10 @@
 #   as there is no native way to add screenshots to the app
 #   
 #   automatically restores mouse position immediately
+#
+#   to use: change the coordinates of mousemove to your own position
+#   get coordinates with:
+#      xdotool getmouselocation
 ###
 
 
