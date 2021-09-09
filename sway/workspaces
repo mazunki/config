@@ -4,10 +4,10 @@
 bindsym F1  workspace number 1; exec [ $(ps h -C firefox | wc -l) = 0 ] && firefox
 bindsym F2  workspace number 2
 bindsym F3  workspace number 3
-bindsym F3  workspace number 4
+bindsym F4  workspace number 4
 
 bindsym F5  workspace number 5; exec [ $(ps h -C telegram-desktop | wc -l) = 0 ] && telegram-desktop
-bindsym F4  workspace number 6; exec [ $(ps h -C alacritty | wc -l) = 0 ] && alacritty
+bindsym F6  workspace number 6; exec [ $(ps h -C alacritty | wc -l) = 0 ] && alacritty
 bindsym F7  workspace number 7
 bindsym F8  workspace number 8
 
