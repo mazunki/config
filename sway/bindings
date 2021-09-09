@@ -2,7 +2,7 @@
 bindsym $mod+Return exec $term
 bindsym $mod+x kill
 bindsym $mod+r exec $menu
-bindsym $mod+f5 reload
+bindsym $mod+Shift+r reload
 bindsym $mod+Shift+delete exec swaymsg exit
 
 # normal: right=resize, left=drag. or inverse
