@@ -1,0 +1,38 @@
+[{
+    "layer": "top",
+    "position": "top",
+    "modules-left": ["sway/mode"],
+    "modules-center": ["sway/window"],
+    "modules-right": ["clock"],
+    "sway/window": {
+    	"format": "{}",
+        "max-length": 100,
+	"rewrite": {
+	   "(.*) Firefox": "$1",
+	   "(.*) - vim": " $1",
+	   "(.*) - zsh": " [$1]"
+	}
+    }
+},
+{
+    "layer": "top",
+    "position": "bottom",
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": ["network", "clock"],
+    "clock": {
+    	"interval": 1,
+        "format": "{:%T}",
+        "format-alt": "{:%F %T}"
+    },
+    "network": {
+        //"interface": "enp7s0",
+        "format": "{ifname}",
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        //"format-ethernet": "{ipaddr} / {cidr} ",
+        "format-ethernet": "{ipaddr} / {cidr} ",
+        "format-disconnected": "",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "max-length": 50,
+	"on-click": ""
+    }
+}]

@@ -38,8 +38,7 @@ input * {
 
 include $basepath/bindings
 
-include $basepath/$(hostname)/bottombar
-include $basepath/$(hostname)/topbar
+include $basepath/waybars
 
 include $basepath/$(hostname)/special_containers
 
