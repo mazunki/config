@@ -1,0 +1,33 @@
+# bindings for workspaces and autolaunchers
+
+# change to workspace
+bindsym F1  workspace number 1; exec [ $(ps h -C firefox | wc -l) = 0 ] && firefox
+bindsym F2  workspace number 2
+bindsym F3  workspace number 3
+bindsym F3  workspace number 4
+
+bindsym F5  workspace number 5; exec [ $(ps h -C telegram-desktop | wc -l) = 0 ] && telegram-desktop
+bindsym F4  workspace number 6; exec [ $(ps h -C alacritty | wc -l) = 0 ] && alacritty
+bindsym F7  workspace number 7
+bindsym F8  workspace number 8
+
+bindsym F9  workspace number 9
+bindsym F10 workspace number 10
+bindsym F11 workspace number 11
+bindsym F12 workspace number 12
+
+# move window to workspace
+bindsym Shift+F1  move container to workspace number 1
+bindsym Shift+F2  move container to workspace number 2
+bindsym Shift+F3  move container to workspace number 3
+bindsym Shift+F4  move container to workspace number 4
+
+bindsym Shift+F5  move container to workspace number 5
+bindsym Shift+F6  move container to workspace number 6
+bindsym Shift+F7  move container to workspace number 7
+bindsym Shift+F8  move container to workspace number 8
+#
+bindsym Shift+F9  move container to workspace number 9
+bindsym Shift+F10 move container to workspace number 10
+bindsym Shift+F11 move container to workspace number 11
+bindsym Shift+F12 move container to workspace number 12
