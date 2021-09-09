@@ -41,6 +41,7 @@ include $basepath/bindings
 include $basepath/waybars
 
 include $basepath/$(hostname)/special_containers
+include $basepath/$(hostname)/special_bindings
 
 #include /etc/sway/config.d/*
 

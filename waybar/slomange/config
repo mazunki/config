@@ -18,7 +18,7 @@
     "layer": "top",
     "position": "bottom",
     "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-right": ["network", "clock"],
+    "modules-right": ["pulseaudio", "network", "clock"],
     "clock": {
     	"interval": 1,
         "format": "{:%T}",
