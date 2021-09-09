@@ -1,0 +1,6 @@
+#!/bin/sh
+alias ls="ls -la --color='auto'"
+alias tree="tree -L3 -C"
+alias grep="grep --color=auto"
+alias alsaplayer="alsaplayer --config $HOME/.config/alsaplayer/alsaplayer.conf"
+

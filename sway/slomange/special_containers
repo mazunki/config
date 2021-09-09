@@ -1,0 +1,5 @@
+
+for_window [app_id="qjackctl"] floating enable
+assign [app_id="qjackctl"] 9
+
+for_window [app_id="minecraft"] floating enable

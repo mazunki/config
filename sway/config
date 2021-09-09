@@ -1,0 +1,51 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term alacritty
+set $menu wofi --gtk-dark --dmenu --alow-images --show run
+set $basepath /home/mazunki/.config/sway
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaymsg exit
+
+
+include $basepath/$(hostname)/outputs
+include $basepath/workspaces
+
+font pango:Liberation Sans Regular 12
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+    gsettings set $gnome-schema font-name "Noto 12"
+}
+
+
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+input * {
+    xkb_layout "us"
+    xkb_variant "altgr-intl"
+}
+
+include $basepath/bindings
+
+include $basepath/$(hostname)/bottombar
+include $basepath/$(hostname)/topbar
+
+include $basepath/$(hostname)/special_containers
+
+#include /etc/sway/config.d/*
+
+exec --no-startup-id pipewire
+bindsym $mod+y exec --no-startup-id pipewire
+
+
