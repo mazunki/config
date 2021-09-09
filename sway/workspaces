@@ -31,3 +31,5 @@ bindsym $mod+Shift+F9  move container to workspace number 9
 bindsym $mod+Shift+F10 move container to workspace number 10
 bindsym $mod+Shift+F11 move container to workspace number 11
 bindsym $mod+Shift+F12 move container to workspace number 12
+
+workspace number 1

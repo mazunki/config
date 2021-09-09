@@ -18,21 +18,33 @@
     "layer": "top",
     "position": "bottom",
     "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-right": ["pulseaudio", "network", "clock"],
+    "modules-right": ["battery", "backlight", "pulseaudio", "network#eth", "network#wifi", "clock"],
     "clock": {
     	"interval": 1,
         "format": "{:%T}",
         "format-alt": "{:%F %T}"
     },
-    "network": {
-        //"interface": "enp7s0",
-        "format": "{ifname}",
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        //"format-ethernet": "{ipaddr} / {cidr} ",
+    "battery": {
+	"format": "🔋{capacity}%",
+    },
+    "backlight": {
+	"format": "☀ {percent}%",
+    },
+    "pulseaudio": {
+	"format": "🔊 {volume}%",
+    },
+    "network#eth": {
+    	"interface": "enp*",
         "format-ethernet": "{ipaddr} / {cidr} ",
-        "format-disconnected": "",
+        "format-disconnected": "—",
         "tooltip-format": "{ifname} via {gwaddr}",
         "max-length": 50,
-	"on-click": ""
+    },
+    "network#wifi": {
+    	"interface": "wlp*",
+        "format-wifi": "{ipaddr}/{cidr} {essid} ({signalStrength}%) ",
+        "format": "— ",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "max-length": 50,
     }
 }]
