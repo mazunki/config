@@ -4,3 +4,4 @@ alias tree="tree -L 3 -C"
 alias grep="grep --color=auto"
 alias alsaplayer="alsaplayer --config $HOME/.config/alsaplayer/alsaplayer.conf"
 alias :q="exit"
+alias conf='function _(){ $EDITOR $HOME/.config/$1; }; _'

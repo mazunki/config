@@ -4,6 +4,7 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+xwayland force
 ### Variables
 set $mod Mod4
 set $left h
@@ -20,6 +21,7 @@ bindsym $mod+Shift+e exec swaymsg exit
 
 include $basepath/$(hostname)/outputs
 include $basepath/workspaces
+include $basepath/floating
 
 font pango:Liberation Sans Regular 12
 set $gnome-schema org.gnome.desktop.interface
@@ -45,7 +47,6 @@ include $basepath/$(hostname)/special_bindings
 
 #include /etc/sway/config.d/*
 
-exec --no-startup-id pipewire
-bindsym $mod+y exec --no-startup-id pipewire
-
+exec --no-startup-id pipewire > ~/.cache/pipewire.log 2>&1
+bindsym $mod+y exec [ $(ps h -C pipewire | wc -l) = 0 ] && pipewire
 

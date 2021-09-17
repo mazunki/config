@@ -17,7 +17,7 @@
 {
     "layer": "top",
     "position": "bottom",
-    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["sway/workspaces", "sway/mode", "tray"],
     "modules-right": ["battery", "backlight", "pulseaudio", "network#eth", "network#wifi", "clock"],
     "clock": {
     	"interval": 1,
@@ -46,5 +46,9 @@
         "format": "— ",
         "tooltip-format": "{ifname} via {gwaddr}",
         "max-length": 50,
+    },
+    "tray": {
+    	"icon-size": 30,
+	"spacing": 10
     }
 }]
