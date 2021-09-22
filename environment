@@ -57,3 +57,8 @@ export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME"/bash-completion/bash_complet
 # coreutils
 eval $(dircolors "$XDG_CONFIG_HOME"/dircolors)
 
+export CARGO_HOME=/home/mazunki/.local/share/cargo
+
+export PATH="$PATH:$CARGO_HOME/bin"
+export PAGER="less -F"
+

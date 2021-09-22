@@ -35,7 +35,7 @@
     },
     "network#eth": {
     	"interface": "enp*",
-        "format-ethernet": "{ipaddr} / {cidr} ",
+        "format-ethernet": "{ipaddr} / {cidr} via {gwaddr} ",
         "format-disconnected": "—",
         "tooltip-format": "{ifname} via {gwaddr}",
         "max-length": 50,

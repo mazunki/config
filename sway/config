@@ -36,6 +36,7 @@ exec_always {
 input * {
     xkb_layout "us"
     xkb_variant "altgr-intl"
+    xkb_options caps:escape
 }
 
 include $basepath/bindings

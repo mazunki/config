@@ -1,23 +1,26 @@
 
 " Plugins
 call plug#begin(stdpath("data") . '/plugged')
-	Plug 'davidhalter/jedi-vim'
-	Plug 'elzr/vim-json'
+	Plug 'davidhalter/jedi-vim'	" python
+	Plug 'elzr/vim-json'		" json obv
+
 	Plug 'nvim-lua/completion-nvim'
-	Plug 'neovim/nvim-lspconfig'
-	Plug 'latex-lsp/texlab'
+	Plug 'neovim/nvim-lspconfig'	" language server protocol
+	Plug 'SirVer/ultisnips'		" Engine
+	Plug 'honza/vim-snippets'	" Repo of snippts
+	Plug 'latex-lsp/texlab'		" latex lsp
+	Plug 'microsoft/pyright'	" python lsp
 
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 
 	Plug 'https://tpope.io/vim/fugitive.git'
-	Plug 'sindrets/diffview.nvim'
 call plug#end()
 
 
 " Directory browser
 let g:netrw_keepdir = 0			" autosyncs the directory
-let g:netrw_winsize = 30		" 20% width
+let g:netrw_winsize = 25		" 20% width
 let g:netrw_banner = 0			" hide help banner
 let g:netrw_browsesplit = 3		" automatically use last buffer
 let g:netrw_localcopydircmd = 'cp -r'	" allows copying directories too
@@ -51,7 +54,16 @@ nnoremap <leader>e :Lex %:p:h<cr>
 nnoremap <leader>w :w !doas tee %<cr>
 
 " trying to set up latex
-lua require'lspconfig'.texlab.setup{}
+lua require'lspconfig'.texlab.setup{ on_attach=require'completion'.on_attach }
+lua require'lspconfig'.pyright.setup{ on_attach=require'completion'.on_attach }
+
+" lua require'snippets'.use_suggested_mappings()
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
+
 set completeopt=menuone,noinsert,noselect
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
