@@ -48,6 +48,6 @@ include $basepath/$(hostname)/special_bindings
 
 #include /etc/sway/config.d/*
 
-exec --no-startup-id pipewire > ~/.cache/pipewire.log 2>&1
-bindsym $mod+y exec [ $(ps h -C pipewire | wc -l) = 0 ] && pipewire
+exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
 

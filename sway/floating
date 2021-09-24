@@ -1,3 +1,4 @@
 
 for_window [instance="Steam"] floating enable
+for_window [app_id="Terraria.bin.x86_64"] floating enable
 
