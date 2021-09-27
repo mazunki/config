@@ -1,3 +1,5 @@
 bar {
     swaybar_command waybar
+    # position bottom
+    # swaybar_command polybar example
 }
