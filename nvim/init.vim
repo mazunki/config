@@ -15,11 +15,7 @@ call plug#begin(stdpath("data") . '/plugged')
 	Plug 'vim-airline/vim-airline-themes'
 
 	Plug 'https://tpope.io/vim/fugitive.git'
-<<<<<<< HEAD
-	Plug 'https://tpope.io/vim/surround.git'
-=======
 	Plug 'savq/melange'
->>>>>>> f436251 (added a bunch of shortcuts, also some better theming)
 call plug#end()
 
 
@@ -30,17 +26,9 @@ let g:netrw_banner = 0			" hide help banner
 let g:netrw_browsesplit = 3		" automatically use last buffer
 let g:netrw_localcopydircmd = 'cp -r'	" allows copying directories too
 let g:netrw_liststyle = 3		" defaults to tree mode
-<<<<<<< HEAD
-hi! link netrwMarkFile Search
 
-hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=NONE guifg=white
-hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=NONE guifg=white
-set cursorline hi
-" set cursorcolumn hi
+set scrolloff=9999
 
-:set scrolloff=9999
-
-=======
 " hi! link netrwMarkFile Search
 augroup netrw_settings
 	autocmd!
@@ -76,7 +64,7 @@ set relativenumber
 
 autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
 autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echohl None
->>>>>>> f436251 (added a bunch of shortcuts, also some better theming)
+
 " bindings
 let mapleader = " "
 set timeoutlen=350
@@ -113,7 +101,7 @@ augroup END
 noremap <silent> <leader>/ :<C-B>silent s/^\([^<C-R>=escape(b:comment_leader,'\/')<CR>]\)/<C-R>=escape(b:comment_leader,'\/')<CR>\1/e<cr>:nohlsearch<cr>
 noremap <silent> <leader>, :<C-B>silent s/^\(\w*\)<C-R>=escape(b:comment_leader,'\/')<CR>/\1/e<CR>:nohlsearch<CR>
 
-"3cac1a5f-03 trying to set up latex
+" trying to set up latex
 lua require'lspconfig'.texlab.setup{ on_attach=require'completion'.on_attach }
 lua require'lspconfig'.pyright.setup{ on_attach=require'completion'.on_attach }
 
