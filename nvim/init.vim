@@ -3,6 +3,7 @@ call plug#begin(stdpath("data") . '/plugged')
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'https://tpope.io/vim/fugitive.git'
+	Plug 'https://tpope.io/vim/surround.git'
 call plug#end()
 
 " Directory browser
@@ -19,6 +20,7 @@ hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=NONE guifg=white
 set cursorline hi
 " set cursorcolumn hi
 
+:set scrolloff=9999
 
 " bindings
 let mapleader = " "
@@ -39,4 +41,17 @@ nnoremap <leader>b :make build<cr>
 " because who can be arsed to type common commands
 nnoremap <leader>e :Lex %:p:h<cr>
 nnoremap <leader>w :w !doas tee %<cr>
+
+augroup comment_line
+	autocmd!
+	autocmd Filetype c,cpp,java,scala	let b:comment_leader = '// '
+	autocmd Filetype sh,ruby,pthon		let b:comment_leader = '# '
+	autocmd FileType conf,fstab		let b:comment_leader = '# '
+	autocmd FileType tex,latex		let b:comment_leader = '% '
+	autocmd FileType mail			let b:comment_leader = '> '
+	autocmd FileType vim			let b:comment_leader = '" '
+augroup END
+noremap <silent> <leader>/ :<C-B>silent s/^\([^<C-R>=escape(b:comment_leader,'\/')<CR>]\)/<C-R>=escape(b:comment_leader,'\/')<CR>\1/e<cr>:nohlsearch<cr>
+noremap <silent> <leader>, :<C-B>silent s/^\(\w*\)<C-R>=escape(b:comment_leader,'\/')<CR>/\1/e<CR>:nohlsearch<CR>
+
 
