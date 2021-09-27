@@ -6,3 +6,7 @@ alias alsaplayer="alsaplayer --config $HOME/.config/alsaplayer/alsaplayer.conf"
 alias conf='function _(){ $EDITOR $HOME/.config/$1; }; _'
 alias mv='mv --no-clobber'
 alias cp='cp --no-clobber'
+alias :q="exit"
+alias conf='function _(){ $EDITOR ${XDG_CONFIG_HOME:-$HOME/.config}/$1; }; _'
+alias sconf='function _(){ doas $EDITOR /etc/$1; }; _'
+alias mntdrive='function _(){ devices="$(lsblk -l -o NAME /dev/$1 | grep -E "$1.+")" && echo $devices | sed "s/$1//" | xargs -I{} doas mkdir -p /mnt/$1/{} && echo $devices | sed "s:\($1\)\(.*\):/dev/\1\2 /mnt/\1/\2:" | xargs -n2 doas mount; }; _'
