@@ -49,5 +49,5 @@ include $basepath/$(hostname)/special_bindings
 #include /etc/sway/config.d/*
 
 exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-
+exec mako
 
