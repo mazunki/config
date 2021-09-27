@@ -1,13 +1,9 @@
 #!/bin/sh
 
-export EDITOR=nvim
 
 # XDG Base directory fixes for pseudo-compatible programs
 export SSB_HOME="${XDG_DATA_HOME}/zoom"
 export SWAY_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/sway"
-# x11
-# export XINITRC="${XDG_CONFIG_HOME}/X11/xinitrc"
-# export XSERVERRC="${XDG_CONFIG_HOME}/X11/xserverrc"
 export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
 # postgresql
 export PSQLRC="${XDG_CONFIG_HOME/pg/psqlrc}"
@@ -17,18 +13,30 @@ export PGSERVICEFILE="${XDG_CONFIG_HOME/pg/pg_service.conf}"
 # pass
 export PASSWORD_STORE_DIR="${XDG_DATA_HOME}/pass"
 export MPLAYER_HOME="${XDG_CONFIG_HOME}/mplayer"
-# Golang
-export GOPATH="${XDG_DATA_HOME}/go"
-export PATH="$PATH:$HOME/.local/bin"
 export FFMPEG_DATADIR="${XDG_CONFIG_HOME}/ffmpeg"
 export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_completion"
-# coreutils
-eval $(dircolors "${XDG_CONFIG_HOME}/dircolors")
+# gnupg
+export GNUPGHOME=${XDG_DATA_HOME:-$HOME/.local/share}/gnupg
 
-export CARGO_HOME=/home/mazunki/.local/share/cargo
+# wget-hsts for tracking downloaded files, defaults to $HOME/.wget-hsts. dumb
+export WGETRC=${XDG_CONFIG_HOME:-$HOME/.config}/wget/config
 
-export PATH="$PATH:$CARGO_HOME/bin"
-# export PAGER="less -F"
+# default applications
+export EDITOR=nvim
+export MANPAGER="nvim -R -c 'set ft=man'"
+export GITPAGER="nvim -R -c 'set ft=man' -c 'set ft=git'"  # i'm not really sure what causes the need to first set ft=man and then ft=git, but this way we avoid \[033; errors
 
+# Python
+export PYTHONSTARTUP=${XDG_CONFIG_HOME:-$HOME/.config}/python/pythonrc
 
+# Rust
+export CARGO_HOME=${XDG_DATA_HOME:-$HOME/.local/share}/cargo
+# Golang
+export GOPATH="${XDG_DATA_HOME}/go"
+
+# PATHS
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/gits/bin:$PATH"
+export PATH="./bin/:$PATH"
+export PATH=".:$PATH"
 
