@@ -15,7 +15,11 @@ call plug#begin(stdpath("data") . '/plugged')
 	Plug 'vim-airline/vim-airline-themes'
 
 	Plug 'https://tpope.io/vim/fugitive.git'
+<<<<<<< HEAD
 	Plug 'https://tpope.io/vim/surround.git'
+=======
+	Plug 'savq/melange'
+>>>>>>> f436251 (added a bunch of shortcuts, also some better theming)
 call plug#end()
 
 
@@ -26,6 +30,7 @@ let g:netrw_banner = 0			" hide help banner
 let g:netrw_browsesplit = 3		" automatically use last buffer
 let g:netrw_localcopydircmd = 'cp -r'	" allows copying directories too
 let g:netrw_liststyle = 3		" defaults to tree mode
+<<<<<<< HEAD
 hi! link netrwMarkFile Search
 
 hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=NONE guifg=white
@@ -35,6 +40,43 @@ set cursorline hi
 
 :set scrolloff=9999
 
+=======
+" hi! link netrwMarkFile Search
+augroup netrw_settings
+	autocmd!
+	autocmd filetype netrw call NetrwMapping()
+augroup END
+function NetrwMapping()
+	<leader>x :call NetrwCollapse()<CR>
+endfunction
+
+function! NetrwCollapse()
+	redir => cnt
+	silent .s/|//gn
+	redir END
+	let lvl = substitute(cnt, '\n', '', '')[0:0] - 1
+	exec '?^\(| \)\{' . lvl . '\}\w'
+	exec "normal \<CR>"
+endfunction
+
+set termguicolors " oh yeah real tasty
+colorscheme melange
+hi Normal cterm=NONE ctermbg=BLACK ctermfg=NONE guibg=#111111 guifg=NONE
+hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=NONE guibg=#123456 guifg=NONE
+hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=NONE guibg=#111134 guifg=NONE
+silent set cursorline highlight
+silent set cursorcolumn highlight
+
+" this looks kinda uhh weird in cterm with melange. use a proper terminal!
+set list
+set listchars=eol:⏎,tab:▸—,nbsp:⎵,trail:·,space:·
+
+set number
+set relativenumber
+
+autocmd FileChangedRO * echohl WarningMsg | echo "File changed RO." | echohl None
+autocmd FileChangedShell * echohl WarningMsg | echo "File changed shell." | echohl None
+>>>>>>> f436251 (added a bunch of shortcuts, also some better theming)
 " bindings
 let mapleader = " "
 set timeoutlen=350
@@ -44,6 +86,10 @@ nnoremap <leader>h <C-w>h
 nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
 nnoremap <leader>l <C-w>l
+noremap <leader>y "*y
+noremap <leader>p "*p
+noremap <leader>c "+y
+noremap <leader>v "+p
 
 nnoremap <leader>` :below 10split<cr><C-w>j:term<cr>A
 tnoremap <leader>` <C-\><C-n><C-w>k
@@ -78,6 +124,34 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
 
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 set completeopt=menuone,noinsert,noselect
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_compiler_progname = 'latexmk'
+
+
+augroup latex
+	autocmd!
+	autocmd BufWritePost *.tex silent! execute "!latexmk -bibtex -pdf %"
+	autocmd BufWinLeave *.tex silent! execute "!latexmk -c"
+augroup END
+
+function! WC()
+    let filename = expand("%:p")
+    echo filename
+    let cmd = "sed -n '/\\\\begin{document}/,/\\\\end{document}/p' " . filename . " | detex | wc -w | tr -d '[:space:]'"
+    let result = system(cmd)
+    echo result . " words"
+endfunction
+command WC call WC()
+
+cmap w!! w !doas tee % > /dev/null<cr>
+
+
+set fixendofline
+set eol
 
