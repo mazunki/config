@@ -4,3 +4,5 @@ alias tree="tree -L 3 -C"
 alias grep="grep --color=auto"
 alias alsaplayer="alsaplayer --config $HOME/.config/alsaplayer/alsaplayer.conf"
 alias conf='function _(){ $EDITOR $HOME/.config/$1; }; _'
+alias mv='mv --no-clobber'
+alias cp='cp --no-clobber'
