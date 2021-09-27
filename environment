@@ -40,3 +40,6 @@ export PATH="$HOME/.local/gits/bin:$PATH"
 export PATH="./bin/:$PATH"
 export PATH=".:$PATH"
 
+
+export LANG="en_US.UTF-8"
+
