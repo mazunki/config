@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Session XDG specification
+export XDG_SESSION_TYPE="x11"
+export XDG_SESSION_DESKTOP="openbox"
+export XDG_CURRENT_DESTKOP="openbox"
+export DESKTOP_SESSION="openbox"
+
+# XKB
+export XKB_DEFAULT_LAYOUT=us
+
+export LIBSEAT_BACKEND="logind"
+
+# QT
+# export QT_WAYLAND_DISABLE_WINDOW_DECORATION=1
+# export QT_QPA_PLATFORM="wayland-egl"
+
+# GTK
+export GDK_BACKEND="x11"
+export GTK_BACKEND="x11"
+
+# Other stuff
+export MOZ_ENABLE_WAYLAND=1
+export CLUTTER_BACKEND="x11"
+export SDL_VIDEODRIVER="x11"
+
+export VK_ICD_FILENAMES=/opt/amdgpu/etc/vulkan/icd.d/amd_icd64.json
+
+# DRM
+export WLR_DRM_DEVICES=/dev/dri/card0
+
+# BEGONE, clutter
+export XINITRC=${XDG_CONFIG_HOME:-$HOME/.config}/xinitrc
+export XSERVERRC=${XDG_CONFIG_HOME:-$HOME/.config}/xserverrc
+export DISPLAY=":1"
+
