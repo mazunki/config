@@ -20,7 +20,7 @@ export GDK_BACKEND="wayland,x11"
 export GTK_BACKEND="wayland"
 
 # XWayland
-export DISPLAY=":0"
+export DISPLAY=":8"
 
 # Other stuff
 export MOZ_ENABLE_WAYLAND=1
