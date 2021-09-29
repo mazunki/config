@@ -10,6 +10,7 @@ call plug#begin(stdpath("data") . '/plugged')
 	Plug 'honza/vim-snippets'	" Repo of snippts
 	Plug 'latex-lsp/texlab'		" latex lsp
 	Plug 'microsoft/pyright'	" python lsp
+	Plug 'dhruvasagar/vim-table-mode'
 
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
@@ -52,15 +53,10 @@ nnoremap <leader>w :w !doas tee %<cr>
 lua require'lspconfig'.texlab.setup{ on_attach=require'completion'.on_attach }
 lua require'lspconfig'.pyright.setup{ on_attach=require'completion'.on_attach }
 
-" lua require'snippets'.use_suggested_mappings()
-
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
-
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 set completeopt=menuone,noinsert,noselect
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
