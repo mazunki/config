@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 # XDG Base directory fixes for pseudo-compatible programs
 export SSB_HOME="${XDG_DATA_HOME}/zoom"
 export SWAY_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/sway"
@@ -37,9 +36,11 @@ export GOPATH="${XDG_DATA_HOME}/go"
 # PATHS
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/gits/bin:$PATH"
+export PATH="./build/:$PATH"
 export PATH="./bin/:$PATH"
 export PATH=".:$PATH"
 
 
 export LANG="en_US.UTF-8"
+
 
