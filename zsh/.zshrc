@@ -1,29 +1,21 @@
 #!/bin/zsh
 
-ZDOTDIR=${ZDOTDIR:-$confdir/zsh}
-function zshloadplugs() {
-	verbose=1
-	source $ZDOTDIR/$1.zsh && [ $verbose -eq "1" ] && echo "Loaded $1.zsh" || return 0
-}
+ZDOTDIR=${ZDOTDIR:-$XDG_CONFIG_HOME/zsh}
 
+source ${XDG_CONFIG_HOME}/xdg_paths
+source ${XDG_CONFIG_HOME}/aliases
+source ${XDG_CONFIG_HOME}/environment
 
-function zshreloadconf() {
-	verbose=1
-	source ${XDG_CONFIG_HOME:-$HOME/.config}/$1 && [ $verbose -eq "1" ] && echo "Loaded $1" || return 0
-}
+source ${ZDOTDIR}/history.zsh
+source ${ZDOTDIR}/autocomplete.zsh
+source ${ZDOTDIR}/opts.zsh
+source ${ZDOTDIR}/bindings.zsh
+#source ${ZDOTDIR}/cdalias.zsh
 
-zshreloadconf aliases
-zshreloadconf environment
+#export ZSH_PLUGIN_HOME=${XDG_DATA_HOME}/zsh/plugins
+#source ${ZSH_PLUGIN_HOME}/zsh-syntax-highlighting
 
-zshloadplugs history
-zshloadplugs autocomplete
-zshloadplugs opts
-zshloadplugs bindings
-zshloadplugs cdalias
+source ${ZDOTDIR}/prompt.zsh  # depends on zsh-snytax-highlighting
 
-export ZSH_PLUGIN_HOME=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins
-source ${ZSH_PLUGIN_HOME}/zsh-syntax-highlighting
+eval "$(dircolors -b ${XDG_CONFIG_HOME}/dircolors)"
 
-zshloadplugs prompt  # depends on zsh-snytax-highlighting
-
-eval "$(dircolors -b ${XDG_CONFIG_HOME:-$HOME/.config}/dircolors)"
