@@ -18,6 +18,7 @@ set $basepath /home/mazunki/.config/sway
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaymsg exit
 
+focus_follows_mouse no
 
 include $basepath/$(hostname)/outputs
 include $basepath/workspaces

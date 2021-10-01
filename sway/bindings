@@ -20,7 +20,8 @@ bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
 
 # Layout stuff:
-bindsym $mod+v layout toggle splith splitv tabbed
+bindsym $mod+v layout toggle tabbed split
+bindsym $mod+b layout toggle splith splitv
 bindsym $mod+space floating toggle
 bindsym $mod+f fullscreen
 

@@ -12,8 +12,8 @@ call plug#begin(stdpath("data") . '/plugged')
 	Plug 'microsoft/pyright'	" python lsp
 	Plug 'dhruvasagar/vim-table-mode'
 
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
+	" Plug 'vim-airline/vim-airline'
+	" Plug 'vim-airline/vim-airline-themes'
 
 	Plug 'https://tpope.io/vim/fugitive.git'
 	Plug 'savq/melange'

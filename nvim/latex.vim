@@ -5,7 +5,7 @@ let g:vimtex_compiler_progname = 'latexmk'
 
 augroup latex
 	autocmd!
-	autocmd BufWritePost *.tex silent! execute "!latexmk -bibtex -pdf %"
+	autocmd BufWritePost *.tex silent! execute "!latexmk -xelatex -pdfxe %"
 	autocmd BufWinLeave *.tex silent! execute "!latexmk -c"
 augroup END
 

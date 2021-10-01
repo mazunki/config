@@ -8,16 +8,7 @@ let g:netrw_browsesplit = 3		" automatically use last buffer
 let g:netrw_localcopydircmd = 'cp -r'	" allows copying directories too
 let g:netrw_liststyle = 3		" defaults to tree mode
 
-
 " hi! link netrwMarkFile Search
-augroup netrw_settings
-	autocmd!
-	autocmd filetype netrw call NetrwMapping()
-augroup END
-function NetrwMapping()
-	<leader>x :call NetrwCollapse()<CR>
-endfunction
-
 function! NetrwCollapse()
 	redir => cnt
 	silent .s/|//gn

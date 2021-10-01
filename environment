@@ -2,7 +2,7 @@
 
 # XDG Base directory fixes for pseudo-compatible programs
 export SSB_HOME="${XDG_DATA_HOME}/zoom"
-export SWAY_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/sway"
+export SWAY_CONFIG_HOME="${XDG_CONFIG_HOME}/sway"
 export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
 # postgresql
 export PSQLRC="${XDG_CONFIG_HOME/pg/psqlrc}"
@@ -15,10 +15,11 @@ export MPLAYER_HOME="${XDG_CONFIG_HOME}/mplayer"
 export FFMPEG_DATADIR="${XDG_CONFIG_HOME}/ffmpeg"
 export BASH_COMPLETION_USER_FILE="${XDG_CONFIG_HOME}/bash-completion/bash_completion"
 # gnupg
-export GNUPGHOME=${XDG_DATA_HOME:-$HOME/.local/share}/gnupg
+export GNUPGHOME=${XDG_DATA_HOME}/gnupg
+export LESSHISTFILE=${XDG_STATE_HOME}/less/history
 
 # wget-hsts for tracking downloaded files, defaults to $HOME/.wget-hsts. dumb
-export WGETRC=${XDG_CONFIG_HOME:-$HOME/.config}/wget/config
+export WGETRC=${XDG_CONFIG_HOME}/wget/config
 
 # default applications
 export EDITOR=nvim
@@ -26,10 +27,10 @@ export MANPAGER="nvim -R -c 'set ft=man'"
 export GITPAGER="nvim -R -c 'set ft=man' -c 'set ft=git'"  # i'm not really sure what causes the need to first set ft=man and then ft=git, but this way we avoid \[033; errors
 
 # Python
-export PYTHONSTARTUP=${XDG_CONFIG_HOME:-$HOME/.config}/python/pythonrc
+export PYTHONSTARTUP=${XDG_CONFIG_HOME}/python/pythonrc
 
 # Rust
-export CARGO_HOME=${XDG_DATA_HOME:-$HOME/.local/share}/cargo
+export CARGO_HOME=${XDG_DATA_HOME}/cargo
 # Golang
 export GOPATH="${XDG_DATA_HOME}/go"
 

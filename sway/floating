@@ -5,3 +5,5 @@ for_window [app_id="Terraria.bin.x86_64"] floating enable
 for_window [app_id="org.multimc.multimc"] floating enable
 # for_window [name="Enigmatica 2: Expert"] floating enable
 for_window [instance="polybar"] floating enable, move position 0px 0px, border pixel 1
+
+for_window [window_type="utility"] move position 0px 0px
