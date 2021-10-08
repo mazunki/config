@@ -6,7 +6,7 @@ call plug#begin(stdpath("data") . '/plugged')
 
 	Plug 'nvim-lua/completion-nvim'
 	Plug 'neovim/nvim-lspconfig'	" language server protocol
-	Plug 'SirVer/ultisnips'		" Engine
+	"Plug 'SirVer/ultisnips'		" Engine
 	Plug 'honza/vim-snippets'	" Repo of snippts
 	Plug 'latex-lsp/texlab'		" latex lsp
 	Plug 'microsoft/pyright'	" python lsp
@@ -18,6 +18,11 @@ call plug#begin(stdpath("data") . '/plugged')
 	Plug 'https://tpope.io/vim/fugitive.git'
 	Plug 'savq/melange'
 call plug#end()
+
+augroup reload_nvim_conf
+	autocmd!
+	autocmd! BufWritePost init.vim source %
+augroup end
 
 runtime netrw_conf.vim
 runtime commenting.vim
@@ -38,6 +43,10 @@ noremap <leader>p "*p
 noremap <leader>c "+y
 noremap <leader>v "+p
 
+noremap <leader>gc :Git commit -m "" <C-R>=expand("%")<CR> <C-F>2Ba
+noremap <leader>gp :Git push<cr>
+noremap <leader>gP :Git pull<cr>
+
 nnoremap <leader>` :below 10split<cr><C-w>j:term<cr>A
 tnoremap <leader>` <C-\><C-n><C-w>k
 
@@ -50,8 +59,8 @@ nnoremap <leader>w :w !doas tee %<cr>
 
 
 " trying to set up latex
-lua require'lspconfig'.texlab.setup{ on_attach=require'completion'.on_attach }
-lua require'lspconfig'.pyright.setup{ on_attach=require'completion'.on_attach }
+"lua require'lspconfig'.texlab.setup{ on_attach=require'completion'.on_attach }
+"lua require'lspconfig'.pyright.setup{ on_attach=require'completion'.on_attach }
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
