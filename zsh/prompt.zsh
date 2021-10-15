@@ -13,8 +13,16 @@ function check_if_git_behind() {
 	fi
 	RPROMPT="$GIT_BEHIND_STR"
 }
+function format_exit_code() {
+	if [[ "$?" == "0" ]]; then
+		exit_code_str=''
+	else
+		exit_code_str="[%F{196}$?%f] "
+	fi
+}
 typeset -a precmd_functions
 precmd_functions+=(check_if_git_behind)
+precmd_functions+=(format_exit_code)
 
 
 add-zsh-hook precmd vcs_info
@@ -31,7 +39,4 @@ zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c) '
 
 export NEWLINE=$'\n'
 rightarrow=$(echo -en '\u27f6')
-export PROMPT2="%F{239}${rightarrow}%f"
-export PROMPT='[$?] ${vcs_info_msg_0_}%B%F{69}%~%f%b${NEWLINE}'
-#export PROMPT='${vcs_info_msg_0_}%F{69}%~%f${NEWLINE}'
-export RPROMPT='%F{95}[%?]%f %F{126}%m%f'
+export PROMPT='$exit_code_str${vcs_info_msg_0_}%F{69}%~%f${NEWLINE}'
