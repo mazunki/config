@@ -5,9 +5,14 @@ let g:vimtex_compiler_progname = 'latexmk'
 
 augroup latex
 	autocmd!
-	autocmd BufWritePost *.tex silent! execute "!latexmk -xelatex -pdfxe %"
+	autocmd BufWritePost *.tex call CompileAndOpenLatex()
 	autocmd BufWinLeave *.tex silent! execute "!latexmk -c"
 augroup END
+function! CompileAndOpenLatex()
+	"Dispatch latexmk -xelatex='xelatex -synctex=1 -interaction=nonstopmode' -pdfxe %
+	Dispatch latexmk -xelatex -pdfxe %
+	call OpenZathura()
+endfunction
 
 function! WC()
     let filename = expand("%:p")
@@ -17,3 +22,14 @@ function! WC()
     echo result . " words"
 endfunction
 command WC call WC()
+
+function! OpenZathura()
+    let position = line('.') . ":" . col('.') . ":" . expand('%:p') . " "
+    call jobstart("zathura -x 'nvr --remote +%{line} %{input}' --synctex-forward " . position . " " . substitute(expand('%:p'),"tex$","pdf", ""))
+endfunction
+function! OpenZathuraHandler(timer)
+	call OpenZathura()
+endfunction
+
+nmap <leader><Enter> :call OpenZathura()<cr>
+
