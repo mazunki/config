@@ -34,7 +34,16 @@ export CARGO_HOME=${XDG_DATA_HOME}/cargo
 # Golang
 export GOPATH="${XDG_DATA_HOME}/go"
 
+# Move Perl out of home
+PERL_BASE="$HOME/.local/share/perl"
+export PERL_MM_OPT="INSTALL_BASE=$PERL_BASE"
+export PERL_MB_OPT="--install_base $PERL_BASE"
+export PATH="$PERL_BASE/bin${PATH:+:$PATH}"
+export PERL5LIB="$PERL_BASE/lib/perl5"
+export MANPATH="$PERL_BASE/man${MANPATH:+:$MANPATH}"
+
 # PATHS
+export PATH="$XDG_DATA_HOME/gem/ruby/2.6.0/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/gits/bin:$PATH"
 export PATH="./build/:$PATH"
