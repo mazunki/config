@@ -42,6 +42,7 @@ noremap <leader>y "*y
 noremap <leader>p "*p
 noremap <leader>c "+y
 noremap <leader>v "+p
+nnoremap <Enter> :noh<cr>
 
 noremap <leader>gc :Git commit -m "" <C-R>=expand("%")<CR> <C-F>2Ba
 noremap <leader>gp :Git push<cr>
