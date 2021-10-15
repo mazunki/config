@@ -1,4 +1,7 @@
 #!/bin/sh
+# Read on every new shell
+export ZDOTDIR=${ZDOTDIR:-$XDG_CONFIG_HOME/zsh}
+
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -16,4 +19,8 @@ export XDG_PICTURES_DIR="$HOME/media/pics"
 export XDG_PUBLICSHARE_DIR="$HOME/public"
 export XDG_TEMPLATES_DIR="$HOME/media/templates"
 export XDG_VIDEOS_DIR="$HOME/media/vids"
+
+source ${XDG_CONFIG_HOME}/xdg_paths
+source ${XDG_CONFIG_HOME}/aliases
+source ${XDG_CONFIG_HOME}/environment
 

@@ -40,6 +40,7 @@ export PATH="$HOME/.local/gits/bin:$PATH"
 export PATH="./build/:$PATH"
 export PATH="./bin/:$PATH"
 export PATH=".:$PATH"
+export PATH=$(lspaths | cat -n | sort -k2 -k1n | uniq -f1 | sort -nk1,1 | cut -f2- | sed -e :a -e '$!N; s/\n/:/; ta')
 
 
 export LANG="en_US.UTF-8"

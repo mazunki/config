@@ -1,10 +1,5 @@
 #!/bin/zsh
-
-ZDOTDIR=${ZDOTDIR:-$XDG_CONFIG_HOME/zsh}
-
-source ${XDG_CONFIG_HOME}/xdg_paths
-source ${XDG_CONFIG_HOME}/aliases
-source ${XDG_CONFIG_HOME}/environment
+# Read on every interactive session
 
 source ${ZDOTDIR}/history.zsh
 source ${ZDOTDIR}/autocomplete.zsh

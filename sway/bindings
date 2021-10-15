@@ -36,4 +36,5 @@ bindsym $mod+Right resize grow width 10px
 
 # screenshot
 bindsym $mod+o exec grim -g "$(slurp)" - | wl-copy
+bindsym $mod+Shift+o exec sleep 1; grim -g "$(slurp)" - | wl-copy
 bindsym $mod+u exec wofi --gtk-dark -W 10 -H 1 -S dmenu | uu

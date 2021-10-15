@@ -10,13 +10,15 @@ call plug#begin(stdpath("data") . '/plugged')
 	Plug 'honza/vim-snippets'	" Repo of snippts
 	Plug 'latex-lsp/texlab'		" latex lsp
 	Plug 'microsoft/pyright'	" python lsp
-	Plug 'dhruvasagar/vim-table-mode'
+	Plug 'simrat39/rust-tools.nvim' " rust lsp
 
-	" Plug 'vim-airline/vim-airline'
-	" Plug 'vim-airline/vim-airline-themes'
+	Plug 'dhruvasagar/vim-table-mode' " auto-align tables
 
-	Plug 'https://tpope.io/vim/fugitive.git'
-	Plug 'savq/melange'
+	Plug 'https://tpope.io/vim/fugitive.git' " git support
+	Plug 'https://tpope.io/vim/dispatch.git' " git support
+	Plug 'savq/melange'		" theme
+	Plug 'kshenoy/vim-signature'	" highlight marks in margin
+	Plug 'unblevable/quick-scope'	" highlight usage of f motion
 call plug#end()
 
 augroup reload_nvim_conf
@@ -47,6 +49,8 @@ nnoremap <Enter> :noh<cr>
 noremap <leader>gc :Git commit -m "" <C-R>=expand("%")<CR> <C-F>2Ba
 noremap <leader>gp :Git push<cr>
 noremap <leader>gP :Git pull<cr>
+noremap <C-J> ddp
+noremap <C-K> ddkkp
 
 nnoremap <leader>` :below 10split<cr><C-w>j:term<cr>A
 tnoremap <leader>` <C-\><C-n><C-w>k
@@ -61,7 +65,8 @@ nnoremap <leader>w :w !doas tee %<cr>
 
 " trying to set up latex
 "lua require'lspconfig'.texlab.setup{ on_attach=require'completion'.on_attach }
-"lua require'lspconfig'.pyright.setup{ on_attach=require'completion'.on_attach }
+lua require'lspconfig'.pyright.setup{ on_attach=require'completion'.on_attach }
+lua require'rust-tools'.setup{}
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
