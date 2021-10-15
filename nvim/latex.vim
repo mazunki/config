@@ -9,8 +9,8 @@ augroup latex
 	autocmd BufWinLeave *.tex silent! execute "!latexmk -c"
 augroup END
 function! CompileAndOpenLatex()
-	"Dispatch latexmk -xelatex='xelatex -synctex=1 -interaction=nonstopmode' -pdfxe %
-	Dispatch latexmk -xelatex -pdfxe %
+	Dispatch latexmk -xelatex='xelatex -synctex=1 -interaction=nonstopmode' -pdfxe %
+	" Dispatch latexmk -xelatex -pdfxe %
 	call OpenZathura()
 endfunction
 
