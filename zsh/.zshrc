@@ -12,7 +12,7 @@ source ${ZDOTDIR}/bindings.zsh
 source ${ZDOTDIR}/plugins/zsh-vimode-visual/zsh-vimode-visual.zsh
 zle_highlight=(region:br=yellow)
 
-source ${ZDOTDIR}/prompt.zsh  # depends on zsh-snytax-highlighting
+source ${ZDOTDIR}/prompt.zsh  # depends on zsh-syntax-highlighting
 zle-line-pre-redraw() {
   [[ $KEYMAP != vicmd ]] && return
   local new="$RPS1"
