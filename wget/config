@@ -1,0 +1,1 @@
+hstsfile=${XDG_STATE_HOME:-$HOME/.local/state}/xdg/history
