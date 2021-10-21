@@ -43,7 +43,7 @@ export PERL5LIB="$PERL_BASE/lib/perl5"
 export MANPATH="$PERL_BASE/man${MANPATH:+:$MANPATH}"
 
 # PATHS
-export PATH="$XDG_DATA_HOME/gem/ruby/2.6.0/bin:$PATH"
+export PATH="/usr/libexec:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/gits/bin:$PATH"
 export PATH="./build/:$PATH"
