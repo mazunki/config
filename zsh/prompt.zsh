@@ -24,7 +24,7 @@ function format_exit_code() {
 	if [ -z "$SSH_TTY" ]; then
 		hostname_str=''
 	else
-		hostname_str="@ %F{196}%m%f"
+		hostname_str="@ %F{127}%m%f"
 	fi
 }
 typeset -a precmd_functions
