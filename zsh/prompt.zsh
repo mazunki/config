@@ -20,9 +20,17 @@ function format_exit_code() {
 		exit_code_str="[%F{196}$?%f] "
 	fi
 }
+function format_exit_code() {
+	if [ -z "$SSH_TTY" ]; then
+		hostname_str='@local'
+	else
+		hostname_str="%F{196}%m%f"
+	fi
+}
 typeset -a precmd_functions
 precmd_functions+=(check_if_git_behind)
 precmd_functions+=(format_exit_code)
+precmd_functions+=(format_hostname)
 
 
 add-zsh-hook precmd vcs_info
@@ -39,4 +47,4 @@ zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c) '
 
 export NEWLINE=$'\n'
 rightarrow=$(echo -en '\u27f6')
-export PROMPT='$exit_code_str${vcs_info_msg_0_}%F{69}%~%f @ %F{69}%m%f ${NEWLINE}'
+export PROMPT='$exit_code_str${vcs_info_msg_0_}%F{69}%~%f $hostname_str${NEWLINE}'
