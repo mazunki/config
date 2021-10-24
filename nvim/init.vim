@@ -74,7 +74,7 @@ lua require("lspconfig").texlab.setup({ on_attach=require'completion'.on_attach 
 lua require("rust-tools").setup({})
 lua require("lspconfig").pyright.setup({ on_attach=require'completion'.on_attach })
 
-inoremap <Tab> <C-N>
+"inoremap <Tab> <C-N>
 inoremap <S-Tab> <C-P>
 set completeopt=menuone,noinsert,noselect
 set complete-=i
