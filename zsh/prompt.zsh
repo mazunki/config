@@ -20,7 +20,7 @@ function format_exit_code() {
 		exit_code_str="[%F{196}$?%f] "
 	fi
 }
-function format_exit_code() {
+function format_hostname() {
 	if [ -z "$SSH_TTY" ]; then
 		hostname_str=''
 	else

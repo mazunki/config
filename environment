@@ -23,8 +23,11 @@ export WGETRC=${XDG_CONFIG_HOME}/wget/config
 
 # default applications
 export EDITOR=nvim
-export MANPAGER="nvim -R -c 'set ft=man'"
-export GITPAGER="nvim -R -c 'set ft=man' -c 'set ft=git'"  # i'm not really sure what causes the need to first set ft=man and then ft=git, but this way we avoid \[033; errors
+#export PAGER="nvim -c 'setlocal buftype=nofile' -c '%s/.//g' -c 'set ft=man' -c 'norm gg0'"
+#export MANPAGER="nvim -c 'setlocal buftype=nofile' -c '%s/.//g' -c 'set ft=man' -c 'norm gg0'"
+#export PAGER=nvimpager
+#export MANPAGER=nvimpager
+#export GITPAGER=nvimpager
 
 # Python
 export PYTHONSTARTUP=${XDG_CONFIG_HOME}/python/pythonrc
