@@ -1,0 +1,29 @@
+[user]
+	name = mazunki
+	email = rolferen@gmail.com
+[pull]
+	rebase = false
+[core]
+	editor = nvim
+	#pager = nvim -R -c 'set ft=man' -c 'set ft=git' --
+[pager]
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
+[alias]
+	s = status
+	p = push
+	br = !git --no-pager branch --format='%(HEAD^5) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
+	undo = reset HEAD~1 --mixed
+	l = !git --no-pager log --pretty=format:\"%C(magenta)%h%Creset —%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30
+[merge]
+	tool = nvimdiff
+[difftool]
+	tool = nvim
+	prompt = false
+
+[init]
+	defaultBranch = main
+[http]
+	postBuffer = 524288000
