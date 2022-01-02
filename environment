@@ -39,14 +39,15 @@ export GOPATH="${XDG_DATA_HOME}/go"
 
 # Move Perl out of home
 PERL_BASE="$HOME/.local/share/perl"
-export PERL_MM_OPT="INSTALL_BASE=$PERL_BASE"
-export PERL_MB_OPT="--install_base $PERL_BASE"
-export PATH="$PERL_BASE/bin${PATH:+:$PATH}"
-export PERL5LIB="$PERL_BASE/lib/perl5"
-export MANPATH="$PERL_BASE/man${MANPATH:+:$MANPATH}"
+# export PERL_MM_OPT="INSTALL_BASE=$PERL_BASE"
+# export PERL_MB_OPT="--install_base $PERL_BASE"
+# export PATH="$PERL_BASE/bin${PATH:+:$PATH}"
+# export PERL5LIB="$PERL_BASE/lib/perl5"
+# export MANPATH="$PERL_BASE/man${MANPATH:+:$MANPATH}"
 
 # PATHS
 export PATH="/usr/libexec:$PATH"
+export PATH="${GOPATH}/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/gits/bin:$PATH"
 export PATH="./build/:$PATH"
@@ -55,6 +56,6 @@ export PATH=".:$PATH"
 export PATH=$(lspaths | cat -n | sort -k2 -k1n | uniq -f1 | sort -nk1,1 | cut -f2- | sed -e :a -e '$!N; s/\n/:/; ta')
 
 
-export LANG="en_US.UTF-8"
+export LANG="en_ISO.UTF-8"
 
-
+source ${XDG_CONFIG_HOME}/secrets
