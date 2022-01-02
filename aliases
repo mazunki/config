@@ -1,5 +1,5 @@
 #!/bin/sh
-alias ls="ls -la --color='auto'"
+alias ls="ls -oah --color='auto'"
 alias tree="tree -L 3 -C"
 alias grep="grep --color=auto"
 alias alsaplayer="alsaplayer --config ${XDG_CONFIG_HOME}/alsaplayer/alsaplayer.conf"
