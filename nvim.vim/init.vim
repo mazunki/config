@@ -19,6 +19,7 @@ call plug#begin(stdpath("data") . '/plugged')
 	Plug 'savq/melange'		" theme
 	Plug 'kshenoy/vim-signature'	" highlight marks in margin
 	Plug 'unblevable/quick-scope'	" highlight usage of f motion
+	Plug 'Chiel92/vim-autoformat'
 call plug#end()
 
 augroup reload_nvim_conf
