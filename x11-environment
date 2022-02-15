@@ -24,7 +24,7 @@ export MOZ_ENABLE_WAYLAND=1
 export CLUTTER_BACKEND="x11"
 export SDL_VIDEODRIVER="x11"
 
-#export VK_ICD_FILENAMES=/opt/amdgpu/etc/vulkan/icd.d/amd_icd64.json
+export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.x86_64.json:/usr/share/vulkan/icd.d/radeon_icd.i686.json
 
 # DRM
 export WLR_DRM_DEVICES=/dev/dri/card0

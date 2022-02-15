@@ -48,4 +48,4 @@ zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c) '
 export NEWLINE=$'\n'
 rightarrow=$(echo -en '\u27f6')
 export PROMPT='$exit_code_str${vcs_info_msg_0_}%F{69}%~%f $hostname_str${NEWLINE}'
-zle_highlight=(default:bold,fg=242)
+zle_highlight=(default:bold,fg=127,bg=233)

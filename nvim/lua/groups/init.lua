@@ -14,3 +14,10 @@ new_group{
 	cmds = require("groups/js").cmds.bufreadpost
 }
 
+new_group{
+	name = "pdf",
+	ext = {"pdf"},
+	when = { "BufReadPost" },
+	cmds = require("groups/pdf").cmds.bufreadpost
+}
+

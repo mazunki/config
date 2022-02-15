@@ -27,3 +27,13 @@
 	defaultBranch = main
 [http]
 	postBuffer = 524288000
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[instaweb]
+	local = false
+	httpd = webrick
+	port = 4321
+	browser = firefox

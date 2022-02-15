@@ -3,8 +3,7 @@ map = require("bindings/map")
 local M = {}
 M.cmds = {
 	bufreadpost = { 
-		":normal ggdG",
-		"r!js-beautify %"
+		"silent 1,$!js-beautify",
 	}
 }
 

@@ -1,13 +1,13 @@
 # bindings for workspaces and autolaunchers
 
 # change to workspace
-bindsym $mod+F1  workspace number 1; exec [ $(ps h -C firefox | wc -l) = 0 ] && firefox
+bindsym $mod+F1  workspace number 1
 bindsym $mod+F2  workspace number 2
 bindsym $mod+F3  workspace number 3
 bindsym $mod+F4  workspace number 4
 
-bindsym $mod+F5  workspace number 5; exec [ $(ps h -C telegram-desktop | wc -l) = 0 ] && telegram-desktop
-bindsym $mod+F6  workspace number 6; exec [ $(ps h -C alacritty | wc -l) = 0 ] && alacritty
+bindsym $mod+F5  workspace number 5
+bindsym $mod+F6  workspace number 6
 bindsym $mod+F7  workspace number 7
 bindsym $mod+F8  workspace number 8
 

@@ -26,15 +26,18 @@ tabspaces: 8
 
 font:
   normal:
-    family: monospace
+    style: noto
   italic:
-    family: monospace
+    style: monospace
+    style: Italic
   bold:
-    family: monospace
+    style: monospace
+    style: Bold
   bold_italic:
-    family: monospace
+    style: monospace
+    style: Bold Italic
 
-  size: 12.0
+  size: 9.0
 
   offset:
     x: 0
@@ -45,6 +48,7 @@ font:
     y: 0
 
   use_thin_strokes: true
+  opacity: 1.0
 
 draw_bold_text_with_bright_colors: true
 
@@ -80,8 +84,6 @@ visual_bell:
   animation: EaseOutExpo
   duration: 0
   color: '0xffffff'
-
-background_opacity: 1.0
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"

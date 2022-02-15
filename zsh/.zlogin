@@ -1,4 +1,7 @@
 #!/bin/zsh
 # Read after zshrc, in login shells
 
-# Maybe load a login manager here
+source /home/mazunki/.config/xdg_paths
+source /home/mazunki/.config/environment
+[ "$(tty)" = "/dev/tty1" ] && doas rc-service mazunki-s6 start
+

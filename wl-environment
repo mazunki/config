@@ -9,7 +9,8 @@ export DESKTOP_SESSION="sway"
 # XKB
 export XKB_DEFAULT_LAYOUT=us
 
-export LIBSEAT_BACKEND="logind"
+export LIBSEAT_BACKEND="seatd"
+export ALSOFT_DRIVERS="pipewire"
 
 # QT
 export QT_WAYLAND_DISABLE_WINDOW_DECORATION=1
@@ -20,16 +21,15 @@ export GDK_BACKEND="wayland,x11"
 export GTK_BACKEND="wayland"
 
 # XWayland
-export DISPLAY=":8"
+export DISPLAY=":0"
 
 # Other stuff
 export MOZ_ENABLE_WAYLAND=1
 export CLUTTER_BACKEND="wayland"
 export SDL_VIDEODRIVER="wayland"
 
-export VK_ICD_FILENAMES=/opt/amdgpu/etc/vulkan/icd.d/amd_icd64.json
-
 # DRM
 export WLR_DRM_DEVICES=/dev/dri/card0
 
-
+# AT-SPI2 is a little meanie miney mo
+export NO_AT_BRIDGE=1

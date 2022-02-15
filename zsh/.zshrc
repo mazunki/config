@@ -1,6 +1,9 @@
 #!/bin/zsh
 # Read on every interactive session
 
+source /home/mazunki/.config/xdg_paths
+source /home/mazunki/.config/environment
+
 source ${ZDOTDIR}/history.zsh
 source ${ZDOTDIR}/autocomplete.zsh
 source ${ZDOTDIR}/opts.zsh

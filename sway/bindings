@@ -19,6 +19,14 @@ bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
 
+# focusing monitors
+bindsym $mod+Left focus output left
+bindsym $mod+Right focus output right
+
+bindsym $mod+Shift+Left move workspace output left
+bindsym $mod+Shift+Right move workspace output right
+
+
 # Layout stuff:
 bindsym $mod+v layout toggle tabbed split
 bindsym $mod+b layout toggle splith splitv
@@ -28,13 +36,13 @@ bindsym $mod+f fullscreen
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
-bindsym $mod+Left resize shrink width 10px
-bindsym $mod+Down resize grow height 10px
-bindsym $mod+Up resize shrink height 10px
-bindsym $mod+Right resize grow width 10px
-
+bindsym $mod+insert exec swaymsg rename workspace to "$(wofi -d)"
 
 # screenshot
 bindsym $mod+o exec grim -g "$(slurp)" - | wl-copy
-bindsym $mod+Shift+o exec sleep 1; grim -g "$(slurp)" - | wl-copy
-bindsym $mod+u exec wofi --gtk-dark -W 10 -H 1 -S dmenu | uu
+bindsym $mod+p exec grim -g "$(wl-select-active)" - | wl-copy
+bindsym $mod+Shift+p exec grim -g "$(wl-select)" - | wl-copy
+
+bindsym $mod+u exec /home/mazunki/.local/gits/wofi.hg/build/wofi --gtk-dark -W 10 -H 1 --pre-display-cmd '/usr/local/bin/uu %%s' -S dmenu | uu
+bindsym $mod+Shift+t exec wofi --show dmenu | xargs alacritty -e
+bindsym $mod+0 exec footclient -e htop

@@ -1,28 +1,11 @@
 [{
     "layer": "top",
-    "position": "top",
-    "modules-left": ["sway/mode"],
-    "modules-center": ["sway/window"],
-    "modules-right": ["clock"],
-    "sway/window": {
-    	"format": "{}",
-        "max-length": 100,
-	"rewrite": {
-	   "(.*) Firefox": "$1",
-	   "(.*) - vim": " $1",
-	   "(.*) - zsh": " [$1]"
-	}
-    }
-},
-{
-    "layer": "top",
     "position": "bottom",
     "modules-left": ["sway/workspaces", "sway/mode", "tray"],
     "modules-right": ["battery", "backlight", "pulseaudio", "network#eth", "network#wifi", "clock"],
     "clock": {
     	"interval": 1,
-        "format": "{:%T}",
-        "format-alt": "{:%F %T}"
+		"format": "{:%c}",
     },
     "battery": {
 	"format": "🔋{capacity}%",
@@ -32,6 +15,7 @@
     },
     "pulseaudio": {
 	"format": "🔊 {volume}%",
+	"on-click": "pavucontrol",
     },
     "network#eth": {
     	"interface": "enp*",
@@ -39,12 +23,14 @@
         "format-disconnected": "—",
         "tooltip-format": "{ifname} via {gwaddr}",
         "max-length": 50,
+	"on-click": "alacritty --hold -e ip -c addr show ${ifname}",
     },
     "network#wifi": {
     	"interface": "wlp*",
-        "format-wifi": "{ipaddr}/{cidr} {essid} ({signalStrength}%) ",
-        "format": "— ",
+        "format-wifi": "{ipaddr}/{cidr} {essid} ({signalStrength}%) 📶",
+        "format": "— 📶",
         "tooltip-format": "{ifname} via {gwaddr}",
+	"on-click": "alacritty --hold -e ip -c addr show ${ifname}",
         "max-length": 50,
     },
     "tray": {

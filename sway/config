@@ -4,15 +4,15 @@
 #
 # Read `man 5 sway` for a complete reference.
 
-xwayland force
+xwayland enable
 ### Variables
 set $mod Mod4
 set $left h
 set $down j
 set $up k
 set $right l
-set $term alacritty
-set $menu wofi --gtk-dark --dmenu --alow-images --show run
+set $term footclient
+set $menu wofi --gtk-dark --dmenu --allow-images --show run
 set $basepath /home/mazunki/.config/sway
 
 default_border none
@@ -30,6 +30,8 @@ font pango:Liberation Sans Regular 12
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
     gsettings set $gnome-schema font-name "Noto 12"
+    gsettings set $gnome-schema gtk-theme 'gtk-master'
+    #gsettings set $gnome-schema icon-theme 'gtk-master'
 }
 
 
@@ -51,6 +53,6 @@ include $basepath/$(hostname)/special_bindings
 
 #include /etc/sway/config.d/*
 
-exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-exec mako
+exec dbus-update-activation-environment XDG_CURRENT_DESKTOP=sway
+exec dbus-update-activation-environment --all
 

@@ -4,6 +4,17 @@ for_window [title="cookie-electron"] floating enable
 for_window [app_id="Terraria.bin.x86_64"] floating enable
 
 for_window [app_id="org.multimc.multimc"] floating enable
+for_window [app_id="org.multimc.multimc"] floating enable
+for_window [title="Minecraft* 1.16.5"] floating enable
+for_window [title=".*"] floating enable
+for_window [title=""] floating enable
+for_window [app_id=""] floating enable
+for_window [app_id="zoom"] floating enable
+
+# for_window [title="Firefox — Sharing Indicator"] floating enable
+
+for_window [title="RuneLite"] floating enable
+for_window [title="Firefox — Sharing Indicator"] kill
 # for_window [name="Enigmatica 2: Expert"] floating enable
 # for_window [instance="polybar"] floating enable, move position 0px 0px, border pixel 1
 

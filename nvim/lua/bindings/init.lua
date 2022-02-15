@@ -6,3 +6,5 @@ map = require("bindings/map")
 -- in order to support different filetypes per language
 
 map("n", "<Leader>b", "make")
+map("n", "<Up>", "1")
+map("n", "<Down>", "1")
