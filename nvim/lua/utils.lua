@@ -7,6 +7,7 @@ function M.create_augroup(args)
 	local matches = args.re or {}
 	local when = table.concat(args.when or {"BufWritePre"}, ",")
 	local commands = args.cmds or {}
+	local lua_group = args.lua_group or nil
 	
 	if commands == nil then
 		return false
@@ -23,6 +24,10 @@ function M.create_augroup(args)
 		for _, cmd in ipairs(commands) do
 			vim.cmd("autocmd " .. when .. " " .. match .. " " .. cmd)
 		end
+	end
+
+	if lua_group ~= nil then
+		init_group()
 	end
 	vim.cmd("augroup END")
 

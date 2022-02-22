@@ -30,7 +30,7 @@ return require("packer").startup(function()
 	}
 
 	use {
-		"navarasu/onedark.nvim"
+		-- "navarasu/onedark.nvim"
 	}
 	require("onedark").load()
 	

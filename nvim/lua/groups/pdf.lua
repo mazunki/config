@@ -15,6 +15,7 @@ M.cmds = {
 		"silent set cursorline",
 		"silent set textwidth=100",
 		"silent norm gwG",
+		"autocmd CursorMoved * call HighlightSentence()",
 	}
 }
 function M.init_group()

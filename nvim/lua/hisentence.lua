@@ -15,18 +15,49 @@ function M.load()
 		" messages clear
 
 		" prepare variables. getpos = [bufnum, lnum, col, off]
+		let s:fw_lineoffset = 0
+		let s:bw_lineoffset = 0
 		let s:cursorline = line('.')
 		let s:cursorcol = col('.')
 
-		call search("[A-Z]", "b")
-		let s:prevline = line(".")
-		let s:prevcol = col(".")
-		call cursor(s:cursorline, s:cursorcol)
+		let s:prevline = -1
+		let s:prevcol = -1
+		let s:nextline = -1
+		let s:nextcol = -1
 
-		call search("[.;]", "")
-		let s:nextline = line(".")
-		let s:nextcol = col(".")
-		call cursor(s:cursorline, s:cursorcol)
+		while line(".") - s:bw_lineoffset > 0
+			let s:query_line = getline(line(".") - s:bw_lineoffset)
+			if s:bw_lineoffset == 0
+				let s:query_line = strpart(s:query_line, 0, s:cursorcol)
+			end
+
+			let s:prevcol = match(s:query_line, "[.;A-Z]")
+			if s:prevcol == -1
+				let s:bw_lineoffset += 1
+			else
+				let s:prevline = line(".") - s:bw_lineoffset
+				let s:prevcol += 2
+				break
+			end
+		endwhile
+
+		while line("$") - (line(".") + s:fw_lineoffset) > 0
+			let s:query_line = getline(line(".") + s:fw_lineoffset)
+			if s:fw_lineoffset == 0
+				let s:query_line = strpart(s:query_line, s:cursorcol+1)
+			end
+
+			let s:nextcol = match(s:query_line, "[.;]")
+			if s:nextcol == -1
+				let s:fw_lineoffset += 1
+			else
+				let s:nextline = line(".") + s:fw_lineoffset
+				if s:fw_lineoffset == 0
+					let s:nextcol += s:cursorcol + 2
+				end
+				break
+			end
+		endwhile
 
 		echom s:prevline s:prevcol s:nextline s:nextcol
 		
@@ -64,8 +95,8 @@ function M.load()
 
 		"messages
 	endfunction
-		highlight MySentence ctermfg=green guifg=green
-		autocmd CursorMoved * call HighlightSentence()
+	highlight Normal gui=NONE guifg=#888888
+	highlight MySentence gui=bold guifg=#cccccc guibg=NONE
 
 	]])
 end
