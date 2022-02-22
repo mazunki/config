@@ -3,10 +3,10 @@ map = require("bindings/map")
 local M = {}
 M.cmds = {
 	bufreadpost = { 
-		"silent 1,$!pdftotext - -",
-		"silent %s///g",
-		"silent set binary",
-		"silent set noeol",
+		-- "silent 1,$!pdftotext - -",
+		-- "silent %s///g",
+		-- "silent set binary",
+		-- "silent set noeol",
 		"silent norm gg",
 		"silent norm >G",
 		"silent set nonumber",

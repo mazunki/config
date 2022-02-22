@@ -21,3 +21,10 @@ new_group{
 	cmds = require("groups/pdf").cmds.bufreadpost
 }
 
+new_group{
+	name = "text",
+	ext = {"txt"},
+	when = { "BufReadPost" },
+	cmds = require("groups/txt").cmds.bufreadpost
+}
+
