@@ -3,3 +3,4 @@
 !.ssh/*.pub
 secrets
 pulse/
+ssh/
