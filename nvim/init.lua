@@ -17,9 +17,12 @@ set("shiftwidth", 4) -- aka how many cols to change when indenting
 -- autocomplete options
 set("completeopt", "menuone,preview,noinsert,noselect")
 
+set("ignorecase")
+set("smartcase")
+
 set("shortmess", "flnrxstWIc") -- removes clutter tbh
 
-set("list")
+set("list", false)
 setopt("listchars", {
 	eol='⏎',
 	tab='▸—',
@@ -36,5 +39,5 @@ let.g("mapleader", " ")
 require("plugins")
 require("bindings")
 require("groups")
-require("hisentence").load()
+-- require("hisentence").load()
 

@@ -1,0 +1,13 @@
+# settings
+
+(GimpGegl-gegl-grid-config "2022-02-25 15:26:50"
+    (time 1645799210)
+    (x 32)
+    (y 32)
+    (x-offset 0)
+    (y-offset 0)
+    (line-width 4)
+    (line-height 4)
+    (line-color (color-rgba 0 0 0 1)))
+
+# end of settings

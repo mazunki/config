@@ -1,8 +1,8 @@
 
 map = require("bindings/map")
 local M = {}
-M.cmds = {
-	bufreadpost = { 
+M.events = {
+	BufReadPost = { 
 		"silent 1,$!pdftotext - -",
 		"silent %s///g",
 		"silent set binary",

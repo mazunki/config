@@ -1,0 +1,12 @@
+# GIMP gimp-dodge-burn-tool options
+
+(brush "1. Pixel")
+(dynamics "Dynamics Off")
+(palette "Color History")
+(brush-size 1)
+(brush-spacing 0.20000000000000001)
+(brush-hardness 0.99700000000000022)
+(brush-force 1)
+(fade-length 88)
+
+# end of gimp-dodge-burn-tool options

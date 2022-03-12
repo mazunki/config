@@ -1,14 +1,12 @@
 
 map = require("bindings/map")
 local M = {}
-M.cmds = {
-	bufreadpost = { 
-		-- "silent 1,$!pdftotext - -",
-		-- "silent %s///g",
-		-- "silent set binary",
-		-- "silent set noeol",
+M.events = {
+	BufReadPost = { 
 		"silent norm gg",
 		"silent norm >G",
+	},
+	BufEnter = { 
 		"silent set nonumber",
 		"silent set norelativenumber",
 		"silent highlight CursorLine gui=bold",

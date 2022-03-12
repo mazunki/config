@@ -11,6 +11,19 @@ return require("packer").startup(function()
 	}
 
 	use {
+		"nvim-treesitter/nvim-treesitter",
+		config = "vim.cmd[[TsUpdate]]"
+	}
+	use {
+		"folke/twilight.nvim",
+		config = function()
+			require("twilight").setup {
+				-- here goes config of twilight
+			}
+		end
+	}
+
+	use {
 		"w0rp/ale",
 		ft = { 
 			"sh", 
@@ -23,14 +36,22 @@ return require("packer").startup(function()
 			"markdown", 
 			"racket", 
 			"vim", 
-			"tex" 
+			"tex",
+			"python",
 		},
 		cmd = "ALEEnable",
 		config = "vim.cmd[[ALEEnable]]"
 	}
 
 	use {
-		-- "navarasu/onedark.nvim"
+		"kana/vim-textobj-user"
+	}
+	use {
+		"bps/vim-textobj-python"
+	}
+
+	use {
+		"navarasu/onedark.nvim"
 	}
 	require("onedark").load()
 	

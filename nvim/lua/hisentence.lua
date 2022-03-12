@@ -31,12 +31,12 @@ function M.load()
 				let s:query_line = strpart(s:query_line, 0, s:cursorcol)
 			end
 
-			let s:prevcol = match(s:query_line, "[.;A-Z]")
+			let s:prevcol = match(s:query_line, "[.;^]*[A-Z]")
 			if s:prevcol == -1
 				let s:bw_lineoffset += 1
 			else
 				let s:prevline = line(".") - s:bw_lineoffset
-				let s:prevcol += 2
+				let s:prevcol += 1
 				break
 			end
 		endwhile
@@ -59,7 +59,7 @@ function M.load()
 			end
 		endwhile
 
-		echom s:prevline s:prevcol s:nextline s:nextcol
+		" echom s:prevline s:prevcol s:nextline s:nextcol
 		
 		if s:prevline == s:nextline
 			call matchaddpos('MySentence', [ [s:prevline, s:prevcol, s:nextcol-s:prevcol ] ])

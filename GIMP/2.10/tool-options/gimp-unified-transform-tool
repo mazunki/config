@@ -1,0 +1,8 @@
+# GIMP gimp-unified-transform-tool options
+
+(preview-opacity 0.22500000000000001)
+(grid-type diagonals)
+(constrain-scale no)
+(constrain-shear no)
+
+# end of gimp-unified-transform-tool options

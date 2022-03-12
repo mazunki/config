@@ -1,0 +1,37 @@
+[Default Applications]
+x-scheme-handler/tg=userapp-Telegram Desktop-16DXI1.desktop
+image/png=imv.desktop
+image/jpeg=imv.desktop
+default=neovim.desktop
+text/plain=neovim.desktop
+text/x-python=neovim.desktop
+inode/directory=cd.desktop
+application/pdf=zathura.desktop
+x-scheme-handler/discord-409416265891971072=discord-409416265891971072.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/chrome=firefox.desktop
+text/html=firefox.desktop
+application/x-extension-htm=firefox.desktop
+application/x-extension-html=firefox.desktop
+application/x-extension-shtml=firefox.desktop
+application/xhtml+xml=firefox.desktop
+application/x-extension-xhtml=firefox.desktop
+application/x-extension-xht=firefox.desktop
+
+[Added Associations]
+x-scheme-handler/tg=userapp-Telegram Desktop-QALF90.desktop;userapp-Telegram Desktop-16DXI1.desktop;
+application/pdf=org.pwmt.zathura-pdf-poppler.desktop;
+inode/directory=mpv.desktop;vlc.desktop;
+video/mp4=mpv.desktop;vlc.desktop;
+x-scheme-handler/http=firefox.desktop;
+x-scheme-handler/https=firefox.desktop;
+x-scheme-handler/chrome=firefox.desktop;
+text/html=firefox.desktop;
+application/x-extension-htm=firefox.desktop;
+application/x-extension-html=firefox.desktop;
+application/x-extension-shtml=firefox.desktop;
+application/xhtml+xml=firefox.desktop;
+application/x-extension-xhtml=firefox.desktop;
+application/x-extension-xht=firefox.desktop;
+application/msword=org.pwmt.zathura.desktop;

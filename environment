@@ -11,6 +11,7 @@ export PSQLRC="${XDG_CONFIG_HOME}"/pg/psqlrc
 export PSQL_HISTORY="${XDG_CACHE_HOME}"/pg/psql_history
 export PGPASSFILE="${XDG_CONFIG_HOME}"/pg/pgpass
 export PGSERVICEFILE="${XDG_CONFIG_HOME}"/pg/pg_service.conf
+export CONDARC="${XDG_CONFIG_HOME}/conda/condarc"
 # pass
 export PASSWORD_STORE_DIR="${XDG_DATA_HOME}"/pass
 export MPLAYER_HOME="${XDG_CONFIG_HOME}"/mplayer
@@ -26,6 +27,7 @@ export WGETRC=${XDG_CONFIG_HOME}/wget/config
 # default applications
 export EDITOR=nvim
 export SHELL=zsh
+export TERMINAL=footclient
 #export PAGER="nvim -c 'setlocal buftype=nofile' -c '%s/.//g' -c 'set ft=man' -c 'norm gg0'"
 #export MANPAGER="nvim -c 'setlocal buftype=nofile' -c '%s/.//g' -c 'set ft=man' -c 'norm gg0'"
 #export PAGER=nvimpager
