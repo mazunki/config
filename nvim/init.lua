@@ -34,7 +34,9 @@ vim.cmd([[
 hi Whitespace cterm=NONE ctermbg=NONE ctermfg=WHITE guibg=NONE guifg=#301000
 ]])
 
-let.g("mapleader", " ")
+set("mapleader", " ", true)
+set("python3_host_prog", "/usr/bin/python3.10", true)
+-- set("$VIRTUAL_ENV", "neovim", true)
 
 require("plugins")
 require("bindings")

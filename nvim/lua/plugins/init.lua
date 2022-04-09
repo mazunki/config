@@ -55,6 +55,7 @@ return require("packer").startup(function()
 	}
 	require("onedark").load()
 	
-
+	use { "unblevable/quick-scope" }
+	use { "kshenoy/vim-signature" }
 
 end)
