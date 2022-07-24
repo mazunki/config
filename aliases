@@ -1,23 +1,45 @@
 #!/bin/sh
-alias ls="ls -oah --color='auto'"
+# alias ls="ls -ah --color='auto'"
+alias ls="exa --icons --all --sort=modified --reverse --classify --binary --time-style=long-iso --colour-scale"
 alias tree="tree -L 3 -C"
 alias grep="grep --color=auto"
-alias alsaplayer="alsaplayer --config ${XDG_CONFIG_HOME}/alsaplayer/alsaplayer.conf"
-alias conf='function _(){ $EDITOR $HOME/.config/$1; }; _'
 alias mv='mv --no-clobber'
 alias cp='cp --no-clobber'
 alias :q="exit"
+
 alias conf='function _(){ $EDITOR ${XDG_CONFIG_HOME}/$1; }; _'
 alias sconf='function _(){ doas $EDITOR /etc/$1; }; _'
 alias reconf="source $XDG_CONFIG_HOME/$(basename $SHELL)/.*rc"
 alias uio="cd ${HOME}/.local/gits/uio.git/"
 alias br="broot"
 alias ip="ip -c"
+
 alias diff="diff --color"
 alias nvim="TERM=xterm-256color nvim"
+alias nowlmode="export QT_QPA_PLATFORM=xcb && unset WAYLAND_DISPLAY"
+alias tmate='tmate -f ~/.config/tmate/config '
+
+function s6-user-up() {
+	s6-rc -l ${XDG_RUNTIME_DIR}/s6/s6-rc -u change "$1"
+}
+function s6-user-down() {
+	s6-rc -l ${XDG_RUNTIME_DIR}/s6/s6-rc -d change "$1"
+}
+function s6-user-restart() {
+	s6-rc -l ${XDG_RUNTIME_DIR}/s6/s6-rc -d change "$1"
+	s6-rc -l ${XDG_RUNTIME_DIR}/s6/s6-rc -u change "$1"
+}
+
 function vimh() {
 	nvim -c "help ${1} | only | nnoremap q ZQ"
 };
+
+function sshx() {
+	export QT_QPA_PLATFORM=xcb
+	export TERM=xterm-256color
+	unset WAYLAND_DISPLAY
+	ssh -Y $1
+}
 
 function mntdrive() {
 	devices="$(lsblk -l -o NAME /dev/$1 | grep -E "$1.+")" && \

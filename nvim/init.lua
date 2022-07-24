@@ -1,45 +1,26 @@
--- some helper functions to hook into vim
-local set = require("functions/vim/set")
-local setopt = require("functions/vim/setopt")
-local let = require("functions/vim/vars").let
 
--- side numbers
-set("number")
-set("relativenumber")
+-- loading packer first since we need to .init() it before
+-- packer.use()'ing it elsewhere
+local plugins = require("plugins")
 
--- i like my indents to be tabs visually appearing as 4 width
-set("expandtab", false) -- whether to turn tabs into spaces
-set("shiftround", true) -- whether to turn spaces into tabs if tabstop length
-set("tabstop", 4) -- aka how many cols a tab in file counts as
-set("softtabstop", 4) -- aka how many cols a tab inserted counts as
-set("shiftwidth", 4) -- aka how many cols to change when indenting
+local theme = require("theme")
+local tabsandspaces = require("tabsandspaces")
+local bindings = require("bindings")
 
--- autocomplete options
-set("completeopt", "menuone,preview,noinsert,noselect")
+local the_lsp = require("lsp")
+local completion = require("completion")
+local objects = require("objects")
 
-set("ignorecase")
-set("smartcase")
 
-set("shortmess", "flnrxstWIc") -- removes clutter tbh
+-- plugins.sync()
 
-set("list", false)
-setopt("listchars", {
-	eol='⏎',
-	tab='▸—',
-	nbsp='⎵',
-	trail='·',
-	space='·'
-})
-vim.cmd([[
-hi Whitespace cterm=NONE ctermbg=NONE ctermfg=WHITE guibg=NONE guifg=#301000
-]])
 
-set("mapleader", " ", true)
-set("python3_host_prog", "/usr/bin/python3.10", true)
--- set("$VIRTUAL_ENV", "neovim", true)
+vim.api.nvim_set_option_value("updatetime", 300, {})
+vim.api.nvim_set_option_value("ignorecase", true, {})
+vim.api.nvim_set_option_value("smartcase", true, {})
 
-require("plugins")
-require("bindings")
-require("groups")
--- require("hisentence").load()
+vim.api.nvim_set_option_value("grepprg", 'grep -R -n $*', {})
+
+vim.cmd("packloadall")
+vim.cmd("helptags ALL")
 

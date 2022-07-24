@@ -1,14 +1,22 @@
 #!/bin/zsh
 # Read on every interactive session
 
-source /home/mazunki/.config/xdg_paths
-source /home/mazunki/.config/environment
+# source /home/mazunki/.config/xdg_paths
+# source /home/mazunki/.config/environment
+echo "Sourcing zshrc"
 
 source ${ZDOTDIR}/history.zsh
 source ${ZDOTDIR}/autocomplete.zsh
 source ${ZDOTDIR}/opts.zsh
 source ${ZDOTDIR}/bindings.zsh
 #source ${ZDOTDIR}/cdalias.zsh
+setopt auto_pushd
+
+if [ -e "${XDG_STATE_HOME:-$HOME/.local/state}/zsh/dirs" ]; then
+	dirs $(uniq "${XDG_STATE_HOME:-$HOME/.local/state}/zsh/dirs")
+fi 
+
+source ${ZDOTDIR}/.zshexit
 
 #export ZSH_PLUGIN_HOME=${XDG_DATA_HOME}/zsh/plugins
 #source ${ZSH_PLUGIN_HOME}/zsh-syntax-highlighting
@@ -17,6 +25,7 @@ source ${ZDOTDIR}/prompt.zsh  # depends on zsh-syntax-highlighting
 
 eval "$(dircolors -b ${XDG_CONFIG_HOME}/dircolors)"
 
+# source /home/mazunki/.config/wl-environment
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

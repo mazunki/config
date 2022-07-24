@@ -3,6 +3,7 @@
 call plug#begin(stdpath("data") . '/plugged')
 	Plug 'nvim-lua/completion-nvim'
 	Plug 'neovim/nvim-lspconfig'	" language server protocol
+	Plug 'preservim/vim-markdown'
 
 	Plug 'elzr/vim-json'		" json obv
 	Plug 'latex-lsp/texlab'		" latex lsp

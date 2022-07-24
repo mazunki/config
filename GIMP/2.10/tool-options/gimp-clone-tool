@@ -1,12 +1,12 @@
 # GIMP gimp-clone-tool options
 
-(brush "1. Pixel")
+(brush "Untitled")
 (dynamics "Dynamics Off")
 (pattern "Pine")
 (palette "Color History")
-(brush-size 1)
+(brush-size 11)
 (brush-spacing 0.20000000000000001)
-(brush-hardness 0.99700000000000022)
+(brush-hardness 0.5)
 (brush-force 1)
 (fade-length 88)
 

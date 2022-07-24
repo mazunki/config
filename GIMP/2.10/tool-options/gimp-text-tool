@@ -1,7 +1,7 @@
 # GIMP gimp-text-tool options
 
 (palette "Color History")
-(font "Sans-serif")
+(font "Noto Serif Malayalam Ultra-Light")
 (font-size 28)
 
 # end of gimp-text-tool options

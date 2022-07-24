@@ -1,5 +1,8 @@
 # GIMP gimp-foreground-select-tool options
 
+(feather yes)
+(stroke-width 53)
 (engine global)
+(iterations 10)
 
 # end of gimp-foreground-select-tool options

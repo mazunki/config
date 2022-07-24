@@ -1,6 +1,5 @@
 # GIMP gimp-by-color-select-tool options
 
-(feather yes)
 (feather-radius 6)
 (sample-merged yes)
 (draw-mask yes)

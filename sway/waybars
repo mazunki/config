@@ -1,5 +1,6 @@
 bar {
-    swaybar_command /home/mazunki/.local/gits/waybar.git/build/waybar
+    swaybar_command /usr/bin/waybar
+    # swaybar_command swaybar
     # position bottom
     # swaybar_command polybar example
 }

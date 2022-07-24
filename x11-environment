@@ -32,5 +32,5 @@ export WLR_DRM_DEVICES=/dev/dri/card0
 # BEGONE, clutter
 export XINITRC=${XDG_CONFIG_HOME:-$HOME/.config}/xinitrc
 export XSERVERRC=${XDG_CONFIG_HOME:-$HOME/.config}/xserverrc
-export DISPLAY=":1"
+export DISPLAY=":0"
 

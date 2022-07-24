@@ -1,1 +1,0 @@
-AnsiEsc.vba: call delete('/home/mazunki/.config/nvim/plugin/AnsiEscPlugin.vim')|call delete('/home/mazunki/.config/nvim/autoload/AnsiEsc.vim')|call delete('/home/mazunki/.config/nvim/plugin/cecutil.vim')|call delete('/home/mazunki/.config/nvim/doc/AnsiEsc.txt')

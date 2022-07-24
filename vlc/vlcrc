@@ -1,5 +1,5 @@
 ﻿###
-###  vlc 3.0.16
+###  vlc 3.0.17.4
 ###
 
 ###
@@ -242,6 +242,9 @@
 
 # Audio CD device (string)
 #cd-audio=/dev/sr0
+
+# Musicbrainz Server (string)
+#musicbrainz-server=musicbrainz.org
 
 [dvdnav] # DVDnav Input
 
@@ -671,7 +674,7 @@
 #alsa-audio-channels=6
 
 # Software gain (float)
-alsa-gain=0.008000
+alsa-gain=0.125000
 
 [audiobargraph_a] # Audio part of the BarGraph function
 
@@ -2149,7 +2152,7 @@ qt-privacy-ask=0
 #sout-avi-subject=
 
 # Encoder (string)
-#sout-avi-encoder=VLC Media Player - 3.0.16 Vetinari
+#sout-avi-encoder=VLC Media Player - 3.0.17.4 Vetinari
 
 # Keywords (string)
 #sout-avi-keywords=
@@ -3949,7 +3952,7 @@ qt-privacy-ask=0
 #loop=0
 
 # Repeat current item (boolean)
-repeat=1
+#repeat=0
 
 # Play and exit (boolean)
 #play-and-exit=0

@@ -14,10 +14,11 @@ function check_if_git_behind() {
 	RPROMPT="$GIT_BEHIND_STR"
 }
 function format_exit_code() {
-	if [[ "$?" == "0" ]]; then
+	_exit_code_last_cmd=$?
+	if [[ "${_exit_code_last_cmd}" == "0" ]]; then
 		exit_code_str=''
 	else
-		exit_code_str="[%F{196}$?%f] "
+		exit_code_str="[%F{196}${_exit_code_last_cmd}%f] "
 	fi
 }
 function format_hostname() {

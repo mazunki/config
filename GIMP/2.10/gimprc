@@ -6,11 +6,14 @@
 # Most values can be set within GIMP by changing some options in the
 # Preferences dialog.
 
+(plug-in-path "/home/mazunki/.local/gits/gimp/GIMP-ML-Hub/plugins:${gimp_dir}/plug-ins:${gimp_plug_in_dir}/plug-ins:/home/mazunki/.local/gits/gimpenv3/lib/python3.9/site-packages/gimpml/plugins")
 (import-raw-plug-in "${gimp_plug_in_dir}/plug-ins/gimp-org-file-raw-placeholder/gimp-org-file-raw-placeholder")
-(monitor-xresolution 108)
-(monitor-yresolution 108)
+(monitor-xresolution 157)
+(monitor-yresolution 161)
 (toolbox-groups no)
-(layer-new-name "lipstick")
+(icon-size huge)
+(layer-new-name "")
+(layer-add-mask-type selection)
 (fill-options
     (style solid)
     (antialias yes)

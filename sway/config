@@ -4,7 +4,7 @@
 #
 # Read `man 5 sway` for a complete reference.
 
-xwayland enable
+# xwayland enable
 ### Variables
 set $mod Mod4
 set $left h
@@ -12,47 +12,62 @@ set $down j
 set $up k
 set $right l
 set $term footclient
-set $menu wofi --gtk-dark --dmenu --allow-images --show run
+set $menu0 /usr/bin/wofi --gtk-dark --dmenu --allow-images --show run
+set $menu1 /usr/bin/wofi --gtk-dark --dmenu --allow-images --show drun
 set $basepath /home/mazunki/.config/sway
 
-default_border none
+# default_border normal
 
 bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec swaymsg exit
+# bindsym $mod+Shift+e exec swaymsg exit
 
 focus_follows_mouse no
 
-include $basepath/$(hostname)/outputs
+include $basepath/outputs
 include $basepath/workspaces
 include $basepath/floating
 
-font pango:Liberation Sans Regular 12
-set $gnome-schema org.gnome.desktop.interface
-exec_always {
-    gsettings set $gnome-schema font-name "Noto 12"
-    gsettings set $gnome-schema gtk-theme 'gtk-master'
-    #gsettings set $gnome-schema icon-theme 'gtk-master'
-}
+# font pango:Liberation Sans Regular 12
+# set $gnome-schema org.gnome.desktop.interface
+# exec_always {
+#     gsettings set $gnome-schema font-name "Noto 12"
+#     gsettings set $gnome-schema gtk-theme 'gtk-master'
+#     #gsettings set $gnome-schema icon-theme 'gtk-master'
+# }
 
 
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
-input * {
+input 3141:30354:SONiX_USB_Keyboard {
     xkb_layout "us"
     xkb_variant "altgr-intl"
-    xkb_options caps:escape
+    xkb_model "pc104"
+    xkb_options caps:escape,compose:sclk,terminate:ctrl_alt_bksp,nbsp:zwnj3zwj4
 }
 
 include $basepath/bindings
 
 include $basepath/waybars
 
-include $basepath/$(hostname)/special_containers
-include $basepath/$(hostname)/special_bindings
+# include $basepath/$(hostname)/special_containers
+# include $basepath/$(hostname)/special_bindings
 
-#include /etc/sway/config.d/*
+# include /etc/sway/config.d/*
 
 exec dbus-update-activation-environment XDG_CURRENT_DESKTOP=sway
 exec dbus-update-activation-environment --all
+
+
+## Default applications
+
+exec foot --server
+
+exec s6-rc -l /tmp/mazunki.run.d/s6/s6-rc -u change pipewire
+exec s6-rc -l /tmp/mazunki.run.d/s6/s6-rc -u change easyeffects
+# exec gentoo-pipewire-launcher
+# exec easyeffects --gapplication-service
+
+# exec waybar
+# exec mako
 

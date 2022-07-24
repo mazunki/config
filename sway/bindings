@@ -1,7 +1,9 @@
 # generic
 bindsym $mod+Return exec $term
 bindsym $mod+x kill
-bindsym $mod+r exec $menu
+bindsym $mod+r exec $menu0
+bindsym $mod+Shift+Return exec $menu1
+
 bindsym $mod+Shift+r reload
 bindsym $mod+Shift+delete exec swaymsg exit
 
@@ -44,5 +46,7 @@ bindsym $mod+p exec grim -g "$(wl-select-active)" - | wl-copy
 bindsym $mod+Shift+p exec grim -g "$(wl-select)" - | wl-copy
 
 bindsym $mod+u exec /home/mazunki/.local/gits/wofi.hg/build/wofi --gtk-dark -W 10 -H 1 --pre-display-cmd '/usr/local/bin/uu %%s' -S dmenu | uu
+
 bindsym $mod+Shift+t exec wofi --show dmenu | xargs alacritty -e
+
 bindsym $mod+0 exec footclient -e htop

@@ -3,5 +3,6 @@
 (pattern "Pine")
 (brush-size 51)
 (brush-hardness 0.5)
+(threshold 125.2)
 
 # end of gimp-bucket-fill-tool options
