@@ -11,3 +11,6 @@ bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 bindkey '\e[F' end-of-line
 
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line

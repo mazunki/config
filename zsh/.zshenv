@@ -1,10 +1,10 @@
 #!/bin/sh
 # Read on every new shell
-echo "Sourcing zshenv"
+# echo "Sourcing zshenv"
 export ZDOTDIR=${ZDOTDIR:-$XDG_CONFIG_HOME/zsh}
 
 # keeping all these as defaults, but xdg_paths below should override them
-export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME="$HOME/.local/src/user/config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
@@ -23,9 +23,11 @@ export XDG_TEMPLATES_DIR="$HOME/art/templates"
 export XDG_VIDEOS_DIR="$HOME/art/vids"
 
 # resourcing just in case
-source ${XDG_CONFIG_HOME}/xdg_paths
-source ${XDG_CONFIG_HOME}/xdg_environment
-alias nvim='unexport VIMINIT nvim '
+# source ${XDG_CONFIG_HOME}/xdg_environment
+# alias nvim='unexport VIMINIT nvim '
 
 source ${XDG_CONFIG_HOME}/aliases
 source ${XDG_CONFIG_HOME}/environment
+
+export LANG='en_US.UTF-8'
+

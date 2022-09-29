@@ -1,5 +1,4 @@
 #!/bin/zsh
-# printcolors is nice
 
 autoload -Uz add-zsh-hook vcs_info
 setopt PROMPT_SUBST
@@ -50,3 +49,4 @@ export NEWLINE=$'\n'
 rightarrow=$(echo -en '\u27f6')
 export PROMPT='$exit_code_str${vcs_info_msg_0_}%F{69}%~%f $hostname_str${NEWLINE}'
 zle_highlight=(default:bold,fg=127,bg=233)
+

@@ -1,3 +1,3 @@
 #!/bin/zsh
-echo "Sourcing zprofile"
+# echo "Sourcing zprofile"
 # Read at login

@@ -7,3 +7,8 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt EXTENDED_HISTORY
 setopt INC_APPEND_HISTORY
 
+# loads push/popd history through the xdg_state_home/zsh/dirs file
+if [ -e "${XDG_STATE_HOME:-$HOME/.local/state}/zsh/dirs" ]; then
+	dirs $(uniq "${XDG_STATE_HOME:-$HOME/.local/state}/zsh/dirs")
+fi 
+
