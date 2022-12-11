@@ -1,7 +1,7 @@
 
 window:
   padding:
-    x: 5
+    x: 10
     y: 5 
 
   dynamic_padding: false
@@ -47,8 +47,7 @@ font:
     x: 0
     y: 0
 
-  use_thin_strokes: true
-  opacity: 1.0
+  opacity: 0.5
 
 draw_bold_text_with_bright_colors: true
 
@@ -102,11 +101,10 @@ working_directory: None
 enable_experimental_conpty_backend: false
 
 alt_send_esc: true
-
 debug:
   render_timer: false
-  persistent_logging: false
-  log_level: Warn
+  persistent_logging: true
+  log_level: Trace
   print_events: false
   ref_test: false
 
@@ -116,8 +114,27 @@ mouse:
 
   hide_when_typing: false
 
-  hints:
-    modifiers: None
+hints:
+  enabled:
+    - regex: "(/[^ ]+)?build.log"
+      command: "gateway"
+      # action: Paste
+      mouse:
+        enabled: true
+        mods: Control
+      binding:
+        key: P
+        mods: Control|Shift
+
+    - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+      hyperlinks: true
+      command: xdg-open
+      mouse:
+        enabled: true
+        mods: Control
+      binding:
+        key: U
+        mods: Control|Shift
 
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }

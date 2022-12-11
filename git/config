@@ -1,6 +1,7 @@
 [user]
 	name = mazunki
 	email = rolferen@gmail.com
+	signingkey = 4BA695D60FC614BF
 [pull]
 	rebase = false
 [core]
@@ -37,3 +38,5 @@
 	httpd = webrick
 	port = 4321
 	browser = firefox
+[commit]
+	gpgsign = true

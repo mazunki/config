@@ -1,21 +1,21 @@
 
 -- loading packer first since we need to .init() it before
 -- packer.use()'ing it elsewhere
-local plugins = require("plugins")
+Plugins = require("plugins")
 
-local theme = require("theme")
-local tabsandspaces = require("tabsandspaces")
-local bindings = require("bindings")
+Theme = require("theme")
+Tabsandspaces = require("tabsandspaces")
 
-local the_lsp = require("lsp")
-local completion = require("completion")
-local objects = require("objects")
+Bindings = require("bindings")
+The_lsp = require("lsp")
+Completion = require("completion")
 
+Objects = require("objects")
 
 -- plugins.sync()
 
 
-vim.api.nvim_set_option_value("updatetime", 300, {})
+vim.api.nvim_set_option_value("updatetime", 1000, {})
 vim.api.nvim_set_option_value("ignorecase", true, {})
 vim.api.nvim_set_option_value("smartcase", true, {})
 

@@ -69,13 +69,19 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ale = {
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/mazunki/.local/share/nvim/site/pack/packer/opt/ale",
+    url = "https://github.com/w0rp/ale"
+  },
   ["cmp-nvim-lsp"] = {
     loaded = true,
     path = "/home/mazunki/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
   ["lsp_lines.nvim"] = {
-    config = { "\27LJ\2\n…\1\0\0\3\0\a\0\f6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\0016\0\3\0009\0\4\0009\0\5\0005\2\6\0B\0\2\1K\0\1\0\1\0\2\18virtual_lines\2\17virtual_text\1\vconfig\15diagnostic\bvim\nsetup\14lsp_lines\frequire\0" },
     loaded = true,
     path = "/home/mazunki/.local/share/nvim/site/pack/packer/start/lsp_lines.nvim",
     url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
@@ -105,11 +111,6 @@ _G.packer_plugins = {
     path = "/home/mazunki/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
-  ["plenary.nvim"] = {
-    loaded = true,
-    path = "/home/mazunki/.local/share/nvim/site/pack/packer/start/plenary.nvim",
-    url = "https://github.com/nvim-lua/plenary.nvim"
-  },
   pyright = {
     loaded = true,
     path = "/home/mazunki/.local/share/nvim/site/pack/packer/start/pyright",
@@ -129,11 +130,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/mazunki/.local/share/nvim/site/pack/packer/start/texlab",
     url = "https://github.com/latex-lsp/texlab"
-  },
-  ["vgit.nvim"] = {
-    loaded = true,
-    path = "/home/mazunki/.local/share/nvim/site/pack/packer/start/vgit.nvim",
-    url = "https://github.com/tanvirtin/vgit.nvim"
   },
   ["vim-json"] = {
     loaded = true,
@@ -158,10 +154,15 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: lsp_lines.nvim
-time([[Config for lsp_lines.nvim]], true)
-try_loadstring("\27LJ\2\n…\1\0\0\3\0\a\0\f6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\0016\0\3\0009\0\4\0009\0\5\0005\2\6\0B\0\2\1K\0\1\0\1\0\2\18virtual_lines\2\17virtual_text\1\vconfig\15diagnostic\bvim\nsetup\14lsp_lines\frequire\0", "config", "lsp_lines.nvim")
-time([[Config for lsp_lines.nvim]], false)
+vim.cmd [[augroup packer_load_aucmds]]
+vim.cmd [[au!]]
+  -- Filetype lazy-loads
+time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType bash ++once lua require("packer.load")({'ale'}, { ft = "bash" }, _G.packer_plugins)]]
+vim.cmd [[au FileType python ++once lua require("packer.load")({'ale'}, { ft = "python" }, _G.packer_plugins)]]
+vim.cmd [[au FileType sh ++once lua require("packer.load")({'ale'}, { ft = "sh" }, _G.packer_plugins)]]
+time([[Defining lazy-load filetype autocommands]], false)
+vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
 end)

@@ -1,19 +1,15 @@
 [{
 	"layer": "bottom",
 	"position": "top",
-	"height": 50,
+	"height": 55,
 	"spacing": 4,
 	"margin-top": 2,
 	"margin-bottom": 2,
-	"output": ["HDMI-A-1", "HDMI-A-2"],
+	"output": ["HDMI-A-2"],
 
 	"modules-center": ["custom/windowinfo"],
 	"modules-left": ["cpu", "memory", "network#eth", "network#wlp", "temperature"],
 
-	"custom/windowinfo": {
-		//"exec": "~/.local/bin/wl-info-current",
-		"interval": 1
-	},
 	"cpu": {
 		"format": "{usage}% ",
 		"tooltip": false,
@@ -48,42 +44,33 @@
 		"format-icons": [""]
 	}
 },
+
 {
 	"layer": "top",
 	"position": "bottom",
-	"height": 50,
+	"height": 55,
 	"spacing": 4,
 	"margin-top": 5,
 	"margin-bottom": 10,
+	"output": ["DP-1"],
 
 	"modules-left": ["custom/launcher", "custom/terminal", "sway/workspaces", "custom/spawnworkspace"],
-	//"modules-center": ["custom/media"],
-	"modules-right": ["custom/updater", "pulseaudio", "sway/language", "tray", "clock", "custom/power"],
+	"modules-right": ["custom/updater", "pulseaudio", "sway/language", "tray", "clock", "custom/updater", "custom/power"],
 
-	// "sway/workspaces": {
-		// "disable-scroll": false,
-		// "all-outputs": false,
-		// "format": "({value}): {icon}",
-		// "persistent_workspaces": {
-		//}
-	// },
+	"sway/workspaces": {
+		"disable-scroll": false,
+		"all-outputs": false,
+		"format": "{name} ({index})",
+		"persistent_workspaces": {
+		}
+	},
 	"custom/spawnworkspace": {
 		"format": "+",
-		"on-click": "swaymsg -t get_workspaces -r | jq '[.[].num] | max + 1' | xargs swaymsg workspace number"
+		"on-click": "swaymsg -t get_workspaces -r | jq '.[].num' | ~/.local/bin/first_uniq | xargs swaymsg workspace number"
 	},
 	"custom/terminal": {
 		"format": "T",
-		"on-click": "foot",
-	},
-	"sway/mode": {
-		"format": "<span style=\"italic\">{}</span>"
-	},
-	"idle_inhibitor": {
-		"format": "{icon}",
-		"format-icons": {
-			"activated": "",
-			"deactivated": ""
-		}
+		"on-click": "kitty",
 	},
 	"tray": {
 		"icon-size": 30,
@@ -118,7 +105,7 @@
 			"default": ["", "", ""]
 		},
 		"on-click": "pavucontrol",
-		"on-click-right": "/usr/bin/helvum"
+		"on-click-right": "killall helvum; /usr/bin/helvum"
 	},
 	"custom/media": {
 		"format": "{icon} {}",
@@ -149,4 +136,37 @@
 		"interval": 3600,
 		"on-click": ""
 	}
+},
+
+{
+	"layer": "top",
+	"position": "bottom",
+	"height": 55,
+	"spacing": 4,
+	"margin-top": 5,
+	"margin-bottom": 10,
+	"output": ["HDMI-A-1", "HDMI-A-2", "DP-2"],
+
+	"modules-left": ["custom/launcher", "custom/terminal", "sway/workspaces", "custom/spawnworkspace"],
+
+	"sway/workspaces": {
+		"disable-scroll": false,
+		"all-outputs": false,
+		"format": "{name} ({index})",
+		"persistent_workspaces": {
+		}
+	},
+	"custom/spawnworkspace": {
+		"format": "+",
+		"on-click": "swaymsg -t get_workspaces -r | jq '.[].num' | ~/.local/bin/first_uniq | xargs swaymsg workspace number"
+	},
+	"custom/terminal": {
+		"format": "T",
+		"on-click": "kitty",
+	},
+	"custom/launcher":{
+		"format": "🐧",
+		"on-click": "wofi --gtk-dark --dmenu --alow-images --show drun",
+		"on-click-right": "killall wofi"
+	},
 }]

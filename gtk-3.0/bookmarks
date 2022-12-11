@@ -1,3 +1,7 @@
+file:///home/mazunki/art
+file:///home/mazunki/.local/src/proj
+file:///var/log/portage
+file:///home/mazunki/.local/src/user/uio/LING1111
 file:///home/mazunki/.local/share/Steam/steamapps/common
 file:///home/mazunki/.local/share
 file:///home/mazunki/dev
@@ -11,4 +15,5 @@ file:///home/mazunki
 file:///home/mazunki/dl
 file:///home/mazunki/.config
 file:///home/mazunki/.local/gits
-file:///home/mazunki/.local/gits/uio.git
+file:///home/mazunki/.local/src/user/uio
+file:///home/mazunki/.local/src/user/uio/LING1111/ass1

@@ -668,7 +668,7 @@
 [alsa] # ALSA audio output
 
 # Audio output device (string)
-#alsa-audio-device=default
+alsa-audio-device=pipewire
 
 # Audio output channels (integer)
 #alsa-audio-channels=6
@@ -3517,7 +3517,7 @@ qt-privacy-ask=0
 #audio-time-stretch=1
 
 # Audio output module (string)
-#aout=
+aout=alsa
 
 # Media role (string)
 #role=video
@@ -3952,7 +3952,7 @@ qt-privacy-ask=0
 #loop=0
 
 # Repeat current item (boolean)
-#repeat=0
+repeat=1
 
 # Play and exit (boolean)
 #play-and-exit=0

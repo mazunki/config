@@ -14,6 +14,9 @@
 (icon-size huge)
 (layer-new-name "")
 (layer-add-mask-type selection)
+(selection-shrink-radius 20)
+(selection-border-radius 2)
+(selection-border-style hard)
 (fill-options
     (style solid)
     (antialias yes)

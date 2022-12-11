@@ -1,5 +1,6 @@
 # GIMP gimp-vector-tool options
 
+(foreground (color-rgb 0.59999999999999998 0.59999999999999998 0.85490196078431369))
 (brush "Untitled")
 (dynamics "Dynamics Off")
 (pattern "Pine")

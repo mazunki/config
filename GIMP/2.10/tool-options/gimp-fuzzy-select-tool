@@ -2,7 +2,7 @@
 
 (antialias no)
 (feather-radius 62.799999999999997)
-(threshold 55.600000000000001)
+(threshold 0.90000000000000002)
 (draw-mask yes)
 
 # end of gimp-fuzzy-select-tool options

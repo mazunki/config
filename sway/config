@@ -1,19 +1,15 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
 # Read `man 5 sway` for a complete reference.
 
-# xwayland enable
+xwayland force
 ### Variables
 set $mod Mod4
 set $left h
 set $down j
 set $up k
 set $right l
-set $term footclient
-set $menu0 /usr/bin/wofi --gtk-dark --dmenu --allow-images --show run
-set $menu1 /usr/bin/wofi --gtk-dark --dmenu --allow-images --show drun
+set $term kitty
+set $menu0 /usr/bin/wofi --show run
+set $menu1 /usr/bin/wofi --show drun
 set $basepath /home/mazunki/.config/sway
 
 # default_border normal
@@ -44,6 +40,7 @@ input 3141:30354:SONiX_USB_Keyboard {
     xkb_variant "altgr-intl"
     xkb_model "pc104"
     xkb_options caps:escape,compose:sclk,terminate:ctrl_alt_bksp,nbsp:zwnj3zwj4
+	xkb_numlock enabled
 }
 
 include $basepath/bindings
@@ -63,8 +60,10 @@ exec dbus-update-activation-environment --all
 
 exec foot --server
 
-exec s6-rc -l /tmp/mazunki.run.d/s6/s6-rc -u change pipewire
-exec s6-rc -l /tmp/mazunki.run.d/s6/s6-rc -u change easyeffects
+exec s6-rc -l /run/user/1997/s6/s6-rc -u change pipewire
+exec s6-rc -l /run/user/1997/s6/s6-rc -u change easyeffects
+
+exec s6-rc -l /run/user/1997/s6/s6-rc -u change footd
 # exec gentoo-pipewire-launcher
 # exec easyeffects --gapplication-service
 

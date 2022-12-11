@@ -1,14 +1,15 @@
 # GIMP user context
 
-(tool "gimp-gegl-tool")
+(tool "gimp-rotate-tool")
 (paint-info "gimp-paintbrush")
+(foreground (color-rgb 0.59999999999999998 0.59999999999999998 0.85490196078431369))
 (brush "Untitled")
 (dynamics "Dynamics Off")
 (mybrush "100% Opaque")
 (pattern "Pine")
 (gradient "FG to BG (RGB)")
 (palette "Color History")
-(font "Noto Serif Malayalam Ultra-Light")
+(font "DejaVu Sans Mono Bold")
 (tool-preset "Core Pointer")
 
 # end of user context

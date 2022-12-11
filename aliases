@@ -5,19 +5,22 @@ alias tree="tree -L 3 -C"
 alias grep="grep --color=auto"
 alias mv='mv --no-clobber'
 alias cp='cp --no-clobber'
+alias df='df -h'
 alias :q="exit"
 
 alias conf='function _(){ $EDITOR ${XDG_CONFIG_HOME}/$1; }; _'
 alias sconf='function _(){ doas $EDITOR /etc/$1; }; _'
-alias reconf="source $XDG_CONFIG_HOME/$(basename $SHELL)/.*rc"
+#alias reconf="source $XDG_CONFIG_HOME/$(basename $SHELL)/.*rc"
 alias uio="cd ${HOME}/.local/gits/uio.git/"
-alias br="broot"
 alias ip="ip -c"
-
 alias diff="diff --color"
+
 alias nvim="TERM=xterm-256color nvim"
+alias svim="doas vim -u ~/.config/vim/init.vim"
 alias nowlmode="export QT_QPA_PLATFORM=xcb && unset WAYLAND_DISPLAY"
 alias tmate='tmate -f ~/.config/tmate/config '
+alias gcalcli='gcalcli --config-folder=~/.config/gcalcli '
+alias agenda="gcalcli --calendar=rolferen@gmail.com --calendar=Learnist agenda '$(date)' '$(date --date='next month')'"
 
 function s6-user-up() {
 	s6-rc -l ${XDG_RUNTIME_DIR}/s6/s6-rc -u change "$1"
@@ -46,3 +49,4 @@ function mntdrive() {
 	echo $devices | sed "s/$1//" | xargs -I{} doas mkdir -p /mnt/$1/{} && \
 	echo $devices | sed "s:\($1\)\(.*\):/dev/\1\2 /mnt/\1/\2:" | xargs -n2 doas mount;
 };
+

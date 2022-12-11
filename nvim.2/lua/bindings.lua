@@ -36,6 +36,11 @@ vim.keymap.set("x", "?", '"vy/\\V\\<v\\><CR>')
 vim.keymap.set("x", "*", '"vy/\\V\\<v<CR>')
 vim.keymap.set("x", "#", '"vy/\\Vv\\><CR>')
 
+-- urlit
+vim.cmd([[
+	:command -range=% Urlit :w !curl -s -F 'f:1=<-' ix.io
+]])
+
 
 local function delete_special()
 	if string.match(vim.api.nvim_get_current_line(), "^%s*$") then

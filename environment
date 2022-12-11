@@ -3,24 +3,25 @@
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # default applications
-export EDITOR=nvim
-export SHELL=$(which zsh)
-export TERMINAL=footclient
 #export PAGER="nvim -c 'setlocal buftype=nofile' -c '%s/.//g' -c 'set ft=man' -c 'norm gg0'"
 #export MANPAGER="nvim -c 'setlocal buftype=nofile' -c '%s/.//g' -c 'set ft=man' -c 'norm gg0'"
 #export PAGER=nvimpager
 #export MANPAGER=nvimpager
 #export GITPAGER=nvimpager
 
+# TZ="CEST-2"
+
 # PATHS
-PATH="/usr/libexec:$PATH"
-for LLVMPATH in /usr/lib/llvm/*/; do
-	export PATH="${LLVMPATH}/bin:$PATH"
-done
-PATH="${GOPATH:?}/bin:$PATH"
+# PATH="/usr/libexec:$PATH"
+# for LLVMPATH in /usr/lib/llvm/*/; do
+	# export PATH="${LLVMPATH}/bin:$PATH"
+# done
+# PATH="${GOPATH:?}/bin:$PATH"
 PATH="${HOME:?}/.local/bin:$PATH"
-PATH="${HOME:?}/.local/gits/bin:$PATH"
-PATH="${CARGO_HOME:?}/bin:$PATH"
+PATH="${HOME:?}/.local/src/user/scripts:$PATH"
+# PATH="${CARGO_HOME:?}/bin:$PATH"
+
+# makes paths unique
+# PATH="$(echo "${PATH}" | tr ':' '\n' | cat -n | sort -k2 -k1n | uniq -f1 | sort -nk1,1 | cut -f2- | sed -e :a -e '$!N; s/\n/:/; ta')"
 export PATH
 
-# export PATH=$(echo ${PATH} | tr ':' '\n' | cat -n | sort -k2 -k1n | uniq -f1 | sort -nk1,1 | cut -f2- | sed -e :a -e '$!N; s/\n/:/; ta')

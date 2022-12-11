@@ -19,3 +19,6 @@ eval "$(dircolors -b ${XDG_CONFIG_HOME}/dircolors)"
 
 # source /home/mazunki/.config/wl-environment
 
+
+alias luamake=/home/mazunki/.local/src/proj/lua-lsp/luamake/luamake
+
