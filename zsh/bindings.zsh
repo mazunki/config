@@ -1,5 +1,5 @@
 #!/bin/zsh
-echo "Sourcing bindings"
+# echo "Sourcing bindings"
 bindkey "^K" kill-whole-line
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word

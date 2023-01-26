@@ -1,5 +1,5 @@
 #!/bin/zsh
-echo "Sourcing .zshexit"
+# echo "Sourcing .zshexit"
 TRAPEXIT() {
 	mkdir -p ~/.local/state/zsh
 	dirs -lp > ~/.local/state/zsh/dirs

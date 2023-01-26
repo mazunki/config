@@ -1,5 +1,5 @@
 [Default Applications]
-x-scheme-handler/tg=userapp-Telegram Desktop-AH0RR1.desktop
+x-scheme-handler/tg=org.telegram.desktop.desktop
 image/png=imv.desktop
 image/jpeg=imv.desktop
 default=neovim.desktop
@@ -22,7 +22,7 @@ application/gzip=telegram-desktop.desktop
 text/x-log=vim.desktop
 
 [Added Associations]
-x-scheme-handler/tg=userapp-Telegram Desktop-QALF90.desktop;userapp-Telegram Desktop-16DXI1.desktop;userapp-Telegram Desktop-AH0RR1.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-QALF90.desktop;userapp-Telegram Desktop-16DXI1.desktop;userapp-Telegram Desktop-AH0RR1.desktop;org.telegram.desktop.desktop;
 application/pdf=zzz-gimp.desktop;org.pwmt.zathura-pdf-poppler.desktop;
 inode/directory=mpv.desktop;vlc.desktop;
 video/mp4=vlc.desktop;mpv.desktop;

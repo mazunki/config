@@ -6,38 +6,39 @@
 # Output HDMI-A-2 'Philips Consumer Electronics Company PHL 240V5A UK01730035079'
 
 # change to workspace
-bindsym $mod+F1  workspace number 1
-bindsym $mod+F2  workspace number 2
-bindsym $mod+F3  workspace number 3
+bindsym $mod+F1  workspace main
+bindsym $mod+F2  workspace chat
+bindsym $mod+F3  workspace melvor
 
-bindsym $mod+F4  workspace number 4
+bindsym $mod+F4  workspace incremental
 bindsym $mod+F5  workspace number 5
-bindsym $mod+F6  workspace number 6
+bindsym $mod+F6  workspace game
 
 bindsym $mod+F7  workspace number 7
-bindsym $mod+F8  workspace number 8
-bindsym $mod+F9  workspace number 9
+bindsym $mod+F8  workspace discord
+bindsym $mod+F9  workspace obs
 
 bindsym $mod+F10 workspace number 10
 bindsym $mod+F11 workspace number 11
-bindsym $mod+F12 workspace number 12
+bindsym $mod+F12 workspace music
 
 # move window to workspace
-bindsym $mod+Shift+F1  move container to workspace number 1
-bindsym $mod+Shift+F2  move container to workspace number 2
-bindsym $mod+Shift+F3  move container to workspace number 3
+bindsym $mod+Shift+F1  move container to workspace main
+bindsym $mod+Shift+F2  move container to workspace chat
+bindsym $mod+Shift+F3  move container to workspace melvor
 
-bindsym $mod+Shift+F4  move container to workspace number 4
+bindsym $mod+Shift+F4  move container to workspace incremental
 bindsym $mod+Shift+F5  move container to workspace number 5
-bindsym $mod+Shift+F6  move container to workspace number 6
+bindsym $mod+Shift+F6  move container to workspace game
 
 bindsym $mod+Shift+F7  move container to workspace number 7
-bindsym $mod+Shift+F8  move container to workspace number 8
-bindsym $mod+Shift+F9  move container to workspace number 9
+bindsym $mod+Shift+F8  move container to workspace discord
+bindsym $mod+Shift+F9  move container to workspace obs
 
 bindsym $mod+Shift+F10 move container to workspace number 10
 bindsym $mod+Shift+F11 move container to workspace number 11
-bindsym $mod+Shift+F12 move container to workspace number 12
+bindsym $mod+Shift+F12 move container to workspace music
 
 workspace number 1
-workspace 1
+workspace main
+

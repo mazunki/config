@@ -1,6 +1,8 @@
 #!/bin/sh
 
 export _JAVA_AWT_WM_NONREPARENTING=1
+export QT_STYLE_OVERRIDE=adwaita-dark
+export GTK_THEME=adwaita:dark
 
 # default applications
 #export PAGER="nvim -c 'setlocal buftype=nofile' -c '%s/.//g' -c 'set ft=man' -c 'norm gg0'"

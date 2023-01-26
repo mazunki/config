@@ -1,14 +1,12 @@
 # GIMP gimp-airbrush-tool options
 
-(foreground (color-rgb 0.59999999999999998 0.59999999999999998 0.85490196078431369))
-(brush "Untitled")
+(foreground (color-rgb 0.82798815838164552 0.2351054644134698 0.36712283613905777))
+(brush "2. Hardness 100")
 (dynamics "Dynamics Off")
 (gradient "FG to BG (RGB)")
 (palette "Color History")
-(brush-size 3)
-(brush-spacing 0.20000000000000001)
-(brush-hardness 0.5)
-(brush-force 1)
+(brush-size 51)
+(brush-force 0.37)
 (fade-length 88)
 
 # end of gimp-airbrush-tool options

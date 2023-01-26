@@ -10,10 +10,10 @@
     <tag>round</tag>
   </resource>
 
-  <resource identifier="gimp-brush-clipboard-image" checksum="cd2ab37a1071a74fdb35f70c2e321a7d">
+  <resource identifier="gimp-brush-clipboard-image" checksum="98b5fb4d93f3700cef42c10f7848a33b">
   </resource>
 
-  <resource identifier="gimp-brush-clipboard-mask" checksum="1d8395f8d166c6bd85ebf4cdb65f2dd6">
+  <resource identifier="gimp-brush-clipboard-mask" checksum="6c680fc2098adc94541974952ae7cd3b">
   </resource>
 
   <resource identifier="${gimp_dir}/brushes/Untitled.vbr" checksum="fcae96b6d3ddbadd5fa1fec1b3902eee">
@@ -832,7 +832,7 @@
   <resource identifier="${mypaint_brushes_dir}/ramon/wet_round.myb" checksum="038abfe33947692f773e0244d2ac7fc1">
   </resource>
 
-  <resource identifier="gimp-pattern-clipboard-image" checksum="b952d489d75f1e148e116f7cf73f66ba">
+  <resource identifier="gimp-pattern-clipboard-image" checksum="2b7a70fa59f8173635bcbe956bad56c6">
   </resource>
 
   <resource identifier="${gimp_data_dir}/patterns/Legacy/3dgreen.pat" checksum="00052731f14a5bc614daece969b368bc">
@@ -1237,7 +1237,7 @@
   <resource identifier="${gimp_data_dir}/gradients/Yellow_Orange.ggr" checksum="428584726006e23e260baa2a7d79f295">
   </resource>
 
-  <resource identifier="gimp-palette-color-history" checksum="e401b4dd7356e00b0c06cbedda9cff7d">
+  <resource identifier="gimp-palette-color-history" checksum="466afd43b10d0c4bdd4fcfa533b0808e">
   </resource>
 
   <resource identifier="${gimp_data_dir}/palettes/Bears.gpl" checksum="e82e818c20ac12bdd21049924ea2d1e7">

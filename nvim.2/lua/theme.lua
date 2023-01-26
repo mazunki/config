@@ -24,7 +24,7 @@ vim.opt.listchars:append({
 -- set up my theme
 vim.api.nvim_set_hl(0, "Normal", {
 	fg = nil,
-	bg = '#111111',
+	bg = nil,
 })
 
 vim.api.nvim_set_hl(0, "whitespace", {

@@ -10,6 +10,7 @@
 -- t = terminal
 
 -- building
+vim.g.mapleader = " "
 vim.keymap.set("n", "<Leader>b", "make")
 
 -- reload nvim config
@@ -21,6 +22,8 @@ vim.keymap.set("n", "<F5>", reload_config)
 
 -- toggle whitespace characters
 vim.keymap.set("n", "<F4>", ":set list!<cr>")
+
+vim.keymap.set("", "<Leader>y", "\"+y")
 
 -- easy buffers
 vim.keymap.set("n", "<tab>", require("bufferlist").create_buffer)

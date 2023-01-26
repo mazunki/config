@@ -1,4 +1,9 @@
 
+vim.cmd([[
+		so /etc/vim/vimrc
+		so /etc/vim/sysinit.vim
+]])
+
 -- loading packer first since we need to .init() it before
 -- packer.use()'ing it elsewhere
 Plugins = require("plugins")
@@ -23,4 +28,5 @@ vim.api.nvim_set_option_value("grepprg", 'grep -R -n $*', {})
 
 vim.cmd("packloadall")
 vim.cmd("helptags ALL")
+
 

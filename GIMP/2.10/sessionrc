@@ -11,8 +11,8 @@
     (size 640 480))
 (session-info "toplevel"
     (factory-entry "gimp-single-image-window")
-    (position 1480 25)
-    (size 983 2062)
+    (position 15 36)
+    (size 3810 2051)
     (monitor 1)
     (open-on-exit)
     (aux-info
@@ -22,11 +22,11 @@
     (gimp-toolbox
         (side left)
         (book
-            (current-page 1)
+            (current-page 0)
             (dockable "gimp-color-editor"
                 (tab-style automatic)
                 (aux-info
-                    (current-page "GimpColorSelect")))
+                    (current-page "GimpColorScales")))
             (dockable "gimp-document-list"
                 (tab-style automatic)
                 (aux-info
@@ -53,18 +53,18 @@
                 (aux-info
                     (show-button-bar "true"))))
         (book
-            (position 496)
+            (position 592)
             (current-page 2)
+            (dockable "gimp-tool-options"
+                (tab-style preview-name)
+                (aux-info
+                    (show-button-bar "true")))
             (dockable "gimp-undo-history"
                 (tab-style automatic)
                 (aux-info
                     (show-button-bar "true")))
             (dockable "gimp-brush-grid"
                 (tab-style automatic)
-                (aux-info
-                    (show-button-bar "true")))
-            (dockable "gimp-tool-options"
-                (tab-style preview-name)
                 (aux-info
                     (show-button-bar "true"))))))
 (session-info "toplevel"
@@ -73,21 +73,20 @@
     (monitor 1))
 (session-info "toplevel"
     (factory-entry "gimp-file-open-dialog")
-    (position 1200 421)
-    (size 1439 1246)
-    (monitor 1))
+    (position 560 68)
+    (size 1439 1246))
 (session-info "toplevel"
     (factory-entry "gimp-image-new-dialog")
-    (position 1729 905)
+    (position 1729 912)
     (monitor 1))
 (session-info "toplevel"
     (factory-entry "gimp-file-save-dialog")
-    (position 1200 421)
+    (position 1200 428)
     (size 1439 1246)
     (monitor 1))
 (session-info "toplevel"
     (factory-entry "gimp-file-export-dialog")
-    (position 1200 421)
+    (position 1200 428)
     (size 1439 1246)
     (monitor 1))
 (session-info "toplevel"
