@@ -1,0 +1,6 @@
+gtk_dark=true
+matching=contains
+term=kitty
+insensitive=true
+drun-display_generic=true
+allow_images=true

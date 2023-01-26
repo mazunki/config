@@ -1,0 +1,27 @@
+# monitor configuration for slomange
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+
+# Output DP-1 'Lenovo Group Limited LEN L27q-30 U162N8A4'
+# Output DP-2 'BenQ Corporation BenQ EL2870U 14K00632SL0' (focused)
+# Output HDMI-A-1 'Samsung Electric Company S24F350 H4ZKA04871'
+# Output HDMI-A-2 'Philips Consumer Electronics Company PHL 240V5A UK01730035079'
+
+# output dp-1 resolution 2560x1440 position 5760,0
+# output dp-2 resolution 3840x2160 position 1920,0
+# output hdmi-a-1 resolution 1920x1080 position 8320,360
+# output hdmi-a-2 resolution 1920x1080 position 0,1080
+#
+
+# output HDMI-A-1 resolution 1920x1080 position 0,500
+output DP-2 resolution 2560x1440 position 0,0
+output DP-1 resolution 3840x2160 position 2560,0
+output HDMI-A-2 resolution 1920x1080 position 6400,0
+# output HDMI-A-2 transform 90
+
+output * background /home/mazunki/art/imgs/wallpaper stretch
+
+
+workspace main output DP-1
+workspace main
+
