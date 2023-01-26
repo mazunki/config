@@ -1,0 +1,118 @@
+{
+	"sway/workspaces": {
+		"disable-scroll": false,
+		"all-outputs": false,
+		"format": "{icon}{value}",
+		"format-icons": {
+			"main": "¹",
+			"chat": "²",
+			"melvor": "³",
+			"incremental": "⁴",
+			"learnist": "⁵",
+			"game": "⁶",
+			"config": "⁷",
+			"discord": "⁸",
+			"obs": "⁹",
+			"sidegame": "¹⁰",
+			"audio": "¹¹",
+			"music": "¹²",
+			"13": "¹²",
+			"14": "¹⁴",
+			"15": "¹⁵",
+			"16": "¹⁶",
+			"17": "¹⁷",
+			"18": "¹⁸",
+			"19": "¹⁹",
+			"20": "²⁰",
+			"21": "²¹",
+			"22": "²²",
+			"23": "²³",
+			"24": "²⁴",
+			"default": "",
+			"persistent": "*"
+		},
+		"persistent_workspaces": {
+			"main": ["DP-1"],
+			"game": ["DP-1"],
+			"config": ["DP-1"],
+			"audio": ["DP-1", "HDMI-A-2"],
+			"ebuilding": ["DP-1"],
+			"cinema": ["DP-1"],
+			"vidcast": ["DP-2"],
+			"chat": ["HDMI-A-2"],
+			"music": ["HDMI-A-2"],
+			"learnist": ["DP-1"]
+		}
+	},
+	"sway/window": {
+		"all-outputs": true
+	},
+	"tray": {
+		"icon-size": 30,
+		"spacing": 10
+	},
+
+	"clock": {
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+		"format": "{:%F %T}",
+		"format-alt": "{:%F %T}",
+		"interval": 1
+	},
+
+	"wireplumber": {
+		"format": "{node_name} {volume}%",
+		"on-click": "pavucontrol",
+		"on-click-right": "qpwgraph"
+	},
+
+	"pulseaudio": {
+		"format": "{desc} {volume}% {icon}",
+		"format-bluetooth": "{volume}% {icon}",
+		"format-bluetooth-muted": "{icon} {format_source}",
+		"format-muted": "{format_source}",
+		"format-source": "",
+		"format-source-muted": "",
+		"format-icons": {
+			"headphone": "",
+			"hands-free": "",
+			"headset": "",
+			"phone": "",
+			"portable": "",
+			"car": "",
+			"default": ["", "", ""]
+		},
+		"on-click": "pavucontrol",
+		"on-click-right": "killall qp; helvum"
+	},
+
+	"cpu": {
+		"format": "{usage}% ",
+		"tooltip": false,
+		"interval": 1
+	},
+	"memory": {
+		"format": "\t{used:3.2f} GiB",
+		"interval": 5
+	},
+	"network#eth": {
+		"interface": "enp*",
+		"format-ethernet": "{ipaddr}  ",
+		"tooltip-format": "{ifname} via {gwaddr}",
+		"format-linked": "{ifname} (No IP)",
+		"format-disconnected": "Disconnected ⚠",
+		"format-alt": "{ifname}: {ipaddr}/{cidr}"
+	},
+	"network#wlp": {
+		"interface": "wlp*",
+		"format-wifi": "{essid} ({signalStrength}%) ",
+		"tooltip-format": "{ifname} via {gwaddr} ",
+		"format-linked": "{ifname} (No IP)",
+		"format-disconnected": "Disconnected ⚠",
+		"format-alt": "{ifname}: {ipaddr}/{cidr}"
+	},
+	"temperature": {
+		"critical-threshold": 80,
+		"format": "{temperatureC}°C {icon}",
+		"format-icons": [""]
+	}
+}
