@@ -1,0 +1,1405 @@
+%YAML 1.2
+# https://www.sublimetext.com/docs/3/syntax.html
+
+---
+
+# https://skarnet.org/software/execline/
+name: Execline
+file_extensions:
+  - elb
+first_line_match: ^#!.*\bexeclineb\b
+scope: source.shell.execline
+
+# Notes:
+
+# - The execlineb launcher appears to expand all quoted strings into unquoted strings, prior to any component of the program-line being executed.
+# - Variables can be named with almost any non-whitespace characters, including escaped whitespace.
+# - Hence, variable substitution can span both unquoted and quoted strings, continuing as long as it doesn't encounter whitespace.
+# - This means that we need to treat variable substitution as very closely linked to string types, in order to track whether a subsitution is still occurring multiple string types later.
+
+# Limitations:
+
+# - Successive closing braces after a variable substitution will continue to issue clear_scopes and progressively wipe away all the meta_scope's that are active on that argument. Fortunately this all goes away the moment unquoted whitespace is encountered, and shouldn't be something that intentionally happens in execline scripts, so is considered a fair trade-off.
+
+# Use [A-Za-z0-9_]+ for these internal variable names
+variables:
+  # Separator whitespace - Delimits command names, parameters, etc
+  # This is an element of a list
+  ws_sep: \s
+
+  # Block demarcation
+  _block_post: (?:[{{ws_sep}}]|$)
+  block_begin: \{{{_block_post}}
+  block_end: \}{{_block_post}}
+  block_punc: '[{}]{{_block_post}}'
+
+  # Unquoted string interrupts
+  # Lists of chars that force a temp break in the string for higher match checking
+  str_yield_glob: \?\*\[
+  str_yield_opt_long_sep: =
+  str_yield_all: '{{str_yield_glob}}{{str_yield_opt_long_sep}}'
+
+  # Integer number
+  int: '[+-]?[0-9]+'
+
+  # Real (floating-point) number
+  real: (?:{{int}}\.?[0-9]*|[+-]?[0-9]*\.?[0-9]+)
+
+  # Wrapper for chainloading commands ("builtins" are really individual binaries, and might be given as an absolute path to the binary)
+  chain_pre: (?:/.*/)?
+  chain_post: (?=[{{ws_sep}}])
+
+contexts:
+  main:
+    # Pick up comments before the command line starts
+    - include: comment
+
+    # The command call can't begin with a close brace. We match this so exclusively early because the base command line scope will end immediately if this is seen by its lookahead
+    - match: \}
+      push:
+        - meta_scope: invalid.illegal.function-call.execline
+        - match: (?=[{{ws_sep}}])
+          pop: true
+
+    # Base command line: goes up until a close brace
+    - match: (?=\S)
+      push:
+        - match: (?=\})
+          pop: true
+
+        - include: program-line
+
+  separator-whitespace:
+    # Fundamental structure used to separate elements of a command line
+    - match: '[{{ws_sep}}]+'
+      scope: meta.function-call.execline
+
+  parameter:
+    # We define the fundamental units passed to a command as "parameters", where those which start with a hyphen are "options" and those which don't are "arguments"
+    # Parameters are implemented as a sequence of non-operator characters separated by unescaped and unscoped whitespace
+
+    # Order important because the parameter-argument context doesn't exclude things that look like options
+    - include: parameter-option
+    - include: parameter-argument
+
+  parameter-common:
+    # The typical components allowed anywhere in a parameter
+
+    # Parameters are made of strings, either quoted or unquoted
+    # This includes variable substitutions, which can span different string types
+    - include: string
+
+  parameter-option:
+    # For optimum usefulness to the user, only option parameters receive the variable.parameter scope
+    - include: parameter-option-long
+    - include: parameter-option-short-group
+
+  parameter-option-long:
+    # Long option (parameter starting with two hyphens)
+    - match: (?=--)
+      push:
+        - meta_scope: meta.function-call.parameter.option.long.execline
+        - match: (?=[{{ws_sep}}])
+          pop: true
+
+        - match: --
+          scope:
+            punctuation.definition.option.long.begin.execline
+            meta.string.unquoted.execline
+          push:
+            - meta_scope: variable.parameter.execline
+            - match: (?=[{{ws_sep}}=])
+              pop: true
+
+            # string-unquoted breaks at {{str_yield_opt_long_sep}}
+            - include: parameter-common
+
+        # Consume the '=' and then use standard parameter patterns as well as numerics
+        - match: =
+          scope:
+            variable.parameter.execline
+            punctuation.definition.option.long.separator.execline
+            meta.string.unquoted.execline
+          push:
+            - match: (?=[{{ws_sep}}])
+              pop: true
+
+            - match: '{{real}}(?=$|[{{ws_sep}}])'
+              scope:
+                meta.string.unquoted.execline
+                constant.numeric.execline
+
+            - include: parameter-common
+
+  parameter-option-short-group:
+    # Short option (parameter starting with one hyphen)
+    # In this form, characters after the first are treated as grouped options
+    - match: -(?=[^{{ws_sep}}])
+      scope:
+        punctuation.definition.option.short.execline
+        meta.string.unquoted.execline
+      push:
+        - meta_scope:
+            meta.function-call.parameter.option.short.execline
+            variable.parameter.execline
+        - match: (?=[{{ws_sep}}])
+          pop: true
+        - include: parameter-common
+
+  parameter-option-short-single:
+    # Short option (parameter starting with one hyphen)
+    # In this form, characters after the first are not consumed so that they may be captured elsewhere as the argument
+    - match: -(?=[^{{ws_sep}}])
+      scope:
+        punctuation.definition.option.short.execline
+        meta.string.unquoted.execline
+      push:
+        - meta_scope:
+            meta.function-call.parameter.option.short.execline
+            variable.parameter.execline
+        - match: ((\").(\"))|(.)
+          captures:
+            1: string.quoted.execline
+            2: punctuation.definition.string.begin.execline
+            3: punctuation.definition.string.end.execline
+            4: meta.string.unquoted.execline
+          pop: true
+
+  parameter-argument:
+    # Arguments are a type of parameter never treated like options by the command they are passed to
+    # This context must be entirely standalone because it is used in scopes where parameters starting with hyphens are explicitly interpreted as arguments rather than as options
+
+    - match: (?=[^{{ws_sep}}])
+      # Begin if we do not precede whitespace or an operator
+      push:
+        # End if we precede whitespace or operators
+        - match: (?=[{{ws_sep}}])
+          pop: true
+
+        # Treat a sequence of integers (with possible sign and decimal separator) as a standalone constant. Don't do this in the string-unquoted-patterns context, so that we can ensure it is a string solely of numbers
+        - match: '{{real}}(?=$|[{{ws_sep}}])'
+          scope:
+            meta.function-call.parameter.argument.numeric.execline
+            meta.string.unquoted.execline
+            constant.numeric.execline
+
+        # Use standard parameter patterns for whatever doesn't match the above
+        - match: (?!\s)
+          push:
+            - meta_scope: meta.function-call.parameter.argument.execline
+            - match: (?=[{{ws_sep}}])
+              pop: true
+            - include: parameter-common
+
+  parameter-argument-variable:
+    # Argument that specifically will define a variable name
+
+    - match: (?=[^{{ws_sep}}])
+      push:
+        - meta_scope:
+            meta.function-call.parameter.argument.execline
+            variable.other.assignment.execline
+        - match: (?=[{{ws_sep}}])
+          pop: true
+        - include: parameter-common
+
+  parameter-argument-glob:
+    # Argument that specifically will define a glob pattern
+
+    - match: (?=[^{{ws_sep}}])
+      push:
+        - meta_scope:
+            meta.function-call.parameter.argument.glob.execline
+        - match: (?=[{{ws_sep}}])
+          pop: true
+
+        # See POSIX.1-2017 globbing spec at https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_13
+
+        - match: \?
+          scope:
+            keyword.operator.glob.question-mark.execline
+            meta.string.unquoted.execline
+
+        - match: \*
+          scope:
+            keyword.operator.glob.asterisk.execline
+            meta.string.unquoted.execline
+
+        - match: (\[)([!^])?(?=[^{{ws_sep}}!^]+\])
+          captures:
+            # Technically only '!' is POSIX, but '^' works under GNU at least
+            # The list must contain at least one expression to be valid
+            # Don't put meta.string.unquoted on capture 0 please
+            1: keyword.operator.glob.bracketexp.begin.execline meta.string.unquoted.execline
+            2: keyword.operator.glob.bracketexp.invert.execline meta.string.unquoted.execline
+          push:
+            - parameter-argument-glob-bracketexp-continue
+            - parameter-argument-glob-bracketexp-begin
+
+        # string-unquoted breaks at {{str_yield_glob}}
+        - include: string
+
+  parameter-argument-glob-bracketexp-begin:
+    # Let parameter end
+    - match: (?={{ws_sep}})
+      pop: true
+
+    # Let the expression be closed in the next context
+    - match: (?=\]{{ws_sep}})
+      pop: true
+
+    # Characters treated as literal if they appear first in the list
+    # Oh, speaking of... ;)
+    - match: '[]-]'
+      scope: meta.string.unquoted.execline
+      pop: true
+
+    - match: ''
+      pop: true
+
+  parameter-argument-glob-bracketexp-continue:
+    - meta_scope: meta.brackets.glob.bracketexp.execline
+
+    # Let parameter end
+    - match: (?={{ws_sep}})
+      pop: true
+
+    # Close the bracket expression
+    - match: \]
+      scope:
+        keyword.operator.glob.bracketexp.end.execline
+        meta.string.unquoted.execline
+      pop: true
+
+    - match: \[\.
+      push:
+        - meta_scope:
+            constant.language.glob.collating-symbol.execline
+            meta.string.unquoted.execline
+        - match: \.\]|(?={{ws_sep}})
+          pop: true
+
+    - match: \[=
+      push:
+        - meta_scope:
+            constant.language.glob.equivalence-class.execline
+            meta.string.unquoted.execline
+        - match: =\]|(?={{ws_sep}})
+          pop: true
+
+    - match: '\[:'
+      push:
+        - meta_scope:
+            constant.language.glob.character-class.execline
+            meta.string.unquoted.execline
+        - match: :\]|(?={{ws_sep}})
+          pop: true
+
+    # Hyphen treated as literal at end of list
+    - match: '-(?=\])'
+      scope: meta.string.unquoted.execline
+
+    # In the case of two hyphens we can be sure the middle one is the operator
+    # POSIX.1-2017 Vol 1. Section 9.3.5, Item 7: "To use a <hyphen-minus> as the starting range point, it shall either come first in the bracket expression or be specified as a collating symbol ..."
+    - match: (-)(-)
+      captures:
+        # Don't put meta.string.unquoted on capture 0 please
+        1: keyword.operator.glob.bracketexp.range.execline meta.string.unquoted.execline
+        2: meta.string.unquoted.execline
+
+    # Otherwise, testing if the range start and end points are valid is way out of scope, so just let it through
+    - match: '-'
+      scope:
+        keyword.operator.glob.bracketexp.range.execline
+        meta.string.unquoted.execline
+
+    # Put the appropriate meta_scope on all characters, and handle unquoted escapes
+    - match: (?=[^{{ws_sep}}])
+      push:
+        - meta_scope: meta.string.unquoted.execline
+        - match: (?=[{{ws_sep}}\[\]-])
+          pop: true
+        - include: string-unquoted-patterns
+
+  program-line:
+    # A program-line is a long argv which will be exec'd into. It might be in a block, or it might be the whole script
+
+    # Start on a non-whitespace character
+    - match: (?=\S)
+      push:
+        - match: (?={{block_end}})
+          pop: true
+        - include: separator-whitespace
+        - include: comment
+        - include: command-call-chainload
+        - include: Cache/execline/execline-user-chainload.sublime-syntax
+        - include: command-call-standard
+
+  command-call-chainload:
+    # The "builtin" execline commands that are capable of chainloading further commands.
+    # The following builtins do not chainload, and hence do not need custom implementations because they are marked up by command-call-standard: exit, dollarat, execlineb, homeof
+
+    # These categories are not exactly mirrored from the execline documentation, however the order of commands within each of these categories follows the formal list where possible
+    - include: command-call-chainload-state
+    - include: command-call-chainload-conditional
+    - include: command-call-chainload-loop
+    - include: command-call-chainload-redirection
+    - include: command-call-chainload-variable
+    - include: command-call-chainload-scripting
+
+  command-call-chainload-state:
+    # Process state control
+
+    - match: '{{chain_pre}}foreground{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.state.foreground.execline
+        meta.string.unquoted.execline
+      push:
+        # foreground { prog1... } prog2...
+        - block-run-prog
+
+    - match: '{{chain_pre}}background{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.state.background.execline
+        meta.string.unquoted.execline
+      push:
+        # background [ -d ] { prog1... } prog2...
+        - block-run-prog
+        - command-call-common-opt-arg-weak-list-&pop
+
+    - match: '{{chain_pre}}exec{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.exec.execline
+        meta.string.unquoted.execline
+      push:
+        # exec [ -c ] [ -l ] [ -a argv0 ] prog...
+        - match: (?=-a)
+          push: command-call-common-opt-arg-&pop
+        - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}execline-cd{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.execline-cd.execline
+        meta.string.unquoted.execline
+      push:
+        # execline-cd dir prog...
+        - command-call-common-arg-aside-&pop
+
+    - match: '{{chain_pre}}posix-cd{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.posix-cd.execline
+        meta.string.unquoted.execline
+      push:
+        # posix-cd [ -L | -P ] dir prog...
+        - command-call-common-arg-now-&pop
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}cd{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.cd.execline
+        meta.string.unquoted.execline
+      push:
+        # Match posix-cd because it is a superset of execline-cd
+        - command-call-common-arg-now-&pop
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}execline-umask{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.execline-umask.execline
+        meta.string.unquoted.execline
+      push:
+        # execline-umask mask prog...
+        - command-call-common-arg-aside-&pop
+
+    - match: '{{chain_pre}}posix-umask{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.posix-umask.execline
+        meta.string.unquoted.execline
+      push:
+        # posix-umask [ -S ] [ mask ] [ prog... ]
+        # Both mask and prog... are optional, but if only one appears then it is taken as mask
+        - command-call-common-arg-now-&pop
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}umask{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.umask.execline
+        meta.string.unquoted.execline
+      push:
+        # Match posix-umask because it is a superset of execline-umask
+        - command-call-common-arg-now-&pop
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}wait{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.wait.execline
+        meta.string.unquoted.execline
+      push:
+        # wait [ -I | -i ] [ -r | -t timeout ] { [ pids... ] } prog...
+        # wait [ -I | -i ] [ -r | -t timeout ] [ pids... ] # Then exit (POSIX)
+        -
+          # If we see a block, we have the form that chainloads
+          - match: (?={{block_begin}})
+            set: block-run-arg
+          # Else we have a list of PIDs (read arbitrary number of arguments) and no chainload
+          - match: ''
+            set: command-call-common-arg-list-&pop
+        -
+          - match: (?=-t)
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}trap{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.state.trap.execline
+        meta.string.unquoted.execline
+      push:
+        # trap [ -x ] [ -t millisecs ] { sigcodes and actions } prog...
+        - - include: block-trap
+        -
+          - match: (?=-t)
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+  command-call-chainload-conditional:
+    # Conditional execution
+
+    - match: '{{chain_pre}}if{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.conditional.if.execline
+        meta.string.unquoted.execline
+      push:
+        # if [ -X ] [ -n ] [ -t | -x exitcode ] { progif... } progthen...
+        - block-run-prog
+        - command-call-common-opt-arg-weak-list-&pop
+
+    - match: '{{chain_pre}}ifelse{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.conditional.ifelse.execline
+        meta.string.unquoted.execline
+      push:
+        # ifelse [ -X ] [ -n ] { progif... } { progthen... } progelse...
+        - block-run-prog
+        - block-run-prog
+        - command-call-common-opt-arg-weak-list-&pop
+
+    - match: '{{chain_pre}}ifte{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.conditional.ifte.execline
+        meta.string.unquoted.execline
+      push:
+        # ifte [ -X ] [ -n ] { progthen... } { progelse... } progif...
+        - block-run-prog
+        - block-run-prog
+        - command-call-common-opt-arg-weak-list-&pop
+
+    - match: '{{chain_pre}}ifthenelse{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.conditional.ifthenelse.execline
+        meta.string.unquoted.execline
+      push:
+        # ifthenelse [ -X ] [ -s ] { progif... } { progthen... } { progelse... } prog...
+        - block-run-prog
+        - block-run-prog
+        - block-run-prog
+        - command-call-common-opt-arg-weak-list-&pop
+
+    - match: '{{chain_pre}}tryexec{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.conditional.tryexec.execline
+        meta.string.unquoted.execline
+      push:
+        # tryexec [ -n ] [ -c ] [ -l ] [ -a argv0 ] { prog1... } prog2...
+        - block-run-prog
+        - command-call-common-opt-arg-weak-list-&pop
+
+  command-call-chainload-loop:
+    # Looped execution
+
+    - match: '{{chain_pre}}forx{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.loop.forx.execline
+        meta.string.unquoted.execline
+      push:
+        # forx [ -p ] [ -o okcodes | -x breakcodes ] variable { args... } loop...
+        - - include: block-run-arg
+        - - include: command-call-common-variable-&pop
+        -
+          - match: (?=-[ox])
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}forstdin{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.loop.forstdin.execline
+        meta.string.unquoted.execline
+      push:
+        # forstdin [ -p | -o okcodes | -x breakcodes ] [ -n ] [ -C | -c ] [ -0 | -d delim ] variable loop...
+        - - include: command-call-common-variable-&pop
+        -
+          - match: (?=-[oxd])
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}forbacktickx{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.loop.forbacktickx.execline
+        meta.string.unquoted.execline
+      push:
+        # forbacktickx [ -p | -o okcodes | -x breakcodes ] [ -n ] [ -C | -c ] [ -0 | -d delim ] variable { gen... } loop...
+        - - include: block-run-prog
+        - - include: command-call-common-variable-&pop
+        -
+          - match: (?=-[oxd])
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}loopwhilex{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.control.loop.loopwhilex.execline
+        meta.string.unquoted.execline
+      push:
+        # loopwhilex [ -n ] [ -o okcodes | -x breakcodes ] prog...
+        - match: '(?=-[ox])'
+          push: command-call-common-opt-arg-&pop
+        - include: command-call-common-opt-list-&pop
+
+  command-call-chainload-redirection:
+    # Redirection of file descriptors, and related FD controls
+
+    - match: '{{chain_pre}}fdclose{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.fdclose.execline
+        meta.string.unquoted.execline
+      push:
+        # fdclose fd prog...
+        - command-call-common-arg-aside-&pop
+
+    - match: '{{chain_pre}}fdblock{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.fdblock.execline
+        meta.string.unquoted.execline
+      push:
+        # fdblock [ -n ] fd prog...
+        - command-call-common-arg-now-&pop
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}fdmove{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.fdmove.execline
+        meta.string.unquoted.execline
+      push:
+        # fdmove [ -c ] fdto fdfrom prog...
+        - command-call-common-arg-aside-&pop
+        - command-call-common-arg-now-&pop
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}fdswap{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.fdswap.execline
+        meta.string.unquoted.execline
+      push:
+        # fdswap fd1 fd2 prog...
+        - command-call-common-arg-aside-&pop
+        - command-call-common-arg-aside-&pop
+
+    - match: '{{chain_pre}}fdreserve{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.fdreserve.execline
+        meta.string.unquoted.execline
+      push:
+        # fdreserve n prog...
+        - command-call-common-arg-aside-&pop
+
+    - match: '{{chain_pre}}redirfd{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.redirfd.execline
+        meta.string.unquoted.execline
+      push:
+        # redirfd [ -r | -w | -u | -a | -c | -x ] [ -n | -b ] fd file prog...
+        - command-call-common-arg-aside-&pop
+        - command-call-common-arg-now-&pop
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}pipeline{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.pipeline.execline
+        meta.string.unquoted.execline
+      push:
+        # pipeline [ -d ] [ -r | -w ] { prog1... } prog2...
+        - block-run-prog
+        - command-call-common-opt-arg-weak-list-&pop
+
+    - match: '{{chain_pre}}piperw{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.piperw.execline
+        meta.string.unquoted.execline
+      push:
+        # piperw fdr fdw prog...
+        - command-call-common-arg-aside-&pop
+        - command-call-common-arg-aside-&pop
+
+    - match: '{{chain_pre}}heredoc{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.redirection.heredoc.execline
+        meta.string.unquoted.execline
+      push:
+        # heredoc [ -d ] fd string prog...
+        - command-call-common-arg-aside-&pop
+        - command-call-common-arg-now-&pop
+        - command-call-common-opt-list-&pop
+
+  command-call-chainload-variable:
+    # Environment variables and variable substitutions
+    # Generally, treat environment variable assignment as being more fundamental and "keyword-worthy" than variable substitution...but it is a very arbitrary distinction
+
+    - match: '{{chain_pre}}emptyenv{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.variable.emptyenv.execline
+        meta.string.unquoted.execline
+      push:
+        # emptyenv [ -p | -c | -o | -P ] prog...
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}envfile{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.variable.envfile.execline
+        meta.string.unquoted.execline
+      push:
+        # envfile file prog...
+        - command-call-common-arg-aside-&pop
+
+    - match: '{{chain_pre}}export{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.variable.export.execline
+        meta.string.unquoted.execline
+      push:
+        # export var value prog...
+        - command-call-common-arg-aside-&pop
+        - command-call-common-variable-&pop
+
+    - match: '{{chain_pre}}unexport{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.variable.unexport.execline
+        meta.string.unquoted.execline
+      push:
+        # unexport var prog...
+        - command-call-common-variable-&pop
+
+    - match: '{{chain_pre}}getcwd{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.variable.getcwd.execline
+        meta.string.unquoted.execline
+      push:
+        # getcwd var prog...
+        - command-call-common-variable-&pop
+
+    - match: '{{chain_pre}}getpid{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.variable.getpid.execline
+        meta.string.unquoted.execline
+      push:
+        # getpid var prog...
+        - command-call-common-variable-&pop
+
+    - match: '{{chain_pre}}withstdinas{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.variable.withstdinas.execline
+        meta.string.unquoted.execline
+      push:
+        # withstdinas [ -i | -I | -D default ] [ -n ] variable prog...
+        - - include: command-call-common-variable-&pop
+        -
+          - match: (?=-D)
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}backtick{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        keyword.other.variable.backtick.execline
+        meta.string.unquoted.execline
+      push:
+        # backtick [ -i | -I | -D default ] [ -n ] variable { prog1... } prog2...
+        - - include: block-run-prog
+        - - include: command-call-common-variable-&pop
+        -
+          - match: (?=-D)
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}define{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.variable.define.execline
+        meta.string.unquoted.execline
+      push:
+        # define [ -s ] [ -C | -c ] [ -n ] [ -d delim ] variable value prog...
+        - - include: command-call-common-arg-aside-&pop
+        - - include: command-call-common-variable-&pop
+        -
+          - match: (?=-d)
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}importas{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.variable.importas.execline
+        meta.string.unquoted.execline
+      push:
+        # importas [ -i | -D default ] [ -u ] [ -s ] [ -C | -c ] [ -n ] [ -d delim ] variable envvar prog...
+        - - include: command-call-common-variable-&pop
+        - - include: command-call-common-variable-&pop
+        -
+          - match: (?=-[Dd])
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}elglob{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.variable.elglob.execline
+        meta.string.unquoted.execline
+      push:
+        # elglob [ -v ] [ -w ] [ -s ] [ -m ] [ -e ] [ -0 ] variable pattern prog...
+        - command-call-common-glob-&pop
+        - command-call-common-variable-&pop
+        - command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}elgetpositionals{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.variable.elgetpositionals.execline
+        meta.string.unquoted.execline
+      push:
+        # elgetpositionals [ -P sharp ] prog...
+        - match: (?=-P)
+          push: command-call-common-opt-arg-&pop
+        - include: command-call-common-opt-list-&pop # for end-of-options
+
+    - match: '{{chain_pre}}multidefine{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.variable.multidefine.execline
+        meta.string.unquoted.execline
+      push:
+        # multidefine [ -0 ] [ -r ] [ -C | -c ] [ -n ] [ -d delim ] value { variables... } prog...
+        - - include: block-multidefine
+        - - include: command-call-common-arg-aside-&pop
+        -
+          - match: (?=-d)
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}multisubstitute{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.variable.multisubstitute.execline
+        meta.string.unquoted.execline
+      push:
+        # multisubstitute { substitutions... } prog...
+        # Right now I'm not gonna bother making a custom block type that highlights non-substitution commands as invalid.illegal, because it doesn't matter that much
+        - block-run-prog
+
+  command-call-chainload-scripting:
+    # Scripting tools (options, positional parameters, blocks)
+
+    - match: '{{chain_pre}}runblock{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.scripting.runblock.execline
+        meta.string.unquoted.execline
+      push:
+        # runblock [ -P ] [ -n argshift ] [ -r ] n cmd...
+        - - include: command-call-common-arg-now-&pop
+        -
+          - match: (?=-n)
+            push: command-call-common-opt-arg-&pop
+          - include: command-call-common-opt-list-&pop
+
+    - match: '{{chain_pre}}elgetopt{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.scripting.elgetopt.execline
+        meta.string.unquoted.execline
+      push:
+        # elgetopt optstring prog...
+        - command-call-common-arg-aside-&pop
+
+    - match: '{{chain_pre}}shift{{chain_post}}'
+      scope:
+        meta.function-call.name.execline
+        support.function.scripting.shift.execline
+        meta.string.unquoted.execline
+      push:
+        # shift [ -n argn ] [ -b blockn ] prog...
+        - match: (?=-[nb])
+          push: command-call-common-opt-arg-&pop
+        - include: command-call-common-opt-list-&pop # for end-of-options
+
+  command-call-common-aside-&pop:
+    # Allow some "asides" (whitespace, comments), then pop
+    - include: separator-whitespace
+    - include: comment
+    - match: (?=.) # Allow multiline traversal
+      pop: true
+
+  command-call-common-end-of-options-&pop:
+    # End of options (parameter of just two hyphens)
+    - match: --(?=[{{ws_sep}}])
+      scope:
+        meta.function-call.parameter.option.end.execline
+        variable.parameter.execline
+        punctuation.definition.option.end.execline
+        meta.string.unquoted.execline
+      set: command-call-common-aside-&pop
+
+  command-call-common-arg-now-&pop:
+    # Pop after exactly one argument
+    - include: parameter-argument
+    - match: ''
+      pop: true
+
+  command-call-common-arg-aside-&pop:
+    # Pop after exactly one argument, allowing for asides first
+    - match: ''
+      set:
+        - command-call-common-arg-now-&pop
+        - command-call-common-aside-&pop
+
+  command-call-common-variable-&pop:
+    # Pop after exactly one argument defining a variable, allowing for asides first
+    - match: ''
+      set:
+        -
+          - include: parameter-argument-variable
+          - match: ''
+            pop: true
+        - command-call-common-aside-&pop
+
+  command-call-common-glob-&pop:
+    # Pop after exactly one argument defining a glob pattern, allowing for asides first
+    - match: ''
+      set:
+        -
+          - include: parameter-argument-glob
+          - match: ''
+            pop: true
+        - command-call-common-aside-&pop
+
+  command-call-common-opt-arg-&pop:
+    # A short option followed by an argument. Pop after one pair
+    - match: (?=-[^{{ws_sep}}])
+      push:
+        -
+          # If we see whitespace, allow comments before the arg
+          - match: (?={{ws_sep}})
+            set: command-call-common-arg-aside-&pop
+          # Else go directly to the argument
+          - match: ''
+            set: command-call-common-arg-now-&pop
+        -
+          # Exactly one option
+          - include: parameter-option-short-single
+          - match: ''
+            pop: true
+
+    - match: ''
+      pop: true
+
+  command-call-common-opt-list-&pop:
+    # A series of short options without arguments. Pop at an argument or after an end-of-options parameter
+    - include: command-call-common-end-of-options-&pop
+    - include: parameter-option-short-group
+    - include: command-call-common-aside-&pop
+
+  command-call-common-arg-list-&pop:
+    # A series of arguments. Pop at the end of a block
+    # NOTE: This context should almost never be needed for the implementation of a builtin, because it means such a builtin is behaving exactly as a standard command
+    - match: (?={{block_end}})
+      pop: true
+    - include: separator-whitespace
+    - include: comment
+    - include: block-plain
+    - include: parameter-argument
+
+  command-call-common-opt-arg-weak-list-&pop:
+    # A series of short options where each might be followed by an argument. Pop at an extra argument or block punctuation
+    - match: (?=-[^{{ws_sep}}])
+      push:
+        -
+          # End at block punctuation or after one argument
+          - match: (?={{block_punc}})
+            pop: true
+          - include: command-call-common-arg-now-&pop
+        -
+          # Eat one or more sequential short options
+          - include: parameter-option-short-group
+          - include: command-call-common-aside-&pop
+
+    - include: command-call-common-aside-&pop
+
+  command-call-standard:
+    # Check if the command is any other legal command, ie, a standard command
+
+    # A complete command comprising a name element and optional parameter/comment elements
+    - match: (?=\S)
+      set:
+        -
+          # Allowed elements (now forcibly using arguments, no more options)
+          # Pop only at end of a block
+          - include: command-call-common-arg-list-&pop
+        -
+          - match: (?={{block_end}})
+            pop: true
+
+          # Pop this context and enter the one which only recognises arguments
+          - include: command-call-common-end-of-options-&pop
+
+          # Allowed elements (including options)
+          - include: separator-whitespace
+          - include: comment
+          - include: block-plain
+          - include: parameter
+        -
+          # A name element
+          - match: (?=[{{ws_sep}}])
+            pop: true
+          - include: command-call-standard-name
+
+  command-call-standard-name:
+    # Treat the element as a fraction of a name made of arbitrary strings
+    - match: (?!\s)
+      push:
+        - meta_scope:
+            meta.function-call.name.execline
+            variable.function.execline
+        - match: (?=[{{ws_sep}}])
+          pop: true
+
+        - include: parameter-common
+
+  block-invalid:
+    # When we require a block, anything else showing up is a problem
+    # Just capture one whitespace-delimited word, then stop complaining
+    - match: \S+
+      scope: invalid.illegal.block.execline
+      pop: true
+
+  block-run-prog:
+    # A block that will somehow be evaluated ("run") and is expected to contain a properly formed program line
+
+    # Possibly preceded by whitespace and comments
+    - include: separator-whitespace
+    - include: comment
+
+    - match: \{(?=[{{ws_sep}}])
+      scope: punctuation.section.braces.begin.execline
+      set:
+        - meta_scope:
+            meta.function-call.block.execline
+            meta.braces.block.run.program.execline
+        - match: \}(?=[{{ws_sep}}]|$)
+          scope: punctuation.section.braces.end.execline
+          pop: true
+
+        # (Pedantic) Scope any whitespace before the command name
+        - include: separator-whitespace
+
+        # The inside of this block is indistinguishable from the base environment
+        - include: main
+
+    - include: block-invalid
+
+  block-run-arg:
+    # A block that will somehow be evaluated ("run") and is expected to contain arbitrary text read as arguments
+
+    # Possibly preceded by whitespace and comments
+    - include: separator-whitespace
+    - include: comment
+
+    - match: \{(?=[{{ws_sep}}])
+      scope: punctuation.section.braces.begin.execline
+      set:
+        - meta_scope:
+            meta.function-call.block.execline
+            meta.braces.block.run.arguments.execline
+        - match: \}(?=[{{ws_sep}}]|$)
+          scope: punctuation.section.braces.end.execline
+          pop: true
+
+        - match: ''
+          push: command-call-common-arg-list-&pop
+
+    - include: block-invalid
+
+  block-trap:
+    # The block used by the "trap" builtin
+
+    - match: \{(?=[{{ws_sep}}])
+      scope: punctuation.section.braces.begin.execline
+      set:
+        - meta_scope:
+            meta.function-call.block.execline
+            meta.braces.block.trap.execline
+        - match: \}(?=[{{ws_sep}}]|$)
+          scope: punctuation.section.braces.end.execline
+          pop: true
+
+        - include: separator-whitespace
+        - include: comment
+
+        - match: |-
+            (?x)
+            (?i) (?# Ignore case)
+            (
+              timeout
+              |
+              6[0-4]|[1-5]?[0-9] (?# 0 to 64, though 0 appears to have no function when used)
+              |
+              (?:sig)?(?:hup|int|quit|ill|trap|abrt|iot|bus|emt|fpe|kill|usr1|segv|usr2|pipe|alrm|term|stkflt|chld|cld|cont|stop|tstp|ttin|ttou|urg|xcpu|xfsz|vtalrm|prof|winch|io|poll|pwr|info|lost|sys|unused)
+            )\b
+            |
+            (
+              \S+
+            )
+          captures:
+            1: meta.function-call.parameter.argument.execline meta.string.unquoted.execline constant.language.sigcode.execline
+            2: invalid.illegal.constant.language.sigcode.execline
+          push:
+            - block-run-prog
+            - command-call-common-aside-&pop
+
+    - include: block-invalid
+
+  block-multidefine:
+    # The block used by the "multidefine" builtin
+
+    - match: \{(?=[{{ws_sep}}])
+      scope: punctuation.section.braces.begin.execline
+      set:
+        - meta_scope:
+            meta.function-call.block.execline
+            meta.braces.block.multidefine.execline
+        - match: \}(?=[{{ws_sep}}]|$)
+          scope: punctuation.section.braces.end.execline
+          pop: true
+
+        - include: separator-whitespace
+        - include: comment
+        - include: parameter-argument-variable
+
+    - include: block-invalid
+
+  block-plain:
+    # A block that will get expanded by execlineb, but occurs as part of incidental parameters to a command. Used to ensure brace balancing.
+    # The parameters may well look like options, but because execlineb will prepend them with an extra space they won't be seen as options by the command. Mark them up as plain arguments.
+    # This is also important for builtins that use block-run-arg, because certainly nothing that looks like an option in those is ever going to be interpreted as one by the relevant builtin
+    - match: \{(?=[{{ws_sep}}])
+      scope:
+        meta.function-call.parameter.argument.execline
+        meta.string.unquoted.execline
+      push:
+        - meta_scope: meta.braces.block.plain.execline
+        - match: \}(?=[{{ws_sep}}])
+          scope:
+            meta.function-call.parameter.argument.execline
+            meta.string.unquoted.execline
+          pop: true
+
+        # All the normal command call behaviour in here
+        - include: separator-whitespace
+        - include: comment
+        - include: block-plain
+        - include: parameter-argument
+
+  comment:
+    # A full or inline comment
+    - match: \#
+      scope: punctuation.definition.comment.execline
+      push:
+        - meta_scope: comment.line.execline
+        - match: \n
+          pop: true
+
+  string:
+    - match: (?=\")
+      push: string-quoted
+
+    - include: string-unquoted
+
+  string-quoted:
+    - match: \"
+      scope:
+        string.quoted.execline
+        punctuation.definition.string.begin.execline
+      set: string-quoted-continue
+
+  string-quoted-patterns:
+    # This list mostly follows the execline documentation
+    # They're all for making ASCII characters
+    - match: |-
+        (?x)
+        \\[abtnvfr] # Shortcuts
+        |
+        \\0x[0-9A-Fa-f]{1,2} # Hex
+        |
+        \\0[0-7]{1,3} # Octal
+        |
+        \\[1-9][0-9]{0,2} # Decimal
+      scope: constant.character.escape.ascii.execline
+
+    # Escaping a literal newline in a quoted string will effectively remove it
+    - match: \\\n
+      scope: constant.character.escape.newline.execline
+
+    # And in fact, everything else can be escaped too! But it won't do anything...
+    - match: \\.
+      scope: constant.character.escape.other.execline
+
+  string-quoted-continue:
+    - match: \"
+      scope: string.quoted.execline punctuation.definition.string.end.execline
+      pop: true
+
+    - match: (?=\$)
+      set: variable-substitution-begin-quoted
+
+    # Apply meta_scope and handle escapes
+    - match: ''
+      push:
+        - meta_scope: string.quoted.execline
+        - match: (?=["$])
+          pop: true
+        - include: string-quoted-patterns
+
+  string-unquoted:
+    # Unquoted strings encompass characters that are not whitespace or quoted strings
+
+    # Variable substitution can change the string type
+    - match: (?=\$)
+      push: variable-substitution-begin-unquoted
+
+    # Accept a string starting with any yielded characters (which we broke at to allow the including context to attempt to match)
+    - match: '[{{str_yield_all}}]'
+      scope: meta.string.unquoted.execline
+
+    # Apply meta_scope and handle escapes
+    - match: ''
+      push: string-unquoted-continue
+
+  string-unquoted-patterns:
+    # Escaping a literal newline in an unquoted string will turn it into a word
+    - match: \\\n
+      scope: constant.character.escape.newline.execline
+
+    # Everything can be "escaped" in unquoted strings, whether it has other meanings or not
+    - match: \\.
+      scope: constant.character.escape.other.execline
+
+  string-unquoted-continue:
+    - meta_scope: meta.string.unquoted.execline
+
+    - match: (?=[{{ws_sep}}{{str_yield_all}}"$])
+      pop: true
+
+    - include: string-unquoted-patterns
+
+  variable-substitution-begin-quoted:
+    # Variable substitution that starts as a quoted string, but may continue to an unquoted string
+
+    - match: (\$)(\{)
+      captures:
+        0: string.quoted.execline
+        1: punctuation.definition.variable.sign.execline
+        2: punctuation.definition.variable.begin.execline
+      set:
+        -
+          - meta_scope: variable.other.braces.execline
+          - match: ''
+            pop: true
+        - variable-substitution-quoted-continue
+
+    # Can't use variable-substitution-quoted-continue and the meta_scope/clear_scopes approach, because a '}' would get variable.bare
+    - match: \$
+      scope:
+        variable.other.bare.execline
+        string.quoted.execline
+        punctuation.definition.variable.sign.execline
+      set:
+        - variable-substitution-quoted-continue-bare
+
+  variable-substitution-begin-unquoted:
+    # Variable substitution that starts as an unquoted string, but may contain quoted strings
+
+    - match: (\$)(\{)
+      captures:
+        0: meta.string.unquoted.execline
+        1: punctuation.definition.variable.sign.execline
+        2: punctuation.definition.variable.begin.execline
+      set:
+        -
+          - meta_scope: variable.other.braces.execline
+          - match: ''
+            pop: true
+        - variable-substitution-unquoted-continue
+
+    # Can't use variable-substitution-unquoted-continue and the meta_scope/clear_scopes approach, because a '}' would get variable.bare
+    - match: \$
+      scope:
+        variable.other.bare.execline
+        meta.string.unquoted.execline
+        punctuation.definition.variable.sign.execline
+      set: variable-substitution-unquoted-continue-bare
+
+  variable-substitution-quoted-common:
+    # Start a new variable if we encounter one
+    - match: (?=\$)
+      set: variable-substitution-begin-quoted
+
+    # Put the appropriate scope on all characters and handle quoted escapes
+    - match: ''
+      push:
+        - meta_scope: string.quoted.execline
+        - match: (?=[{}"$])
+          pop: true
+        - include: string-quoted-patterns
+
+  variable-substitution-unquoted-common:
+    # Unquoted whitespace ends parameter, terminates variable substitution
+    - match: (?=[{{ws_sep}}])
+      pop: true
+
+    # Start a new variable if we encounter one
+    - match: (?=\$)
+      set: variable-substitution-begin-unquoted
+
+    # Put the appropriate scope on all characters and handle unquoted escapes
+
+    - match: '[{{str_yield_all}}]'
+      scope: meta.string.unquoted.execline
+
+    - match: (?=[^{{ws_sep}}])
+      push:
+        - meta_scope: meta.string.unquoted.execline
+        - match: (?=[{{ws_sep}}{{str_yield_all}}{}"$])
+          pop: true
+        - include: string-unquoted-patterns
+
+  variable-substitution-quoted-continue:
+    # Assume a closing brace is terminating a braces variable substitution
+    - match: \}
+      scope:
+        string.quoted.execline
+        punctuation.definition.variable.end.execline
+      set:
+        -
+          - clear_scopes: 1
+          - match: ''
+            pop: true
+        - variable-substitution-quoted-continue
+
+    # Switch to unquoted string
+    - match: \"
+      scope:
+        string.quoted.execline
+        punctuation.definition.string.end.execline
+      set: variable-substitution-unquoted-continue
+
+    - include: variable-substitution-quoted-common
+
+  variable-substitution-unquoted-continue:
+    # Assume a closing brace is terminating a braces variable substitution
+    - match: \}
+      scope:
+        meta.string.unquoted.execline
+        punctuation.definition.variable.end.execline
+      set:
+        -
+          - clear_scopes: 1
+          - match: ''
+            pop: true
+        -
+          # After we've terminated at least one variable, allow yielding to occur. If there are nested braces variable subs, this will unfortunately cause an early termination of all those after the innermost one. Failing to handle that scenario is considered acceptable as it is so unlikely
+          - match: (?=[{{str_yield_all}}])
+            pop: true
+
+          - include: variable-substitution-unquoted-continue
+
+    # Switch to quoted string
+    - match: \"
+      scope:
+        string.quoted.execline
+        punctuation.definition.string.begin.execline
+      set: variable-substitution-quoted-continue
+
+    - include: variable-substitution-unquoted-common
+
+  variable-substitution-quoted-continue-bare:
+    - meta_content_scope: variable.other.bare.execline
+
+    # Any braces terminate a bare variable substitution
+    - match: (?=[{}])
+      set: variable-substitution-quoted-continue
+
+    # Switch to unquoted variable
+    - match: \"
+      scope:
+        string.quoted.execline
+        punctuation.definition.string.end.execline
+      set: variable-substitution-unquoted-continue-bare
+
+    - include: variable-substitution-quoted-common
+
+  variable-substitution-unquoted-continue-bare:
+    - meta_content_scope: variable.other.bare.execline
+
+    # Any braces terminate a bare variable substitution
+    - match: (?=[{}])
+      set: variable-substitution-unquoted-continue
+
+    # Switch to quoted variable
+    - match: \"
+      scope:
+        string.quoted.execline
+        punctuation.definition.string.begin.execline
+      set: variable-substitution-quoted-continue-bare
+
+    - include: variable-substitution-unquoted-common

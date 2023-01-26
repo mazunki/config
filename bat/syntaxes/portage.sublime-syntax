@@ -1,0 +1,30 @@
+%YAML 1.2
+---
+name: portage
+file_extensions: .use
+scope: source.portage
+
+contexts:
+  prototype:
+    - include: comments
+
+  main:
+    - match: '"'
+      push: useflags
+    - match: '^\s*#.*$'
+      scope: comments
+    - match: \b\w+(?<=)
+      scope: variable.parameters.c
+
+  useflags:
+    - meta_scope: string.quoted.double.c
+    - match: \\.
+      scope: constant.character.escape.c
+    - match: (\G|\s)-\w+
+      scope: keyword.control.c
+    - match: \d+((_|-)\d+)?(\s|\b)
+      scope: constant
+    - match: '"'
+      pop: true
+      
+
