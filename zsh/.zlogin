@@ -31,3 +31,8 @@ function start_default_session() {
 [ "$(tty)" = "/dev/tty2" ] && start_default_session
 [ "$(tty)" = "/dev/tty2" ] && s6-rc -l "${XDG_RUNTIME_DIR}/s6/s6-rc" -up change sway
 
+[ "$(tty)" = "/dev/tty3" ] && doas chown mazunki:tty /dev/tty3
+[ "$(tty)" = "/dev/tty3" ] && startx /usr/bin/qtile -- vty3
+# [ "$(tty)" = "/dev/tty3" ] && s6-rc -l "${XDG_RUNTIME_DIR}/s6/s6-rc" -up change sway
+
+
