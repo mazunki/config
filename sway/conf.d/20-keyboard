@@ -1,0 +1,11 @@
+
+input "type:keyboard" {
+	xkb_layout "us"
+	xkb_variant "altgr-intl"
+	xkb_model "pc104"
+	xkb_options caps:escape
+	xkb_numlock enabled
+}
+
+# vim: ft=swayconfig
+

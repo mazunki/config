@@ -1,0 +1,16 @@
+
+set {
+	
+	$menu wofi --show drun | xargs swaymsg exec --
+	$term foot
+}
+
+bindsym {
+
+	$mod+Return exec $term
+	$mod+Shift+q kill
+	$mod+d exec $menu
+}
+
+# vim: ft=swayconfig
+

@@ -1,0 +1,8 @@
+
+include /etc/sway/config.d/*
+
+set $basepath $XDG_CONFIG_HOME/sway
+include $basepath/conf.d/*
+
+# vim: ft=swayconfig
+
