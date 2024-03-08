@@ -1,0 +1,16 @@
+
+set $mode_screenshot Capture: (a) selection, (c) active
+mode "$mode_screenshot" bindsym {
+    a exec grim -g "$(wl-select)" -t png - | wl-copy -t image/png; mode "default"
+    c exec grim -g "$(wl-select-active)" -t png - | wl-copy -t image/png; mode "default"
+
+    Return mode "default"
+    Escape mode "default"
+}
+
+bindsym {
+	$mod+o mode "$mode_screenshot"
+}
+
+# vim: ft=swayconfig
+

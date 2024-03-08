@@ -4,5 +4,10 @@ include /etc/sway/config.d/*
 set $basepath $XDG_CONFIG_HOME/sway
 include $basepath/conf.d/*
 
+# this is very cringe :)
+exec gentoo-pipewire-launcher &
+exec mako &
+exec dbus-update-activation-environment --all
+
 # vim: ft=swayconfig
 

@@ -1,15 +1,16 @@
 
 set {
-	
-	$menu wofi --show drun | xargs swaymsg exec --
-	$term foot
+	$menu wofi --show drun
+	$menu_shell wofi --show run
+	$term kitty
 }
 
 bindsym {
 
 	$mod+Return exec $term
-	$mod+Shift+q kill
+	$mod+x kill
 	$mod+d exec $menu
+	$mod+shift+d exec $menu_shell
 }
 
 # vim: ft=swayconfig

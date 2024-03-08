@@ -1,0 +1,30 @@
+
+for_window [shell="xwayland"] title_format "%title [XWayland]"
+
+for_window {
+    [app_id=".*"] border pixel 2
+    [class=".*"] border pixel 2
+}
+
+for_window {
+    [window_role="pop-up"] floating enable
+    [window_role="bubble"] floating enable
+    [window_role="dialog"] floating enable
+    [window_type="dialog"] floating enable
+}
+
+for_window {
+    [app_id="imv"] floating enable; inhibit_idle
+    [app_id="mpv"] floating enable; inhibit_idle
+    [app_id="firefox"] inhibit_idle
+    [app_id="firefox" title="^Library$"] floating enable
+    [app_id="firefox" title="^Extension: .*"] floating enable
+    [app_id="firefox" title="Firefox — Sharing Indicator"] floating enable
+    [app_id="(?i)thunar"] floating enable
+    [title="xeyes"] floating enable
+    #[app_id="org.prismlauncher.PrismLauncher"] floating enable
+}
+
+
+# vim: ft=swayconfig
+
