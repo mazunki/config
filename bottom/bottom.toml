@@ -1,0 +1,24 @@
+
+[flags]
+tree = true
+enable_gpu = true
+process_command = true
+
+[processes]
+columns = ["State", "PID", "CPU%", "Mem%", "User", "Name"]
+
+[[row]]
+    [[row.child]]
+		ratio=2
+      type="cpu"
+    [[row.child]]
+        type="mem"
+    [[row.child]]
+		ratio=2
+		type="temp"
+[[row]]
+	ratio=5
+	[[row.child]]
+	default=true
+	type="proc"
+
