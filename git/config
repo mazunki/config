@@ -1,0 +1,50 @@
+[user]
+	name = Mazunki Hoksaas
+	email = rolferen@gmail.com
+	signingkey = 4BA695D60FC614BF
+[pull]
+	rebase = true
+[core]
+	editor = nvim
+	#pager = nvim -R -c 'set ft=man' -c 'set ft=git' --
+[pager]
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
+[alias]
+	s = status
+	isgit = !git status >&- 2>&- && printf 'true\n' || printf 'false\n'
+	honk = commit --patch
+	unhonk = checkout --patch
+	br = !git --no-pager branch --format='%(HEAD^5) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
+	undo = reset HEAD~1 --mixed
+	l = !git --no-pager log --pretty=format:\"%C(magenta)%h%Creset —%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30 && printf "\n"
+	viewnew = !git fetch && git --no-pager log --pretty=format:\"%C(magenta)%h%Creset —%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit HEAD.."$(git remote)" && printf "\n"
+	gud = !printf 'k loser\n'
+[merge]
+	ff = only
+	tool = nvimdiff
+[difftool]
+	tool = nvim
+	prompt = false
+
+[init]
+	defaultBranch = main
+[http]
+	postBuffer = 524288000
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[instaweb]
+	local = false
+	httpd = webrick
+	port = 4321
+	browser = firefox
+[commit]
+	gpgsign = true
+[safe]
+	directory = /srv/www/git.mazunki.tech/admin
+	directory = /srv/www/mazunki.tech
