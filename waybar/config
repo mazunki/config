@@ -1,0 +1,85 @@
+[{
+	"layer": "bottom",
+	"position": "top",
+	"output": ["HDMI-A-2"],
+
+	"include": [
+		"~/.config/waybar/custom-modules.json",
+		"~/.config/waybar/modules.json"
+	],
+
+	"modules-left": [
+		"custom/launcher",
+		"custom/terminal",
+		"sway/workspaces",
+		"custom/spawnworkspace",
+		"sway/mode"
+	],
+	"modules-center": [
+		"custom/windowinfo"
+	],
+	"modules-right": [
+		"cpu",
+		"memory",
+		"network#eth",
+		"network#wlp",
+		"temperature"
+	],
+
+},
+{
+	"layer": "bottom",
+	"position": "bottom",
+	"output": ["DP-1"],
+
+	"include": [
+		"~/.config/waybar/custom-modules.json",
+		"~/.config/waybar/modules.json"
+	],
+
+	"modules-left": [
+		"custom/launcher",
+		"custom/terminal",
+		"sway/workspaces",
+		"custom/spawnworkspace",
+		"sway/mode"
+	],
+	"modules-center": [
+		"sway/window"
+	],
+	"modules-right": [
+		"custom/updater",
+		"custom/bulb",
+		"wireplumber",
+		"sway/language",
+		"tray",
+		"clock",
+		"custom/updater",
+		"custom/power"
+	],
+
+},
+
+{
+	"layer": "bottom",
+	"position": "bottom",
+	"output": ["HDMI-A-1", "DP-2"],
+	"include": [
+		"~/.config/waybar/custom-modules.json",
+		"~/.config/waybar/modules.json"
+	],
+
+	"modules-left": [
+		"custom/launcher",
+		"custom/terminal",
+		"sway/workspaces",
+		"custom/spawnworkspace",
+		"sway/mode"
+	],
+	"modules-center": [],
+	"modules-right": [
+		"custom/bulb",
+		"clock"
+	]
+}]
+

@@ -1,0 +1,45 @@
+{
+	"custom/media": {
+		"format": "{icon} {}",
+		"return-type": "json",
+		"max-length": 25,
+		"format-icons": {
+			"spotify": " ",
+			"default": " "
+		},
+		"escape": true,
+		"exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
+		"on-click": "playerctl play-pause"
+	},
+	"custom/launcher":{
+		"format": "",
+		"on-click": "wofi --gtk-dark --dmenu --alow-images --show drun",
+		"on-click-right": "killall wofi"
+	},
+	"custom/power":{
+		"format": "⚡",
+		"on-click": "",
+		"on-click-right": ""
+	},
+	"custom/updater":{
+		"format": "  {} Updates",
+		"exec": "emerge --sync",
+		"exec-if": "",
+		"interval": 3600,
+		"on-click": ""
+	},
+	"custom/spawnworkspace": {
+		"format": "",
+		"tooltip": true,
+		"tooltip-format": "New workspace",
+		"on-click": "swaymsg -t get_workspaces -r | jq '.[].num' | ~/.local/bin/first_uniq | xargs swaymsg workspace number"
+	},
+	"custom/terminal": {
+		"format": "",
+		"on-click": "kitty"
+	},
+	"custom/bulb": {
+		"format": "💡",
+		"on-click": "/usr/local/bin/toggle_light.sh"
+	}
+}
