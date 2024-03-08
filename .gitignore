@@ -1,0 +1,20 @@
+## electron
+Element/
+
+## please!
+obs-studio/logs
+obs-studio/profiler_data
+obs-studio/plugin_config
+
+## really is xdg_state_home
+pavucontrol.ini
+pulse/cookie
+
+## binary
+dconf/user
+
+pulse/*.gdbm
+# uses an absurd prefix in filename
+pulse/*-default-sink
+pulse/*-default-source
+
