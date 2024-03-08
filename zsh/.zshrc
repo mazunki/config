@@ -1,9 +1,11 @@
 #!/bin/zsh
 # .zshrc
+test -f /etc/profile && . /etc/profile
 
-typeset -a subconfs
-subconfs=( 'prompt' 'bindings' 'autocomplete' )
-for subconf in ${subconfs[@]}; do
-	source "${ZDOTDIR}/${subconf}.zsh"
+for subconf in "${ZDOTDIR}"/conf.d/*; do
+	case "$subconf" in
+		*.disabled) continue ;;
+		*) source "${subconf}" ;;
+	esac
 done
 
