@@ -1,0 +1,102 @@
+Host *
+	ForwardX11 no
+	IdentityFile ~/.ssh/id_ed25519
+
+Host git.gentoo.org
+	HostName git.gentoo.org
+	User mazunki
+	IdentityFile ~/.ssh/id_ecdsa
+
+Host binpkgs.kropotkin.rocks
+	HostName kropotkin.rocks
+	User binpkgs
+	Port 31612
+	IdentityFile ~/.ssh/id_ed25519.old
+	ServerAliveInterval 59
+
+Host github
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/id_ed25519
+
+Host irc_client
+	HostName 10.0.0.11
+	User mazunki
+	IdentityFile ~/.ssh/id_ecdsa
+	RequestTTY force
+	RemoteCommand tmux new-session -A -s irc_server
+	ServerAliveInterval 60
+
+Host minecraft_server
+	HostName 10.0.0.11
+	User mazunki
+	IdentityFile ~/.ssh/id_ecdsa
+	RequestTTY force
+	RemoteCommand tmux new-session -A -s mazmod
+	ServerAliveInterval 60
+
+Host webserver
+	HostName 10.0.0.11
+	User mazunki
+	IdentityFile ~/.ssh/id_ecdsa
+	RequestTTY force
+	RemoteCommand tmux new-session -A -s webserver
+	ServerAliveInterval 60
+
+
+Host gitlab
+	HostName gitlab.com
+	User git
+	IdentityFile ~/.ssh/id_ecdsa
+
+Host homerouter
+	HostName 10.13.37.100
+	User root
+	Port 1122
+	IdentityFile ~/.ssh/local
+	ForwardX11 no
+
+Host router
+	HostName 10.10.10.10
+	User goblin
+	Port 24601
+	IdentityFile ~/.ssh/id_ecdsa
+	ForwardX11 no
+
+Host githome
+	HostName home.mazunki.tech
+	User git
+	Port 20849
+	IdentityFile ~/.ssh/local
+	ForwardX11 no
+
+Host uio
+	HostName login.ifi.uio.no
+	ForwardX11 yes
+	User rolfvh
+
+Host login.ifi.uio.no
+	HostName login.ifi.uio.no
+	ForwardX11 yes
+	User rolfvh
+
+Host home
+	HostName 84.210.208.193
+	User mazunki
+	# Port 20849
+	Port 24601
+	ForwardX11 no
+
+Host git.mazunki.tech
+	User git
+	Port 24601
+	ForwardX11 no
+	IdentityFile ~/.ssh/id_ed25519
+
+Host gitolite
+	HostName git.mazunki.tech
+	User git
+	Port 24601
+	ForwardX11 no
+	IdentityFile ~/.ssh/id_ed25519
+

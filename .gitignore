@@ -1,3 +1,8 @@
+# scary secrets!!
+ssh/*
+!ssh/config
+!ssh/*.pub
+
 ## electron
 Element/
 
@@ -20,4 +25,5 @@ pulse/*.gdbm
 # uses an absurd prefix in filename
 pulse/*-default-sink
 pulse/*-default-source
+
 
