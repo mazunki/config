@@ -3,14 +3,15 @@ set {
 	$menu wofi --show drun
 	$menu_shell wofi --show run
 	$term kitty
+	$procview kitty btm
 }
 
 bindsym {
-
 	$mod+Return exec $term
 	$mod+x kill
 	$mod+d exec $menu
 	$mod+shift+d exec $menu_shell
+	$mod+0 exec $procview
 }
 
 # vim: ft=swayconfig
