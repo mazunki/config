@@ -10,6 +10,8 @@ obs-studio/plugin_config
 pavucontrol.ini
 pulse/cookie
 QtProject.conf
+# i had hopes for you :(
+obs-studio/global.ini
 
 ## binary
 dconf/user
