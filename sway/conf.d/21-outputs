@@ -1,5 +1,17 @@
 
-output DP-2 resolution 2560x1440 position 0,0
-output DP-1 resolution 3840x2160 position 2560,0
-output HDMI-A-2 resolution 1920x1080 position 6400,0
+output DP-2 resolution 2560x1440 position 0 0
+output DP-1 resolution 3840x2160 position 2560 0
+output HDMI-A-1 resolution 1920x1080 position 6400 0
+
+output * bg ~/art/pics/background.jpg fill
+
+output HEADLESS-1 {
+	pos 10000 0
+	mode 1920x1080
+	subpixel rgb
+}
+assign [app_id="mpv" title="wlroots screenview"] output HEADLESS-1
+for_window [app_id="mpv" title="wlroots screenview"] fullscreen
+
+# vim: set ft=swayconfig
 
