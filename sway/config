@@ -1,0 +1,15 @@
+
+include /etc/sway/config.d/*
+
+set $basepath /home/mazunki/.config/sway
+include $basepath/conf.d/*
+
+# xwayland force
+
+# this is very cringe :)
+# exec gentoo-pipewire-launcher &
+# exec mako &
+# exec dbus-update-activation-environment --all
+
+# vim: ft=swayconfig
+

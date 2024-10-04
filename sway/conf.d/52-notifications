@@ -1,0 +1,18 @@
+
+
+set $mode_notifications Notifications: (l) latest, (c) clear, (r) reload
+mode "$mode_notifications" bindsym {
+    l exec makoctl restore; mode "default"
+    c exec makoctl dismiss -a; mode "default"
+    r exec pkill mako; exec mako; mode "default"
+
+    Return mode "default"
+    Escape mode "default"
+}
+
+bindsym {
+	$mod+m mode "$mode_notifications"
+}
+
+# vim: ft=swayconfig
+

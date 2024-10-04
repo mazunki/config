@@ -1,0 +1,80 @@
+#!/bin/sh
+# 
+# Do you ever want to just read the info of a window in Wayland?
+# Use this tool to dump the json output of any window!
+# 
+# 
+# Usage:
+#	wl-info position shape
+#		position = "123,456"
+#		shape = "123x456"
+#
+#	wl-info identifier
+#		identifier = name | app_id
+#
+#	wl-info
+#		allows you to select the shape
+#
+
+# Dependencies:
+# - Compatible with sway, or any other compositor which provides a swaymsg interface
+# - jq, a JSON parser
+# - wl-select, if using --select
+#
+# 
+set -e
+
+for arg in "$@"; do
+	case "$arg" in
+		-M)
+			shift 1
+			JQ_OPTS=-M
+			;;
+		-C)
+			shift 1
+			JQ_OPTS=-C
+			;;
+		-r|--strict)
+			shift 1
+			WL_SELECT_OPTS=-r
+			;;
+		-*)
+			printf 'Invalid flag, ignoring: %s' "${arg}" >&2
+			shift 1
+			;;
+		--)
+			break
+			;;
+		*)
+			;;
+	esac
+done
+
+: JQ_OPTS=${JQ_OPTS:--C}
+
+if [ "$#" = "0" ]; then
+	set -- $(wl-select ${WL_SELECT_OPTS})
+fi
+
+if [ "$1" = "-f" ]; then
+	swaymsg -t get_tree | \
+		jq --arg identifier "$1" \
+		-r ${JQ_OPTS} 'recurse(.nodes[], .floating_nodes[]) | select(.focused)'
+
+elif [ "$#" = "1" ]; then
+	swaymsg -t get_tree | \
+		jq --arg identifier "$1" \
+		-r ${JQ_OPTS} 'recurse(.nodes[], .floating_nodes[]) | select(.name == $identifier or .app_id == $identifier or (.pid|tostring) == $identifier)'
+
+elif [ "$#" = "2" ]; then
+	X=$(echo "$1" | awk -F',' '{print $1}')
+	Y=$(echo "$1" | awk -F',' '{print $2}')
+	W=$(echo "$2" | awk -F'x' '{print $1}')
+	H=$(echo "$2" | awk -F'x' '{print $2}')
+	# echo "$X,$Y $W $H"
+
+	swaymsg -t get_tree | \
+		jq --argjson posx "$X" --argjson posy "$Y" --argjson width "$W" --argjson height "$H" \
+		-r ${JQ_OPTS} 'recurse(.nodes[], .floating_nodes[]) | select(.rect.x == $posx and .rect.y == $posy and .rect.width == $width and .rect.height == $height)'
+
+fi

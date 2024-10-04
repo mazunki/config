@@ -1,0 +1,60 @@
+#!/bin/sh
+# 
+# Tired of aiming your mouse with slurp to select a region to take a screenshot? No more!
+# Use this tool to fetch the region coordinates of windows magically
+# 
+# 
+# Usage:
+#	wl-select [--wofi]
+
+# Dependencies:
+# - Compatible with sway, or any other compositor which provides a swaymsg interface
+# - jq, a JSON parser
+# - If using --wofi (or -w, for short):
+#   - wofi, obviously
+#   - Some older versions of wofi do not support --pre-display-cmd, but this doesn't break anything. It looks uglier, that's all.
+# - If not using --wofi:
+#   - slurp
+# 
+# Consider the following for your sway bindings
+#	bindsym $mod+Shift+p exec grim -g "$(wl-select)" - | wl-copy
+# 
+set -e
+
+
+for arg in "$@"; do
+	case "$arg" in
+		-w|--wofi)
+			WOFI_MODE=1
+			shift 1
+			;;
+		-r|--strict)
+			SLURP_FLAGS=-r
+			shift 1
+			;;
+		-*)
+			printf 'Invalid flag, ignoring: %s\n' "${arg}" >&2
+			shift 1
+			;;
+		--)
+			break
+			;;
+		*)
+			;;
+	esac
+done
+
+if [ -n "${WOFI_MODE}" ]; then
+	swaymsg -t get_tree | \
+		jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.pid and .visible) | {name} + .rect | "\(.x),\(.y) \(.width)x\(.height) \(.name)"' | \
+		wofi \
+		--show dmenu \
+		--pre-display-cmd 'echo "%s" | cut -d" " -f3-' | \
+		awk '{print $1,$2}'
+else
+	# Uses slurp to spit out the region of the clicked-upon window
+	swaymsg -t get_tree | \
+		jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.pid and .visible) | {name} + .rect | "\(.x),\(.y) \(.width)x\(.height) \(.name)"' | \
+		slurp -o ${SLURP_FLAGS}
+fi
+

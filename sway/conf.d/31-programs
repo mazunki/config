@@ -1,0 +1,22 @@
+
+set {
+	$menu_shell wofi --show run
+	$rofi_cmd rofi \
+		-terminal '$term'
+	$menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
+	$term kitty
+	$procview kitty btm
+	$unicode /usr/local/bin/unicode-select.sh
+}
+
+bindsym {
+	$mod+Return exec $term
+	$mod+x kill
+	$mod+d exec $menu
+	$mod+shift+d exec $menu_shell
+	$mod+0 exec $procview
+	$mod+u exec $unicode
+}
+
+# vim: ft=swayconfig
+

@@ -1,0 +1,14 @@
+
+# chatting
+exec gtk-launch element-desktop
+exec gtk-launch org.telegram.desktop
+exec gtk-launch slack
+
+# audio
+exec gtk-launch spotify
+
+# admin
+exec gtk-launch org.keepassxc.KeePassXC
+
+# vim: ft=swayconfig
+

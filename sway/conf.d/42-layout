@@ -1,0 +1,8 @@
+client.focused #443322 #443388 #997799
+client.unfocused #443322 #221144 #997799
+default_border pixel 5
+
+smart_gaps inverse_outer
+# gaps horizontal 820
+gaps inner 30
+

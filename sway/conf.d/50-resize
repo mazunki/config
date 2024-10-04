@@ -1,0 +1,37 @@
+
+set $mode_resize resize (hjkl) resize (f) fullscreen (v) vertical (h) horizontal
+mode "$resize" bindsym {
+    $left resize shrink width 20px
+    $down resize grow height 20px
+    $up resize shrink height 20px
+    $right resize grow width 20px
+
+    b splith
+    v splitv
+    f fullscreen
+
+    Return mode "default"
+    Escape mode "default"
+}
+bindsym $mod+f mode "$mode_resize"
+
+bindsym {
+    $mod+s layout stacking
+    $mod+w layout tabbed
+    $mod+e layout toggle split
+}
+
+
+bindsym {
+    # Toggle the current focus between tiling and floating mode
+    $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    $mod+a focus parent
+}
+
+# vim: ft=swayconfig
+

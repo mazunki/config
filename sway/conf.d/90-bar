@@ -1,0 +1,7 @@
+
+bar {
+    swaybar_command waybar
+}
+
+# vim: ft=swayconfig
+

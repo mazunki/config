@@ -1,0 +1,31 @@
+#!/bin/zsh
+
+# loads completiosn
+fpath=(~/.local/share/zsh/plugins/zsh-completions/src $fpath)
+fpath=(~/.local/share/zsh/completions $fpath)
+
+zmodload zsh/complist
+autoload -U compinit promptinit
+
+compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+promptinit
+
+_custom_complete() {
+	local -a all_files
+	# all_files=(${(f)$(ls -1)})
+	# all_files=("${(f)$(_path_files -W "${PWD}" -g '*(.)')}")
+	local output
+	output=$(_files -W "${PWD}" -g '*')
+	echo "path files:" >/dev/stderr
+	echo "${PWD}"
+	echo "${output}" >/dev/stderr
+	echo "done" >/dev/stderr
+
+	compadd -Q -- "${all_files[@]}"
+}
+
+_comp_options+=(globdots)
+compdef _custom_complete ls
+
+zstyle ':completion:*' completer _custom_complete
+

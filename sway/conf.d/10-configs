@@ -1,0 +1,17 @@
+
+set {
+	$mod Mod4
+	$left h
+	$down j
+	$up k
+	$right l
+}
+
+floating_modifier $mod normal
+focus_follows_mouse no
+
+bindsym {
+	$mod+Shift+r reload
+	$mod+Shift+delete exec swaynag -t warning -m 'Do you really want to exit sway?' -B 'i do~ uwu' 'swaymsg exit'
+}
+

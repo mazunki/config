@@ -1,0 +1,17 @@
+
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+	dwt disabled
+	tap enabled
+	middle_emulation enabled
+	pointer_accel 0.5
+}
+input "type:keyboard" {
+	xkb_layout "us"
+	xkb_variant altgr-intl
+	xkb_options caps:escape
+	# TODO: custom layout (xkb_file. see https://github.com/swaywm/sway/wiki#keyboard-layout)
+}
+
+
+# vim: ft=swayconfig
+

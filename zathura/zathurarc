@@ -1,0 +1,10 @@
+set first-page-column 1
+
+map D set "first-page-column 1:1"
+map <C-d> set "first-page-column 1:2"
+
+map <normal> = set zoom fit
+map <normal> + set zoom in
+map <normal> - set zoom out
+map <normal> 0 set zoom 100%
+

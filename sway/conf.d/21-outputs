@@ -1,0 +1,5 @@
+
+output * bg /usr/share/backgrounds/default.png fill
+
+# vim: set ft=swayconfig
+
