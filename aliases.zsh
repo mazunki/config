@@ -15,6 +15,34 @@ hi () {
 	done
 }
 
+function nvim() {
+	if [ -z "${PROJECT_ROOT}" ]; then
+		exec command nvim "$@"
+	fi
+
+	if [ "${PWD}" != "${PROJECT_ROOT}" ]; then
+		local rel_path="$(realpath --relative-to "${PROJECT_ROOT}" "${PWD}")"
+		local rel_args=()
+		for arg in "$@"; do
+			if [[ "$arg" == -* ]]; then
+				rel_args+=("${arg}")
+			else
+				rel_args+=("${rel_path}/${arg}")
+			fi
+		done
+
+		if pushd "${PROJECT_ROOT}" >/dev/null; then
+			command nvim "${rel_args[@]}"
+			popd >/dev/null
+		else
+			printf '%s: %s\n' 'failed to change to project root' "${PROJECT_ROOT}" >&2
+			command nvim "$@"
+		fi
+	else
+		exec command nvim "$@"
+	fi
+}
+
 # cd() {
 # 	if [ $# -eq 0 ]; then builtin cd; fi
 # 
