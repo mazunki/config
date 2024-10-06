@@ -11,6 +11,7 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower win
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 vim.keymap.set("n", "<Tab>", "<cmd>Telescope buffers<cr>")
+vim.keymap.set("n", "<leader><Tab>", "<cmd>Telescope find_files<cr>")
 vim.keymap.set("n", "<leader><cr>", vim.lsp.buf.code_action, { desc = "Open diagnostic [Q]uickfix list" })
 vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { desc = "Go to type definition of object" })
 
