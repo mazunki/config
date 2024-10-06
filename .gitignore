@@ -1,6 +1,6 @@
 # too many silly applications cause
 # untracked files list to be super long
-*
+/*
 !.gitignore
 
 # let's explicitly add files we care about
