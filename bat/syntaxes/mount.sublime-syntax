@@ -1,0 +1,60 @@
+%YAML 1.2
+---
+name: mount
+scope: source.mount
+
+contexts:
+  main:
+    - include: name
+    - include: separator
+    - include: path
+    - include: separator
+    - include: type
+    - include: separator
+    - include: options
+
+  name:
+    - match: '^(/dev/)?(\S+)'
+      captures:
+        1: punctuation.accessor
+        2: variable.parameter.name
+
+  path:
+    - match: '(on) (\S+)'
+      captures:
+        1: punctuation.accessor
+        2: keyword.other.path
+
+  type:
+    - match: '(type) (\S+)'
+      captures:
+        1: punctuation.accessor
+        2: keyword.other.type
+
+  options:
+    - match: '\('
+      scope: punctuation.section.parens.begin
+    - match: '\)'
+      scope: punctuation.section.parens.end
+
+    - match: '([^\s,=]+)(=)([^\s,\)]+)'
+      captures:
+        1: entity.name.option
+        2: entity.other.separator
+        3: string
+
+    - match: '(no)([^\s,]+)([,\)])'
+      captures:
+        1: keyword.operator.logical
+        2: variable.name
+        3: punctuation.separator
+
+    - match: '([^\s,]+)([,\)])'
+      captures:
+        1: variable.name
+        2: punctuation.separator
+
+  separator:
+    - match: '\s+'
+      scope: text.plain
+

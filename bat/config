@@ -1,0 +1,5 @@
+# run `bat --help` to get a list of all possible configuration options.
+
+--paging=never
+--style=header-filename,header-filesize,changes,grid
+--theme="Catppuccin Latte"

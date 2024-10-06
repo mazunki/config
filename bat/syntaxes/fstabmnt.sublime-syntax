@@ -1,0 +1,82 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: fstabmnt
+scope: source.fstabmnt
+
+contexts:
+  main:
+    - match: '^'
+      push: device
+
+  device:
+    - match: '(/dev/)([^\s]+)\s*'
+      set: mountpoint
+      captures: 
+        1: punctuation.accessor
+        2: keyword.other.device
+    - match: '([^\s]+)\s*'
+      set: mountpoint
+      captures:
+        1: keyword.other.device
+    - include: clear
+
+  mountpoint:
+    - match: '\s*/[^\s]*\s*'
+      set: filesystem
+      scope: string.unquoted.mountpoint
+    - match: '\s*[^\s]+\s*'
+      set: filesystem
+      scope: invalid.illegal
+    - include: clear
+
+  filesystem:
+    - match: '\s*[^\s]+\s*'
+      set: options
+      scope: variable.parameter.filesystem
+    - include: clear
+
+  options:
+    - match: '([^\s,=]+)(=)([^\s,]+)'
+      captures:
+       1: entity.name.option
+       2: entity.other.separator
+       3: variable.parameter
+    - match: '[^\s,]+'
+      scope: entity.name.option
+    - match: ','
+      scope: punctuation.separator
+    - match: '\s+'
+      set: dump
+    - include: clear
+
+  dump:
+    - match: '\s*[012]\s*'
+      scope: constant.numeric
+      set: pass
+    - match: '\s*[^\s]+\s*'
+      scope: invalid.illegal
+      set: pass
+    - include: clear
+
+  pass:
+    - match: '\s*[012]\s*'
+      scope: constant.numeric
+      set: expected_eol
+    - match: '\s*[^\s]+\s*'
+      scope: invalid.illegal
+      set: expected_eol
+    - include: clear
+
+  expected_eol:
+    - include: clear
+    - match: '.*'
+      scope: invalid.illegal
+
+    - match: '\s*#.*$'
+
+  clear:
+    - match: '.*$'
+      pop: true
+
+

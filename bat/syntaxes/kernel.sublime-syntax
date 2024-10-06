@@ -1,0 +1,50 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: Linux Kernel Config
+file_extensions:
+  - config
+  - kconfig
+scope: source.kernel
+contexts:
+  main:
+    - match: '^(# )((CONFIG_)(.*))( is not set)'
+      captures:
+        1: comment.line.kernel		# hashtag
+        2: constant.language.kernel	# CONFIG_.*
+        2: comment.line.kernel		# CONFIG_
+        4: variable.parameter.kernel	# option
+        5: comment.line.kernel		# is not set
+    - match: '((CONFIG_)(.*))(=)(y)'
+      captures:
+        1: constant.language.kernel	# CONFIG_.*
+        2: comment.line.kernel  	# CONFIG_
+        3: variable.parameter.kernel	# option
+        4: constant.language.kernel	# =
+        5: constant.string.kernel	# y
+    - match: '((CONFIG_)(.*))(=)(m)'
+      captures:
+        1: constant.language.kernel	# CONFIG_.*
+        2: comment.line.kernel  	# CONFIG_
+        3: variable.parameter.kernel	# option
+        4: constant.language.kernel	# =
+        5: constant.numeric.kernel	# m
+    - match: '((CONFIG_)(.*))(=)(\d+)'
+      captures:
+        1: constant.language.kernel	# CONFIG_.*
+        2: comment.line.kernel  	# CONFIG_
+        3: variable.parameter.kernel	# option
+        4: constant.language.kernel	# =
+        5: constant.numeric.kernel	# number
+    - match: '((CONFIG_)(.*))(=")(.*)(")'
+      captures:
+        1: constant.language.kernel	# CONFIG_.*
+        2: comment.line.kernel  	# CONFIG_
+        3: variable.parameter.kernel	# option
+        4: constant.language.kernel	# ="
+        5: constant.quoted.double.kernel # value
+        6: constant.language.kernel	# "
+
+    - match: '^#.*'
+      scope: string.unquoted.docstring.kernel
+
