@@ -4,10 +4,16 @@ include /etc/sway/config.d/*
 set $basepath $XDG_CONFIG_HOME/sway
 include $basepath/conf.d/*
 
+xwayland force
+
 # this is very cringe :)
 exec gentoo-pipewire-launcher &
 exec mako &
 exec dbus-update-activation-environment --all
+
+# trying to get authentication manager to work
+# exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
+
 
 # vim: ft=swayconfig
 

@@ -14,6 +14,8 @@ bindkey '^S' history-incremental-search-forward
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
 
+bindkey '^l' clear-screen
+
 bindkey '^[[1;5D' backward-word # ctrl+left
 bindkey '^[[1;5C' forward-word # ctrl+right
 

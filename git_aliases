@@ -1,0 +1,8 @@
+#!/bin/sh
+git_fixup() {
+	commit="$1"
+	shift
+	git commit --fixup="${commit}" "$@"
+	git rebase --autosquash="${commit}~1"
+	git format-patch "${commit}~1..HEAD"
+}

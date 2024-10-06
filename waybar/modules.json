@@ -2,7 +2,7 @@
 	"sway/workspaces": {
 		"disable-scroll": false,
 		"all-outputs": false,
-		"format": "{icon}{value}",
+		"format": "{icon}{name}",
 		"format-icons": {
 			"main": "¹",
 			"chat": "²",
@@ -34,18 +34,22 @@
 		"persistent-workspaces": {
 			"game": ["DP-1"],
 			"config": ["DP-1"],
-			"audio": ["HDMI-A-2"],
+			"audio": ["HDMI-A-1"],
+			"element": ["DP-2"],
+			"discord": ["DP-2"],
 			"obs": ["DP-2"],
 			"incremental": ["DP-2"],
 			"ebuilding": ["DP-1"],
 			"uio": ["DP-1"],
 			"cinema": ["DP-1"],
+			"minecraft": ["DP-1"],
 			"gimp": ["DP-1"],
-			"vidcast": ["HDMI-A-2"],
-			"chat": ["HDMI-A-2"],
-			"music": ["HDMI-A-2"],
-			"socials": ["HDMI-A-2"],
-			"slack": ["HDMI-A-2"],
+			"vidcast": ["HDMI-A-1"],
+			"chat": ["HDMI-A-1"],
+			"music": ["HDMI-A-1"],
+			"socials": ["HDMI-A-1"],
+			"slack": ["HDMI-A-1"],
+			"tg": ["HDMI-A-1"],
 			"learnist": ["DP-1"]
 		}
 	},
@@ -58,10 +62,24 @@
 	},
 
 	"clock": {
-		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>",
 		"format": "{:%F %T}",
 		"format-alt": "{:%F %T}",
-		"interval": 1
+		"interval": 1,
+		"locale": "en_ISO.UTF-8",
+		"calendar": {
+			"mode": "year",
+			"mode-mon-col": 3,
+			"weeks-pos": "left",
+			"format": {
+                              "months":     "<span color='#ffead3'>{}</span>",
+                              "days":       "<span color='#7c7c7c'>{}</span>",
+                              "weeks":      "<span color='#99ffdd'>W{}</span>",
+                              "weekdays":   "<span color='#ffcc66'>{}</span>",
+                              "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+			}
+                    },
+		}
 	},
 
 	"wireplumber": {

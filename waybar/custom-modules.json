@@ -32,7 +32,7 @@
 		"format": "",
 		"tooltip": true,
 		"tooltip-format": "New workspace",
-		"on-click": "swaymsg -t get_workspaces -r | jq '.[].num' | ~/.local/bin/first_uniq | xargs swaymsg workspace number"
+		"on-click": "swaymsg -t get_workspaces -r | jq '.[].num' | ~/.local/src/shellscripts/first_uniq | xargs swaymsg workspace number"
 	},
 	"custom/terminal": {
 		"format": "",
@@ -41,5 +41,9 @@
 	"custom/bulb": {
 		"format": "💡",
 		"on-click": "/usr/local/bin/toggle_light.sh"
+	},
+	"custom/screenshare": {
+		"format": "󱒃",
+		"on-click": "/home/mazunki/.local/src/shellscripts/wl-screenshare.sh"
 	}
 }

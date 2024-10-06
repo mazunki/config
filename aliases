@@ -1,10 +1,10 @@
 #!/bin/sh
-alias ls="eza --icons --group --all --sort=modified --reverse --classify --binary --time-style=long-iso --colour-scale=all"
-alias tree="tree -L 3 --gitignore -C"
+alias ls="eza --oneline --icons --group --smart-group --all --sort=modified --reverse --classify --binary --time-style=long-iso --colour-scale=all"
+alias tree="tree -L 5 --filelimit=30 -a -I .git -C"
 alias grep="grep --color=auto"
 alias mv='mv --no-clobber'
 alias cp='cp --no-clobber'
-alias df='df -hT'
+alias df='df -h'
 alias :q="exit"
 alias :e="vim"
 
@@ -12,6 +12,7 @@ alias conf='function _(){ $EDITOR ${XDG_CONFIG_HOME}/$1; }; _'
 alias sconf='function _(){ doas $EDITOR /etc/$1; }; _'
 alias ip="ip -c"
 alias diff='diff --color -W $(( $(tput cols) - 2 ))'
+alias py='python3.13 -q'
 
 alias nvim="TERM=xterm-256color nvim"
 alias svim="doas vim -u ~/.config/vim/init.vim"
@@ -20,33 +21,63 @@ alias tmate='tmate -f ~/.config/tmate/config '
 alias gcalcli='gcalcli --config-folder=~/.config/gcalcli '
 alias agenda="gcalcli --calendar=rolferen@gmail.com --calendar=Learnist agenda '$(date)' '$(date --date='next month')'"
 alias no='yes "n"'
-alias ntpdate='echo "doas ntpdate no.pool.ntp.org"; doas ntpdate no.pool.ntp.org; echo "doas hwclock --systohc"; doas hwclock --systohc; :'
 alias tail='tail -n69 '
 alias doas='doas env '
 alias doass='doas'
 
 # alias python='/usr/bin/python -q '
-alias rg='rg --max-columns-preview'
+alias rg='rg --max-columns-preview --hidden'
+
 
 mount() {
 	command mount "$@" | bat -l mount --style=plain
 }
 
-hi () {
-	emulate -L zsh
-
-	argv=(${argv:/-s/-S})
-	argv=(${argv:/-l/-S})
-
-	autoload -U colors && colors
-	for file do
-		echoti setaf 247
-		printf "%*s\n" "$(( ${COLUMNS:-$(tput cols)} - 6))" '' | sed 's/ /▁/g'
-		printf '%s %s\n' '▏' "${file}"
-		printf "%*s\n" "$(( ${COLUMNS:-$(tput cols)} - 6))" '' | sed 's/ /▔/g'
-		highlight -O truecolor --force --stdout "$file"
-	done
+err() {
 }
+
+get_mount_options() {
+	test $# -ge 1 || {
+		printf '[error] get_mount_options: %s\n' "no argument"
+		return 1
+	}
+	findmnt -J "$(df --output=target "$1" | grep -v "Mounted on")" | jq -r '.filesystems[].options|split(",")[]'
+}
+
+emerge() {
+	env | grep -q '^TMUX=' || {
+		printf '[error] emerge alias: %s\n' "refusing to run emerge in non-tmux"
+		return 1
+	}
+
+	if test $# -eq 0; then
+		set -- -uUDN @world
+	fi
+
+	if test "$(get_mount_options /usr | grep '^r[ow]$')" = rw; then
+		doas emerge "$@"
+	else
+		doas mount -o rw,remount "$(df --output=target /usr | grep -v "Mounted on")"
+		doas emerge "$@"
+		# doas mount -o ro,remount "$(df --output=target /usr | grep -v "Mounted on")"
+	fi
+	doas dispatch-conf
+}
+
+venv() {
+	dir="${PWD}"
+	while [ "${dir}" != '/' ]; do
+		if [ -d "${dir}"/venv ]; then
+			. "${dir}"/venv/bin/activate
+			return 0
+		fi
+
+		dir="$(dirname "${dir}")"
+	done
+	return 1
+}
+
+test -e "${XDG_CONFIG_HOME}/git_aliases" && . "${XDG_CONFIG_HOME}/git_aliases"
 
 # vim: ts=4 sts=4 sw=4 noexpandtab
 

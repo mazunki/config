@@ -6,7 +6,8 @@
 	rebase = true
 [core]
 	editor = nvim
-	#pager = nvim -R -c 'set ft=man' -c 'set ft=git' --
+	# pager = nvim -R -c 'set ft=man' -c 'set ft=git' --
+	pager = less -F
 [pager]
 	diff = delta
 	log = delta
@@ -19,9 +20,11 @@
 	unhonk = checkout --patch
 	br = !git --no-pager branch --format='%(HEAD^5) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
 	undo = reset HEAD~1 --mixed
-	l = !git --no-pager log --pretty=format:\"%C(magenta)%h%Creset —%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30 && printf "\n"
-	viewnew = !git fetch && git --no-pager log --pretty=format:\"%C(magenta)%h%Creset —%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit HEAD.."$(git remote)" && printf "\n"
+	# l = !git --no-pager log --pretty=format:\"%C(magenta)%h%Creset —%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30 && printf "\n"
+	# viewnew = !git fetch && git --no-pager log --pretty=format:\"%C(magenta)%h%Creset —%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit HEAD.."$(git remote)" && printf "\n"
 	gud = !printf 'k loser\n'
+[format]
+	pretty = format:%h %Cblue%ad%Creset %ae %Cgreen%s%Creset
 [merge]
 	ff = only
 	tool = nvimdiff
@@ -45,6 +48,8 @@
 	browser = firefox
 [commit]
 	gpgsign = true
+[commit]
+	signoff = true
 [safe]
 	directory = /srv/www/git.mazunki.tech/admin
 	directory = /srv/www/mazunki.tech

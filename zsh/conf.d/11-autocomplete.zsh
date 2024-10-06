@@ -5,12 +5,13 @@ fpath=(~/.local/share/zsh/plugins/zsh-completions/src $fpath)
 fpath=(~/.local/share/zsh/completions $fpath)
 
 zmodload zsh/complist
+autoload -U compinit promptinit
 
-autoload -U compinit promptinit; compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+promptinit
 
 _comp_options+=(globdots)
 
-# speeding up completion with cache
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh/zcompcache
 
@@ -25,6 +26,7 @@ zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %D %d --%f'
 zstyle ':completion:*:*:*:*:messages' format ' %F{purple} -- %d --%f'
 zstyle ':completion:*:*:*:*:warnings' format ' %F{red}-- no matches found --%f'
 
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:default' list-colors ${(s.:.)LS_COLORS}
 
 bindkey -M menuselect 'h' vi-backward-char

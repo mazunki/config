@@ -1,29 +1,39 @@
-# scary secrets!!
-ssh/*
+# too many silly applications cause
+# untracked files list to be super long
+*
+!.gitignore
+
+# let's explicitly add files we care about
+
+# we don't want to accidentally add keys here
 !ssh/config
 !ssh/*.pub
 
-## electron
-Element/
+# standard files
+!aliases
+!aliases.zsh
+!git_aliases
+!environmenbt
+!env.d/
+!mimeapps.list
+!projects.list
 
-## please!
-obs-studio/logs
-obs-studio/profiler_data
-obs-studio/plugin_config
+# applications
+!bat/
+!kitty/
+!mpv/
+!nvim/
+!tmux
+!zsh/
 
-## really is xdg_state_home
-pavucontrol.ini
-pulse/cookie
-QtProject.conf
-# i had hopes for you :(
-obs-studio/global.ini
+# window manager
+!wofi/
+!waybar/
+!sway/
+!xdg-desktop-portal/
+!xdg-desktop-portal-wlr/
 
-## binary
-dconf/user
-
-pulse/*.gdbm
-# uses an absurd prefix in filename
-pulse/*-default-sink
-pulse/*-default-source
-
+# not super compliant
+!obs-studio/basic/  # keeps profiler and logs in config :(
+!gh/config.yml  # there's a hosts.yml file with oauth tokens!
 

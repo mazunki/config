@@ -1,4 +1,22 @@
 
+set $mode_workspace (j/k) output (h/l) workspace (r) rename
+mode "$mode_workspace" bindsym {
+	j focus output left
+	k focus output right
+	shift+j move workspace to output left
+	shift+k move workspace to output right
+
+	h workspace prev_on_output
+	l workspace next_on_output
+	shift+h move left
+	shift+l move right
+
+	r exec swaymsg rename workspace to "$(wofi -d -L 1)"
+
+	Return mode "default"
+	Escape mode "default"
+}
+
 bindsym {
     $mod+1 workspace number 1
     $mod+2 workspace number 2
@@ -9,6 +27,7 @@ bindsym {
     $mod+7 workspace number 7
     $mod+8 workspace number 8
     $mod+9 workspace number 9
+    $mod+p mode "$mode_workspace"
 }
 
 bindsym {
@@ -22,3 +41,14 @@ bindsym {
     $mod+Shift+8 move container to workspace number 8
     $mod+Shift+9 move container to workspace number 9
 }
+
+assign [app_id="discord"] → discord
+assign [app_id="Element"] → element
+assign [app_id="org.telegram"] → tg
+assign [app_id="Slack"] → slack
+assign [app_id="com.obsproject.Studio"] → obs
+assign [app_id="org.prismlauncher.PrismLauncher"] → minecraft
+assign [app_id="org.keepassxc.KeePassXC" title=".*KeePassXC"] → admin
+
+# vim: ft=swayconfig
+

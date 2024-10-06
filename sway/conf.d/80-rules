@@ -16,15 +16,19 @@ for_window {
 for_window {
     [app_id="imv"] floating enable; inhibit_idle
     [app_id="mpv"] floating enable; inhibit_idle
+    [app_id="emacs"] floating enable
+    [app_id="praat"] floating enable
     [app_id="firefox"] inhibit_idle
     [app_id="firefox" title="^Library$"] floating enable
     [app_id="firefox" title="^Extension: .*"] floating enable
     [app_id="firefox" title="Firefox — Sharing Indicator"] floating enable
     [app_id="(?i)thunar"] floating enable
     [title="xeyes"] floating enable
+    [title="Steam Settings"] floating enable
+    [title="DOSBox.*"] floating enable
     #[app_id="org.prismlauncher.PrismLauncher"] floating enable
+    #[app_id="org.keepassxc.KeePassXC" title="Generate Password"] floating enable
 }
-
 
 # vim: ft=swayconfig
 

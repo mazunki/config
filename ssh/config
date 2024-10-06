@@ -63,6 +63,13 @@ Host router
 	IdentityFile ~/.ssh/id_ecdsa
 	ForwardX11 no
 
+Host wizard
+	HostName 10.13.37.1
+	User root
+	Port 1337
+	IdentityFile ~/.ssh/id_ed25519
+	ForwardX11 no
+
 Host githome
 	HostName home.mazunki.tech
 	User git
@@ -97,6 +104,13 @@ Host gitolite
 	HostName git.mazunki.tech
 	User git
 	Port 24601
+	ForwardX11 no
+	IdentityFile ~/.ssh/id_ed25519
+
+Host gnu/library
+	HostName zun.rocks
+	User mazunki
+	Port 9001
 	ForwardX11 no
 	IdentityFile ~/.ssh/id_ed25519
 

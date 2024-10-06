@@ -1,8 +1,12 @@
 
-set $mode_screenshot Capture: (a) selection, (c) active
+set $mode_screenshot Capture: (a) selection, (c) active [+shift = 3s delay (s+c 15s)]
 mode "$mode_screenshot" bindsym {
     a exec grim -g "$(wl-select)" -t png - | wl-copy -t image/png; mode "default"
+    Shift+a exec grim -g "$(wl-select; sleep 3)" -t png - | wl-copy -t image/png; mode "default"
+    Ctrl+Shift+a exec grim -g "$(wl-select; sleep 15)" -t png - | wl-copy -t image/png; mode "default"
+
     c exec grim -g "$(wl-select-active)" -t png - | wl-copy -t image/png; mode "default"
+    Shift+c exec grim -g "$(wl-select-active; sleep 3)" -t png - | wl-copy -t image/png; mode "default"
 
     Return mode "default"
     Escape mode "default"

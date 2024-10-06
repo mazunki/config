@@ -3,7 +3,11 @@ output DP-2 resolution 2560x1440 position 0 0
 output DP-1 resolution 3840x2160 position 2560 0
 output HDMI-A-1 resolution 1920x1080 position 6400 0
 
-output * bg ~/art/pics/background.jpg fill
+swaybg_command -
+
+exec_always exec_single mpvpaper -o 'no-audio --loop-playlist shuffle input-ipc-server=/run/user/1997/sway-mpv-background' '*' ~/art/backgrounds
+
+# output * bg ~/art/pics/background.jpg fill
 
 output HEADLESS-1 {
 	pos 10000 0
