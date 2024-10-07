@@ -1,0 +1,14 @@
+
+source ~/.config/vim/plugin/init_scripts.vim8
+source ~/.config/vim/plugin/escalate.vim
+source ~/.config/vim/plugin/disable_asterisk_move_next.vim
+
+set viminfo+=n~/.local/state/vim/viminfo
+
+
+autocmd BufNewFile * call AutodetectFiletype()
+autocmd BufNewFile * call SetShebang()
+autocmd BufWritePost * call SetExecutable()
+" autocmd BufNewFile * call AddModelineString()
+
+

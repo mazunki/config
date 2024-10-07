@@ -1,0 +1,21 @@
+function! SanitizeFilename()
+    let l:filename = expand('%:p')
+    " Replace backslashes with underscores (or any other sanitation you need)
+    let l:safe_filename = substitute(l:filename, '\\', '_', 'g')
+
+    " If the filename is modified, rename the buffer
+    if l:filename != l:safe_filename
+        exec 'file ' . fnameescape(l:safe_filename)
+        exec 'saveas ' . fnameescape(l:safe_filename)
+        " Delete the old file if it exists
+        if filereadable(l:filename)
+            call delete(l:filename)
+        endif
+    endif
+endfunction
+
+augroup SanitizeFilenameOnSave
+    autocmd!
+    autocmd BufWritePre * call SanitizeFilename()
+augroup END
+

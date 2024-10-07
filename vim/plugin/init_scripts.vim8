@@ -1,0 +1,120 @@
+" 
+" offers handy tools to initialize new scripts
+" 
+" you can run these functions manually 🥱
+"   AutodetectFiletype()
+"   SetShebang()
+"   SetExecutable()
+"   AddModelineString()
+" 
+" or just set up the following. it should be safe 😎
+"
+"   autocmd BufNewFile * call FixMetainfo()
+"
+
+
+let s:shebangs = {
+	\ 'sh': '/bin/sh',
+	\ 'python': '/usr/bin/env python',
+	\ 'lua': '/usr/bin/env lua',
+\ }
+
+let s:script_paths = {
+	\ '~/.config/nvim/vim/': 'vim',
+	\ '~/bin': 'sh',
+	\ '~/.local/bin': 'sh',
+	\ '~/.local/src/shellscripts': 'sh',
+	\ '~/.local/src/playground/shellscripting': 'sh',
+	\ '/usr/local/bin': 'sh',
+	\ '~/.local/src/playground/python_scripts': 'python',
+\ }
+
+function! AutodetectFiletype()
+	if &ft != ''
+		echom "Filetype already set"
+		return
+	endif
+
+	for [path, language] in items(s:script_paths)
+		if expand("%:p") =~ "^" .. expand(path) .. ".*"
+			execute("set ft=" .. language)
+			return
+		endif
+	endfor
+endfunction
+command AutoFiletype :call AutodetectFiletype()
+
+function! SetShebang(...)
+	let l:lang = get(a:, 1, &filetype)
+
+	if has_key(s:shebangs, l:lang)
+		let shebangline = '#!' .. s:shebangs[l:lang]
+		if getline(1) !~# '^#!'
+			call append(0, shebangline)
+		endif
+	else
+		echo "no shebang for language: " .. l:lang
+		return
+	endif
+endfunction
+
+function! SetExecutable(...)
+	let l:file = get(a:, 1, expand("%:p"))
+	call system('chmod +x ' .. l:file)
+endfunction
+command SetExecutable :call SetExecutable()
+
+function! GetModelineContent()
+	let l:modeline =  "set"
+	let l:widths = { "sw": &shiftwidth, "ts": &tabstop, "sts": &softtabstop, }
+
+	for [name, value] in items(l:widths)
+		if value > 0
+			let l:modeline = l:modeline .. " " .. name .. "=" .. value
+		endif
+	endfor
+
+        let l:opts = { "et": "noexpandtab" }
+	for [name, default] in items(l:opts)
+                let l:current = trim(execute("set " .. name .. "?"))
+                if default !=? l:current
+                        let l:modeline = l:modeline .. " " .. l:current
+                endif
+        endfor
+
+	return l:modeline
+endfunction
+
+function! AddModelineString(...)
+	if &commentstring == ''
+		echoerr "couldn't add modeline, since there's no known comment string"
+		return
+	endif
+
+	let l:prefix = substitute(&commentstring, "%s", " vim:", "")
+	if search("^\s*" .. l:prefix) != 0
+		echoerr "already got a modeline, refusing to replace it"
+		return
+	endif
+
+	let l:line_no = get(a:, 1, '$')
+	if l:line_no == "$" || l:line_no == "."
+		let l:line_no = line(l:line_no)
+	endif
+	let l:modeline = substitute(&commentstring, "%s", " vim: " .. GetModelineContent(), "")
+
+	call append(l:line_no, l:modeline)
+	call append(l:line_no+1, "")
+endfunction
+command AddModeline call AddModelineString()
+
+function! FixMetainfo()
+      silent! call AutodetectFiletype()
+      silent! call SetShebang()
+      silent! call SetExecutable()
+      silent! call AddModelineString()
+endfunction
+command FixMetainfo :call FixMetainfo()
+
+" vim: set sw=8 ts=8
+

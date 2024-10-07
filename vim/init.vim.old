@@ -1,0 +1,71 @@
+
+function! A4Paper(...)
+	let g:a4_width = 100
+	let g:a4_topmargin = 3
+	if a:0 >= 1
+		let g:a4_width = a:1
+	endif
+	if a:0 >= 2
+		let g:a4_topmargin = a:2
+	endif
+
+	let g:a4_content = win_getid()
+
+	above split BLANK
+	set filetype=blankmargin
+	setlocal norelativenumber statusline=\  nonumber
+	highlight StatusLineNC ctermbg=bg guibg=bg
+	let g:a4_topbuffer = win_getid()
+	execute "resize " .. (g:a4_topmargin - 1)
+	call win_gotoid(g:a4_content)
+
+	aboveleft vsplit BLANK
+	let g:a4_leftmargin = win_getid()
+	call win_gotoid(g:a4_content)
+
+	belowright vsplit BLANK
+	let g:a4_rightmargin = win_getid()
+	call win_gotoid(g:a4_content)
+
+	highlight! VertSplit ctermfg=bg ctermbg=bg guibg=bg guifg=bg
+	set fillchars+=eob:\ 
+
+	augroup a4_margins
+		autocmd BufNewFile,WinEnter * if &filetype == 'blankmargin' && g:block_margins | call win_gotoid(g:a4_content) | endif
+		autocmd WinResized * if win_id2win(g:a4_content) == 0 | echom "it died" |
+			\ if winnr('$') == 3 | qall | echom "closed all" | 
+			\ else |
+				\ call win_execute(g:a4_leftmargin, 'close') |
+				\ call win_execute(g:a4_rightmargin, 'close') |
+				\ call win_execute(g:a4_topbuffer, 'close') |
+			\ endif
+		autocmd VimResized * call SetWidth(g:a4_width, g:a4_content)
+	augroup end
+	call SetWidth(g:a4_width, g:a4_content)
+endfunction
+
+function! SetWidth(...)
+	let g:block_margins = 0
+	let l:width = a:1
+	if a:0 > 1
+		let l:curr_win = a:2
+	else
+		let l:curr_win = win_getid()
+	endif
+	let l:size_left = (&columns - l:width)/(winnr('$')-1)
+
+	call win_gotoid(0)
+	for i in range(1, winnr('$'))
+		if win_getid() == l:curr_win
+			execute "vertical resize" .. l:width
+			" echom "resized (current) buf " .. win_getid() .. " to " .. l:width
+		else
+			execute "vertical resize" .. l:size_left
+			" echom "resized buf " .. win_getid() .. " to " .. l:size_left
+		endif
+		wincmd w
+	endfor
+	call win_gotoid(l:curr_win)
+	let g:block_margins = 1
+endfunction
+

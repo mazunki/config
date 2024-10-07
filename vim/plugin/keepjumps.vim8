@@ -1,0 +1,10 @@
+
+
+nnoremap { :keepjumps normal! {<cr>
+nnoremap } :keepjumps normal! }<cr>
+
+nnoremap g{ :keepjumps call search('^\s*$', 'bW')<cr>
+nnoremap g} :keepjumps call search('^\s*$', 'W')<cr>
+
+" vim: set sw=8 ts=8
+

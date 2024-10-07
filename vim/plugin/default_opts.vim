@@ -1,0 +1,2 @@
+set hidden
+set isfname-==
