@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+
+# built-in imports
+import sys, os, platform, pathlib
+from typing import Optional, Iterable
+import itertools, functools
+
+import json, csv
+import re
+import atexit
+
+from mazunki import xdg, fs
+from mazunki.rc import interactive_hook, ready_startup, cleanup
+from mazunki.pythoning.packaging.loaders import loadmod
+
+__doc__ = "pythonrc loadederino"
+__author__ = "mazunki"
+__all__ = (
+    "sys",
+    "os",
+    "platform",
+    "pathlib",
+    "Optional",
+    "Iterable",
+    "itertools",
+    "functools",
+    "json",
+    "csv",
+    "re",
+    "xdg",
+    "fs",
+)
+
+setattr(sys, "__interactivehook__", interactive_hook)
+# sys.ps1 = "🐈[90m:[m "
+sys.ps1 = "python3.13: "
+sys.ps1 = "🐈: "
+
+_interactive_state = ready_startup(xdg.state_path("python"))
+atexit.register(lambda: cleanup(_interactive_state))
+
+# funnier imports
+pprint = loadmod("mazunki", "pprint")
+clear = loadmod("mazunki", "clear")
+m = loadmod("mazunki.maths")
+math = loadmod("math")
+sqrt = loadmod("math", "sqrt")
+
+random = loadmod("random")
+np = loadmod("numpy")
+pd = loadmod("pandas")
+np = loadmod("matplotlib")
+
+
+# vim: set ts=4 sw=4 noexpandtab
